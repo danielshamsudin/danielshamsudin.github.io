@@ -1,0 +1,56 @@
+<div id="bannerPosition">
+	    <div class="main_banner" id="main_banner">
+            
+                <?php
+            $conn = new mysqli("localhost","root","","login");
+            $sqli="select Image from banner3 order by Image_ID desc limit 1";
+            $result = $conn->query($sqli);
+            if($result->num_rows != 0)
+            {
+                while($row=$result-> fetch_assoc())
+                {
+                    $path = $row['Image'];
+                    ?>
+                    <div id="image">
+                        <?php echo "<img src='$path' class='imgban' id='imgban3'>";?>
+                    </div>
+                    <?php
+                }
+            }
+            ?>
+           <?php
+            $conn = new mysqli("localhost","root","","login");
+            $sqli="select Image from banner2 order by Image_ID desc limit 1";
+            $result = $conn->query($sqli);
+            if($result->num_rows != 0)
+            {
+                while($row=$result-> fetch_assoc())
+                {
+                    $path = $row['Image'];
+                    ?>
+                    <div id="image">
+                        <?php echo "<img src='$path' class='imgban' id='imgban2'>";?>
+                    </div>
+                    <?php
+                }
+            }
+            ?>
+            <?php
+            $conn = new mysqli("localhost","root","","login");
+            $sqli="select Image from banner1 order by Image_ID desc limit 1";
+            $result = $conn->query($sqli);
+            if($result->num_rows != 0)
+            {
+                while($row=$result-> fetch_assoc())
+                {
+                    $path = $row['Image'];
+                    ?>
+                    <div id="image">
+                        <?php echo "<img src='$path' class='imgban' id='imgban1'>";?>
+                    </div>
+                    <?php
+                }
+            }
+            ?>
+	    </div>
+    </div>

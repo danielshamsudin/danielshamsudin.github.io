@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Training Before start</title>
+    <style>
+        body{
+           background-image : url("css/star.gif");
+        }
+		
+        .ready{
+            padding: 10px;
+            border-radius: 10px;
+            color: white;
+			width:30%;
+            background-color: grey;
+			border:white;
+			font-size:20px;
+			border:2px solid white;
+			margin:10px;
+        }
+        .ready:hover{
+            cursor: pointer;
+			background-color:white;
+			color:grey;
+        }
+		#min,#sec{
+			font-family: 'Share Tech Mono', monospace;
+			color: #daf6ff;
+			text-shadow: 0 0 20px rgba(10, 175, 230, 1),  0 0 20px rgba(10, 175, 230, 0);
+			letter-spacing: 0.05em;
+			font-size:20px;
+		}
+		canvas{
+			box-shadow:0px 0px 36px 12px lightblue ;
+		}
+		
+		@media only screen and (max-width: 1100px) {
+			canvas{
+				width:90%;
+				height:450px;
+			}
+			.ready{
+				width:70%;
+			}
+		}
+    </style>
+</head>
+<body >
+<audio src="audio/music1.mp3" autoplay="true" display="visible" loop></audio>
+	<p style="text-align:center; color:white; font-size:25px;font-family:Arial;">Practice until you are ready to Go!</p>
+		<center>
+		<div id="timer">
+          <span style="font-weight:bold;color:red;font-family:Arial;font-size:20px;">Timer: </span><span id="min" style="font-size:30px;">&nbsp;</span><span style="font-size:30px;color:white">:</span><span id="sec" style="font-size:30px;">&nbsp;</span>
+        </div>
+		</center>
+		<br>
+    <div id="gameScreen">
+		<center>
+		<canvas id="tutorials" style="border: 3px white solid;" width="500" height="520"></canvas>
+		</center>
+	</div>
+	<center>
+    <div class="readyBar">
+        <button class="ready" onclick="goToMain()">Ready >></button>
+    </div>
+	</center>
+    <script src="./tutorials/js/index.js"></script>
+    <script src="./tutorials/js/component.js"></script>
+</body>
+</html>

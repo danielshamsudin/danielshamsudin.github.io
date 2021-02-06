@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./style.css" />
+    <link rel="shortcut icon" href="./icon.ico" type="image/x-icon" />
+    <script
+    src="https://code.jquery.com/jquery-3.5.1.slim.js"
+    integrity="sha256-DrT5NfxfbHvMHux31Lkhxg42LY6of8TaYyK50jnxRnM="
+    crossorigin="anonymous"></script>
+
+    <script type="text/javascript" src="./ntc.js"></script>
+
+    <title>Select your paddle color!</title>
+  </head>
+  <style>
+
+  </style>
+  <body>
+    <div class="title1 rainbow-bg">
+      <h1 align="center" style="margin: 0;">Select paddle color</h1>
+    </div>
+
+    <div class="sel-col-outer-box" >
+        <p class="sel-col-p">
+          Click on a color to select it.
+        </p>
+      <div id="color-box" class="color-box">
+      </div>
+      <!-- <div class="outerbox">
+      
+        <br />
+        <div class="innerbox mg-top-add" style="text-align: center;">
+          <label>
+            <input type="radio" name="padcol" id="orange" value="orange" />
+            <img src="./img/orange.png" />
+            <p class="bigger">Orange</p>
+          </label>
+        </div>
+        <div class="mg-top-add innerbox" style="text-align: center;">
+          <label>
+            <input type="radio" name="padcol" id="black" value="black" />
+            <img src="./img/black.png" />
+            <p class="bigger">Black</p>
+          </label>
+        </div>
+      </div>
+
+      <div class="outerbox">
+        <div class="innerbox" style="text-align: center;">
+          <label>
+            <input type="radio" name="padcol" id="blue" value="blue" />
+            <img src="./img/blue.png" />
+            <p class="bigger">Blue</p>
+          </label>
+        </div>
+        <div class="innerbox" style="text-align: center;">
+          <label>
+            <input type="radio" name="padcol" id="violet" value="violet" />
+            <img src="./img/violet.png" />
+            <p class="bigger">Violet</p>
+          </label>
+        </div>
+      </div> -->
+
+      <!-- <div class="outerbox">
+        <div class="innerbox" style="text-align: center;">
+          <label>
+            <input type="radio" name="padcol" id="yellow" value="yellow" />
+            <img src="./img/yellow.png" />
+            <p class="bigger">Yellow</p>
+          </label>
+        </div>
+        <div class="innerbox" style="text-align: center;">
+          <label>
+            <input type="radio" name="padcol" id="rose" value="rose" />
+            <img src="./img/rose.png" />
+            <p class="bigger">Pink</p>
+          </label>
+        </div>
+      </div> -->
+      <div style="text-align: center;">
+        <form action="game.php">
+          <input
+            class="btn"
+            type="submit"
+            value="Start game!"
+            onclick="return setColor()"
+          />
+        </form>
+      </div>
+    </div>
+    <script src="loadCanvas.js"></script>
+    <script>
+      function setColor() {
+        // if (document.getElementById("orange").checked) {
+        //   padColor = "orange";
+        // } else if (document.getElementById("black").checked) {
+        //   padColor = "black";
+        // } else if (document.getElementById("blue").checked) {
+        //   padColor = "blue";
+        // } else if (document.getElementById("violet").checked) {
+        //   padColor = "violet";
+        // } else if (document.getElementById("yellow").checked) {
+        //   padColor = "yellow";
+        // } else if (document.getElementById("rose").checked) {
+        //   padColor = "pink";
+        // } else {
+        //   alert(
+        //     "You didn't select a paddle color! Please select a paddle color to start the game."
+        //   );
+        //   return false;
+        // }
+        // localStorage.clear();
+        // localStorage.setItem("pass", padColor);
+
+                
+        // console.log($('[name="padcol"]:checked').val())
+        // localStorage.clear();
+        localStorage.setItem("pass", $('[name="padcol"]:checked').val());
+       
+      }
+    </script>
+	<audio controls autoplay loop hidden>
+  <source src="1.mp3" type="audio/mpeg">
+Your browser does not support the audio element.
+</audio>
+  </body>
+</html>
+<script>
+
+$(document).ready(function() {
+    //get setting
+function setPaddleColor(colors){
+  for(var i=0;i<colors.length;i+=2)
+  {
+    let firstColor =colors[i]
+    let secondColor =colors[i+1] 
+    let firstColorName="";
+    let secondColorName="";
+
+    if(firstColor)
+    {
+       var name  = ntc.name(firstColor);
+       firstColorName =name[1]
+    }
+
+    if(secondColor)
+    {
+      var name  = ntc.name(secondColor);
+      secondColorName =name[1]
+    }
+
+    var theDiv = document.getElementById("color-box");
+
+    var iDiv = document.createElement('div');
+    iDiv.className = 'outerbox';
+    iDiv.innerHTML = ``;
+
+
+
+    iDiv.innerHTML +=`
+    
+        <div class="innerbox" style="text-align: center;" >
+          ${firstColor?` <label >
+            <input type="radio" id="padcol" type="radio" value="${firstColor}" name="padcol" ${i==0?"checked":""}/>  
+            <div class="color-div" style="background:${firstColor}">        
+            <img src="./img/blue.png" style="opacity:0"/></div>
+
+            <p class="bigger">${firstColorName}</p>
+          </label>`:""}
+        </div>
+        <div class="innerbox" style="text-align: center;">
+          ${secondColor?`<label >
+            <input type="radio" id="padcol" type="radio" value="${secondColor}" name="padcol" />
+            <div class="color-div" style="background:${secondColor}"></div>
+            <p class="bigger">${secondColorName}</p>
+          </label>`:""}
+       
+        </div>
+        `;
+
+    theDiv.appendChild(iDiv);
+
+  }
+
+}
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+     
+      console.log(this.responseText)
+
+      let json =JSON.parse(this.responseText) 
+
+      if(json)
+      {
+        let settings = json.data
+
+        console.log(settings)
+
+        for(var i=0;i<settings.length;i++)
+        {
+          let data = settings[i];
+
+          if(data.type =="color")
+          {
+            let colors = data.data.colors;
+        
+
+            setPaddleColor(colors);
+
+          }
+
+        }
+
+
+      }
+
+
+    }
+  };
+  xhttp.open("GET", "https://fuyoh-ads.com/game_web/campaign_game/settings?activity_id=1", true);
+  xhttp.send();
+});
+
+
+
+
+</script>

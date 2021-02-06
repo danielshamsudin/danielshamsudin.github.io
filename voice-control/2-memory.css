@@ -1,0 +1,18 @@
+/* [PLAY GRID] */
+#mem-play {
+  max-width: 600px;
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+}
+.mem-card {
+  background-color: #f7f7f7;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+}
+.mem-card.open {
+  background-color: #fea;
+}
+.mem-card.ok {
+  background-color: #FFCC99;
+}

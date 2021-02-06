@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<style>
+body{
+	 background: url("bg.gif") no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  text-align: center;
+}
+
+#myProgress {
+  width: 100%;
+  background-color: #ddd;
+}
+
+#myBar {
+  width: 10%;
+  height: 30px;
+  background-color: orange;
+  text-align: center;
+  line-height: 30px;
+  color: white;
+}
+
+footer {
+			text-align: center;
+			color: black;
+		}
+		
+.glow {
+font-size: 50px;
+color: #fff;
+text-align: center;
+-webkit-animation: glow 1s ease-in-out infinite alternate;
+-moz-animation: glow 1s ease-in-out infinite alternate;
+animation: glow 1s ease-in-out infinite alternate;
+}
+
+@-webkit-keyframes glow {
+from {
+text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e8bf4f, 0 0 40px #e8bf4f, 0 0 50px #e8bf4f, 0 0 60px #e8bf4f, 0 0 70px #e8bf4f;
+}
+  
+to {
+text-shadow: 0 0 20px #fff, 0 0 30px #e66b07, 0 0 40px #e66b07, 0 0 50px #e66b07, 0 0 60px #e66b07, 0 0 70px #e66b07, 0 0 80px #e66b07;
+}
+
+</style>
+</head>
+<body>
+
+<h1 class="glow">The Voices</h1>
+
+<br><br><br><br><br>
+
+<div id="myProgress">
+  <div id="myBar">10%</div>
+</div>
+
+<br><br><br><br>
+<button class="btn" onclick="move()"><a style="text-decoration:none" href="index.php">Push this button to make loading faster</a></button> 
+
+<script>
+var i = 0;
+function move() {
+  if (i == 0) {
+    i = 1;
+    var elem = document.getElementById("myBar");
+    var width = 10;
+    var id = setInterval(frame, 10);
+    function frame() {
+      if (width >= 100) {
+        clearInterval(id);
+        i = 0;
+      } else {
+        width++;
+        elem.style.width = width + "%";
+        elem.innerHTML = width  + "%";
+      }
+    }
+  }
+}
+</script>
+
+<br><br><br>
+
+	<p style="text-align: center; font-size: 30px; font-family: Comic Sans MS; color: white;">Please wait until we redirect you to our game...</p>
+	
+<br>	
+
+		<footer>
+			<p style="color: #fff;">Posted By : Yeo Fu Cheng and Vivian Quek Jia Yi</p>
+			<p style="color: #fff;">Contact Us : <a href="mailto:1181202878@student.mmu.edu.my">Email(Vivian)</a>
+			or <a href="mailto:1181201138@student.mmu.edu.my">Email(Yeo)</a></p>
+		
+
+			<small style="color: #fff;">&copy; Copyright 2020, The Voices. All Rights Reserved.</small>
+		</footer>
+		
+		<iframe width="1" height="1" wmode="transparent" src="https://www.youtube.com/embed/K4ySxwk3a1w?autoplay=1&loop=1&playsinline=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</body>
+</html>

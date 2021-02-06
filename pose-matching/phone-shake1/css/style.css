@@ -1,0 +1,40 @@
+body, html
+    {
+        height: 100%;
+        width:100%;
+        margin: 0;
+        padding: 0;
+        background-color: purple;
+    }
+    .center{
+        height: 100%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    #button
+    {
+        margin-top:  25px;
+    }
+    #content
+    {
+        height: 500px;
+        width: 500px;
+        background-color: grey;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    #image{
+        height: 200px;
+        width: 500px;
+        overflow: hidden;
+    }
+    #image1{
+        height: 150px;
+        width: 150px;
+    }
+    #display{
+        display:block;
+    }

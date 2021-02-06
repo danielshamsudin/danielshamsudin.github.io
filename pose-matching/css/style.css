@@ -1,0 +1,618 @@
+
+/*user.html css*/
+
+@font-face {
+    font-family: "Montserrat-Regular";
+    src: url("../fonts/Montserrat/Montserrat-Regular.ttf");
+}
+
+@font-face {
+    font-family: "Montserrat-Bold";
+    src: url("../fonts/Montserrat/Montserrat-Bold.ttf");
+}
+
+@font-face {
+    font-family: "Montserrat-SemiBold";
+    src: url("../fonts/Montserrat/Montserrat-SemiBold.ttf");
+}
+
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+/*landscape*/
+@media screen and (orientation: landscape) {
+    body {
+        width: 100%;
+        height: 100%;
+        font-family: "Montserrat-Regular";
+        color: #fff;
+        font-size: 100%;
+        margin: 0%;
+    }
+
+    input,button {
+        font-family: "Montserrat-Regular";
+        color: #fff;
+        font-size: 80%;
+    }
+
+    p, h1, h2, h3, h4, h5, h6, ul {
+        margin: 0%;
+    }
+
+    
+    ul {
+        padding-left: 0;
+        margin-bottom: 0;
+    }
+
+    a:hover {
+        text-decoration: none;
+    }
+
+    :focus {
+        outline: none;
+    }
+    /*Background*/
+    .wrapper {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        background: url("../images/bg-registration-form-7.jpg") no-repeat;
+        background-size: cover;
+    }
+    /*Inner frame*/
+    .inner {
+        max-width: 100%;
+        margin: auto;
+        background: #39459b;
+        border: 10px solid #0d99d7;
+        padding: 2% 10% 7%;
+        box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+        -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+        -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+        -ms-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+        -o-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+    }
+
+    /*Form name*/
+    h3 {
+        text-transform: uppercase;
+        font-size: 250%;
+        font-family: "Montserrat-Bold";
+        text-align: center;
+        padding-bottom: 13%;
+    }
+
+
+    /*form design*/
+    .form-group {
+        position: relative;
+        display: block;
+        margin-bottom: 16%;
+        padding-top: 7%;
+    }
+
+        .form-group span {
+            font-size: 100%;
+            color: #00ade6;
+            position: absolute;
+            top: 10%;
+            transition: all .2s ease;
+            transform-origin: 0 0;
+            cursor: text;
+        }
+
+            .form-group span.border {
+                height: 1%;
+                display: block;
+                position: absolute;
+                width: 100%;
+                left: 0;
+                top: 41px;
+                transform: scaleX(0);
+                transition: all .15s ease;
+                background: #fff;
+            }
+
+    .form-control {
+        border: none;
+        border-bottom: 2px solid #00ade6;
+        display: block;
+        width: 100%;
+        height: 43px;
+        font-size: 100%;
+        background: none;
+        font-family: "Montserrat-SemiBold";
+    }
+
+        .form-control:focus, .form-control:valid {
+            border-bottom: 2px solid #fff;
+        }
+
+            .form-control:focus + span, .form-control:valid + span {
+                transform: translateY(-22px) scale(0.8);
+            }
+
+                .form-control:focus + span + .border, .form-control:valid + span + .border {
+                    transform: scaleX(1);
+                }
+
+    textarea.form-control {
+        padding-top: 1%;
+        padding-bottom: 1%;
+    }
+
+    /*submit button design*/
+    button {
+        border: none;
+        width: 50%;
+        height: 51px;
+        border: 2px solid #fff;
+        margin: auto;
+        margin-top: 20%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        background: none;
+        color: #fff;
+        text-transform: uppercase;
+        font-family: "Montserrat-SemiBold";
+        -webkit-transform: perspective(1px) translateZ(0);
+        transform: perspective(1px) translateZ(0);
+        position: relative;
+        -webkit-transition-property: color;
+        transition-property: color;
+        -webkit-transition-duration: 0.3s;
+        transition-duration: 0.3s;
+    }
+
+        button i {
+            margin-left: 1%;
+            -webkit-transform: translateZ(0);
+            transform: translateZ(0);
+            -webkit-transition-duration: 0.1s;
+            transition-duration: 0.1s;
+            -webkit-transition-property: transform;
+            transition-property: transform;
+            -webkit-transition-timing-function: ease-out;
+            transition-timing-function: ease-out;
+        }
+
+        button:before {
+            content: "";
+            position: absolute;
+            z-index: -1;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #2098D1;
+            -webkit-transform: scaleX(0);
+            transform: scaleX(0);
+            -webkit-transform-origin: 0 50%;
+            transform-origin: 0 50%;
+            -webkit-transition-property: transform;
+            transition-property: transform;
+            -webkit-transition-duration: 0.3s;
+            transition-duration: 0.3s;
+            -webkit-transition-timing-function: ease-out;
+            transition-timing-function: ease-out;
+        }
+
+        button:hover {
+            border-color: transparent;
+        }
+
+            button:hover:before {
+                -webkit-transform: scaleX(1);
+                transform: scaleX(1);
+            }
+
+            button:hover i {
+                -webkit-transform: translateX(4px);
+                transform: translateX(4px);
+            }
+
+
+
+    /*Home button design*/
+    .round {
+        background: url("../image/home.png") no-repeat;
+        background-position: center;
+        background-size: 40% 75%;
+        display: block;
+        position: absolute;
+        width: 10%;
+        height: 10%;
+        padding-top: 1%;
+        text-decoration: none;
+        text-align: center;
+        font-size: 25px;
+        text-shadow: 0 1px 0 rgba(255,255,255,.7);
+        letter-spacing: -.065em;
+        font-family: "Hammersmith One", sans-serif;
+        -webkit-transition: all .25s ease-in-out;
+        -o-transition: all .25s ease-in-out;
+        -moz-transition: all .25s ease-in-out;
+        transition: all .25s ease-in-out;
+        box-shadow: 2px 2px 7px rgba(0,0,0,.2);
+        border-radius: 300px;
+        z-index: 1;
+        border-width: 4px;
+        border-style: solid;
+    }
+
+        .round:hover {
+            width: 15%;
+            height: 15%;
+            font-size: 33px;
+            padding-top: 7%;
+            box-shadow: 5px 5px 10px rgba(0,0,0,.3);
+        }
+
+
+
+    a.green {
+        background-color: rgba(1,151,171,1);
+        color: rgba(0,63,71,1);
+        border-color: rgba(0,63,71,.2);
+    }
+
+        a.green:hover {
+            color: rgba(1,151,171,1);
+        }
+
+
+
+    .green span {
+        background: rgba(0,63,71,.7);
+    }
+
+    /*home button position*/
+    .home {
+        float: right;
+        margin-right: 10%;
+        margin-top: 40%;
+    }
+
+    a:link {
+        color: #F1D6AC;
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+    a:visited {
+        color: #F1D6AC;
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+    a:hover, #nav a:active {
+        color: #FFFFFF;
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+    input {
+        width: 100%;
+        padding: 0 5%;
+        font-size: 105%;
+        line-height: 3;
+        color: whitesmoke;
+    }
+
+
+        input::-webkit-input-placeholder {
+            font-size: 95%;
+            line-height: 3;
+            color: peru;
+        }
+}
+
+/*portrait*/
+@media screen and (orientation: portrait) {
+    body {
+        width: 100%;
+        height: 100%;
+        font-family: "Montserrat-Regular";
+        color: #fff;
+        font-size: 50%;
+        margin: 0;
+    }
+
+    input,button {
+        font-family: "Montserrat-Regular";
+        color: #fff;
+        font-size: 200%;
+    }
+
+    p, h1, h2, h3, h4, h5, h6, ul {
+        margin: 0%;
+    }
+
+    
+
+    ul {
+        padding-left: 0%;
+        margin-bottom: 0%;
+    }
+
+    a:hover {
+        text-decoration: none;
+    }
+
+    :focus {
+        outline: none;
+    }
+
+    /* background*/
+    .wrapper {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        background: url("../images/bg-registration-form-7.jpg") no-repeat;
+        background-size: cover;
+    }
+
+    /*Inner frame*/
+    .inner {
+        max-width: 100%;
+        margin: auto;
+        background: #39459b;
+        border: 10px solid #0d99d7;
+        padding: 7% 10% 13%;
+        box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+        -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+        -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+        -ms-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+        -o-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+    }
+
+
+    /*form name*/
+    h3 {
+        text-transform: uppercase;
+        font-size: 500%;
+        font-family: "Montserrat-Bold";
+        text-align: center;
+        margin-bottom: 20%;
+    }
+
+
+    /*form design*/
+    .form-group {
+        position: relative;
+        display: block;
+        margin-bottom: 20%;
+        padding-top: 10%;
+    }
+
+
+
+        .form-group span {
+            font-size: 200%;
+            color: #00ade6;
+            position: absolute;
+            top: 10%;
+            transition: all .2s ease;
+            transform-origin: 0 0;
+            cursor: text;
+        }
+
+            .form-group span.border {
+                height: 10%;
+                display: block;
+                position: absolute;
+                width: 100%;
+                left: 0;
+                top: 100%;
+                transform: scaleX(0);
+                transition: all .15s ease;
+                background: #fff;
+            }
+
+    .form-control {
+        border: none;
+        border-bottom: 2px solid #00ade6;
+        display: block;
+        width: 100%;
+        height: 43px;
+        font-size: 200%;
+        background: none;
+        font-family: "Montserrat-SemiBold";
+    }
+
+        .form-control:focus, .form-control:valid {
+            border-bottom: 2px solid #fff;
+        }
+
+            .form-control:focus + span, .form-control:valid + span {
+                transform: translateY(-22px) scale(0.8);
+            }
+
+                .form-control:focus + span + .border, .form-control:valid + span + .border {
+                    transform: scaleX(1);
+                }
+
+    textarea.form-control {
+        padding-top: 10%;
+        padding-bottom: 10%;
+    }
+
+    /*submit button design*/
+    button {
+        border: none;
+        width: 50%;
+        height: 51px;
+        border: 2px solid #fff;
+        margin: auto;
+        margin-top: 10%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        background: none;
+        color: #fff;
+        text-transform: uppercase;
+        font-family: "Montserrat-SemiBold";
+        -webkit-transform: perspective(1px) translateZ(0);
+        transform: perspective(1px) translateZ(0);
+        position: relative;
+        -webkit-transition-property: color;
+        transition-property: color;
+        -webkit-transition-duration: 0.3s;
+        transition-duration: 0.3s;
+    }
+
+        button i {
+            margin-left: 10%;
+            -webkit-transform: translateZ(0);
+            transform: translateZ(0);
+            -webkit-transition-duration: 0.1s;
+            transition-duration: 0.1s;
+            -webkit-transition-property: transform;
+            transition-property: transform;
+            -webkit-transition-timing-function: ease-out;
+            transition-timing-function: ease-out;
+        }
+
+        button:before {
+            content: "";
+            position: absolute;
+            z-index: -1;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #2098D1;
+            -webkit-transform: scaleX(0);
+            transform: scaleX(0);
+            -webkit-transform-origin: 0 50%;
+            transform-origin: 0 50%;
+            -webkit-transition-property: transform;
+            transition-property: transform;
+            -webkit-transition-duration: 0.3s;
+            transition-duration: 0.3s;
+            -webkit-transition-timing-function: ease-out;
+            transition-timing-function: ease-out;
+        }
+
+        button:hover {
+            border-color: transparent;
+        }
+
+            button:hover:before {
+                -webkit-transform: scaleX(1);
+                transform: scaleX(1);
+            }
+
+            button:hover i {
+                -webkit-transform: translateX(120%);
+                transform: translateX(120%);
+            }
+
+
+
+    /*home button design*/
+    .round {
+        padding-left: 6%;
+        padding-right: 6%;
+        background: url("../image/home.png") no-repeat;
+        background-position: center;
+        background-size: 55% 50%;
+        display: block;
+        position: absolute;
+        width: 6%;
+        height: 6%;
+        padding-top: 1%;
+        text-decoration: none;
+        text-align: center;
+        font-size: 25px;
+        text-shadow: 0 1px 0 rgba(255,255,255,.7);
+        letter-spacing: -.065em;
+        font-family: "Hammersmith One", sans-serif;
+        -webkit-transition: all .25s ease-in-out;
+        -o-transition: all .25s ease-in-out;
+        -moz-transition: all .25s ease-in-out;
+        transition: all .25s ease-in-out;
+        box-shadow: 2px 2px 7px rgba(0,0,0,.2);
+        border-radius: 300px;
+        z-index: 1;
+        border-width: 1%;
+        border-style: solid;
+    }
+
+        .round:hover {
+            width: 15%;
+            height: 10%;
+            font-size: 30%;
+            padding-top: 10%;
+            box-shadow: 5px 5px 10px rgba(0,0,0,.3);
+        }
+
+
+
+    a.green {
+        background-color: rgba(1,151,171,1);
+        color: rgba(0,63,71,1);
+        border-color: rgba(0,63,71,.2);
+    }
+
+        a.green:hover {
+            color: rgba(1,151,171,1);
+        }
+
+
+
+    .green span {
+        background: rgba(0,63,71,.7);
+    }
+
+    /*home button position*/
+    .home {
+        float: right;
+        margin-right: 20%;
+        margin-top: 15%;
+    }
+
+    a:link {
+        color: #F1D6AC;
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+    a:visited {
+        color: #F1D6AC;
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+    a:hover, #nav a:active {
+        color: #FFFFFF;
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+
+    input {
+        width: 100%;
+        padding: 0 5%;
+        font-size: 500%;
+        line-height: 3;
+        color: whitesmoke;
+    }
+
+
+        input::-webkit-input-placeholder {
+            font-size: 100%;
+            line-height: 3;
+            color: peru;
+        }
+}

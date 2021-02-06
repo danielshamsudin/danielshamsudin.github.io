@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="">
+      <meta name="author" content="Our Code World">
+
+      <title>Interact with Unifi-Chan</title>
+	  
+	  <style>
+		body{background-color: #988893;
+		background-image:url("femalegif/idle.gif");
+		background-position:right;
+		background-repeat:no-repeat;
+	    background-size:400px 665px;
+		font-family: cursive;
+		  background-attachment: fixed;
+
+		text-align: left;}
+		
+		.glow {
+			font-size: 40px;
+			color: mediumpurple;
+			text-align: center;
+			-webkit-animation: glow 1s ease-in-out infinite alternate;
+			-moz-animation: glow 1s ease-in-out infinite alternate;
+			animation: glow 1s ease-in-out infinite alternate;
+		}
+		
+audio { display:none;}
+
+		@-webkit-keyframes glow {
+      from {
+      text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px lavender, 0 0 40px lavender, 0 0 50px lavender, 0 0 60px lavender, 0 0 70px lavender;
+      }
+
+      to {
+      text-shadow: 0 0 20px #fff, 0 0 30px thistle, 0 0 40px thistle, 0 0 50px thistle, 0 0 60px thistle, 0 0 70px thistle, 0 0 80px thistle;
+      }
+    }
+		
+		footer {
+			text-align: center;
+		}
+	  </style>
+
+      <!-- Don't forget to add artyom to your document in the head tag-->
+
+      <script src="artyom.min.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  </head>
+
+  <body>
+  
+    <div style="text-align: center;">
+		<h1 class="glow">The Voices</h1>
+		<!-- CHARACTER VOICE HERE -->
+
+		<input type="button" name="story" value="View Story" onclick="window.location.href = 'plot.html';">
+			    <input type="button" name="change" value="Change Character" onclick="window.location.href = 'voice1.html';">
+
+		<br>
+		<br>
+		
+      <input type="button" onclick="startArtyom()" value="Start voice commands"/><br><br>
+      <input type="button" onclick="stopArtyom()" value="Stop listening"/><br>
+      <span id="output" style="font-size:20px;color:thistle;"></span><br>
+      <span id="time" style="font-size:35px;color:lavender;"></span><br>
+
+      <br><span style="color:white;">You can use the words in white provided to talk to unifi-chan : </span><br><br>
+	  
+	  <p id="demo" style="color: blue; font-family: Comic Sans MS; font-size: 12pt; cursor:pointer; text-decoration:underline;" onclick="myFunction()">~Click Here To Show/Hide Commands~</p>
+	  <p id="test">&nbsp</p>
+      <div id="commands-list">
+
+      </div>
+      
+	  <br>
+      
+      
+	  
+      <div id="voices-item"></div>
+	  <div id="load-voices"></div>
+    </div>
+    <script>
+	
+    $("#talk-lang").click(function(){
+        artyom.say($("#text-content").val());
+    });
+
+    $("#select-voice").change(function(){
+        var lang = $(this).val();
+
+        artyom.initialize({lang:lang});
+    });
+
+    document.getElementById("load-voices").addEventListener("click", function(){
+        var voices = artyom.getVoices();
+        var html = "";
+
+        voices.forEach(function(voice){
+            html += "Voz name : " + voice.name + " con lang : " + voice.lang + "<br>";
+        });
+
+        document.getElementById("voices-item").innerHTML = html;
+    }, false);
+      // Now we add the most important point of the plugin, the commands
+      // This library is very flexible and now we will see why :
+      // Every command is a literal object
+      artyom.addCommands([
+        {
+          description:"Unifi-chan can talk too, lets say something",
+          indexes:["hello","unifi"],
+          action:function(i){
+              // i = the index of the array of indexes option
+
+              if(i == 0){
+                //You say : "hello"
+                document.getElementById('time').innerHTML = "Hi! Thanks for leading me back home";
+				//!!!!!!!!!!!!!!!!!!!!! USE THIS CODE TO CHANGE IMAGE!!!!!!!!!!!!!!!!!!!!!!//
+				 document.body.style.backgroundImage = "url('femalegif/bowing.gif')";
+				 // !!!!!!to change audio!!!!!//
+				 document.getElementById("my-audio").setAttribute('src', 'interactivegame/hi.mp3');
+                 
+				 
+              }
+			  if(i == 1){
+                document.getElementById('time').innerHTML = "Hi! Thanks for leading me back home";
+				 document.body.style.backgroundImage = "url('femalegif/bowing.gif')";
+				document.getElementById("my-audio").setAttribute('src', 'interactivegame/hi.mp3');
+
+              }
+          }
+        },
+		  {
+          description:"Unifi-chan can dance too!",
+          indexes:["Dance for me","Can you do a special dance"],
+          action:function(i){
+              // i = the index of the array of indexes option
+
+              if(i == 0){
+                document.getElementById('time').innerHTML = "Of course I can dance";
+				document.body.style.backgroundImage = "url('femalegif/NormalDance.gif')";
+				document.getElementById("my-audio").setAttribute('src', 'interactivegame/normaldance.mp3');
+              }
+			  if(i == 1){
+                document.getElementById('time').innerHTML = "Here's my special dance";
+				document.body.style.backgroundImage = "url('femalegif/SpecialDance.gif')";
+				document.getElementById("my-audio").setAttribute('src', 'interactivegame/specialdance.mp3');
+              }
+
+          }
+        },
+		
+		  {
+          description:"Unifi-chan can walk too!",
+          indexes:["What else you can do"],
+          action:function(){
+
+                document.getElementById('time').innerHTML = "I can walk too";
+				document.body.style.backgroundImage = "url('femalegif/walking.gif')";
+				document.getElementById("my-audio").setAttribute('src', 'interactivegame/walk.mp3');
+             
+			  
+
+          }
+        },
+		 {
+          description:"Let's take a selfie",
+          indexes:["Let's take a selfie"],
+          action:function(){{
+                //You say : command
+                document.getElementById('time').innerHTML = "Okay! Let's take a selfie";
+								document.body.style.backgroundImage = "url('femalegif/selfie.gif')";
+document.getElementById("my-audio").setAttribute('src', 'interactivegame/selfie.mp3');
+				
+              }
+          }
+        },
+        {
+          description:"Say goodbye",
+          indexes:["goodbye","bye bye"],
+          action:function(i){
+            alert("Unifi-chan will miss you");
+			if(i==0){
+			document.getElementById('time').innerHTML = "Are you going to leave me here alone?";
+			document.body.style.backgroundImage = "url('femalegif/sad1.gif')";
+			document.getElementById("my-audio").setAttribute('src', 'interactivegame/bye.mp3');
+			}
+			if(i==1){
+			document.getElementById('time').innerHTML = "Are you going to leave me here alone?";
+			document.body.style.backgroundImage = "url('femalegif/sad2.gif')";
+			document.getElementById("my-audio").setAttribute('src', 'interactivegame/bye.mp3');
+			}
+          }
+        },
+		{
+          description:"There is something behind you",
+          indexes:["Behind you"],
+          action:function(){
+			document.getElementById('time').innerHTML = "Yikes! There is something behind me!?";
+			document.body.style.backgroundImage = "url('femalegif/LookingBehind.gif')";
+			document.getElementById("my-audio").setAttribute('src', 'interactivegame/lookingbehind.mp3');
+          }
+        },
+        {
+          description:"Ask about the time now",
+          indexes:['Can you tell me the time now'],
+          action:function(){
+           var currentdate = new Date();
+           var datetime = "Sure! The time now is: <br>" + currentdate.getDate() + "/"
+                + (currentdate.getMonth()+1)  + "/"
+                + currentdate.getFullYear() + " @ "
+                + currentdate.getHours() + ":"
+                + currentdate.getMinutes() + ":"
+                + currentdate.getSeconds();
+            document.getElementById('time').innerHTML = datetime;
+			document.body.style.backgroundImage = "url('femalegif/Idle.gif')";
+			document.getElementById("my-audio").setAttribute('src', 'interactivegame/time.mp3');
+          }
+        },
+        {
+          description:"Unifi will also ask you questions!",
+          indexes:["Question"],
+          action:function(){
+			document.getElementById('time').innerHTML = "What is your preferred internet service provider?<br>(Please record your answer using the button below)";
+			document.body.style.backgroundImage = "url('femalegif/Idle.gif')";
+			document.getElementById("my-audio").setAttribute('src', 'interactivegame/question1.mp3');
+          }
+        },
+      ]);
+	  
+      // Redirect the recognized text
+      artyom.redirectRecognizedTextOutput(function(text,isFinal){
+        var span = document.getElementById('output');
+
+        if(isFinal){
+          span.innerHTML = '';
+        }else {
+          span.innerHTML = text;
+        }
+      });
+
+      function startArtyom(){
+        artyom.initialize({
+          lang:"en-GB",// More languages are documented in the library
+          continuous:false,//if you have https connection, you can activate continuous mode
+          debug:true,//Show everything in the console
+          listen:true // Start listening when this function is triggered
+        });
+      }
+
+      function stopArtyom(){
+        artyom.fatality();
+      }
+
+      window.onload = function (){
+	  
+          var tab = document.getElementById("commands-list");
+          var commands =  artyom.getAvailableCommands();
+          var html = '';
+
+		document.getElementById("demo").addEventListener("click", myFunction);
+
+		function myFunction(){
+		
+		var r = confirm("1.Press OK to see the commands\n2.Press cancel to hide the command lists");
+		 
+		 if(r == true)
+		 {
+		  for(var i = 0;i < commands.length;i++){
+              var command = commands[i];
+			  
+              document.getElementById("test").innerHTML = html += command.description + " : <span style='font-size: 12pt; color: white;  text-shadow: 1px 1px 2px white, 0 0 25px blue, 0 0 5px lightyellow;'>"+command.indexes.toString()+"</span><br>";
+		 }
+		 
+		}
+		else
+		{
+		location.reload();
+		}
+		
+		}
+
+      tab.innerHTML = html;
+//change here for the default english voice
+          artyom.initialize({lang:"nl-NL"});
+
+        var vocesitas = [
+			{lang:"nl-NL",description: "English"},
+			{lang:"zh-CN",description: "Chinese"},
+			{lang:"id-ID",description: "Indonesia"},
+			{lang:"ja-JP",description: "Japanese"}
+        ];
+
+        vocesitas.forEach(function(voice){
+            $('#select-voice').append($('<option>', {value:voice.lang, text:voice.description}));
+        });
+      };
+    </script>
+	
+	<!-- CODE TO RECORD USER'S RESPONSE -->
+	<br>
+	<div style="text-align:center;">
+	<p>Please write your answer below Unifi-Chan</p>
+	<textarea rows="5" cols="28">Please Enter Your Answer Here
+	</textarea><br>
+  <input type="submit" value="Submit answer">
+  </div>
+  <br><br>
+	<footer style="text-align: center;">
+			<p>Posted By : Yeo Fu Cheng and Vivian Quek Jia Yi</p>
+			<p>Contact Us : <a href="mailto:1181202878@student.mmu.edu.my">Email(Vivian)</a>
+			or <a href="mailto:1181201138@student.mmu.edu.my">Email(Yeo)</a></p>
+		
+
+			<small>&copy; Copyright 2020, The Voices. All Rights Reserved.</small>
+		</footer>
+				<audio id="my-audio" controls autoplay>
+   <source src="" type="audio/mpeg">
+</audio>
+<br>
+<div style="text-align:center">
+
+ <!-- <input type="button" value="Back To Waiting Room" onclick="window.location.href = 'index.php';"/>  -->
+
+</div>
+
+
+  </body>
+
+</html>

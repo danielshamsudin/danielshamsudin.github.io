@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<!-- saved from url=(0050)http://localhost/animal-game/ranking.php?roundid=1 -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Match ID : 1</title>
+	<link href="./Match ID _ 1_files/style.css" rel="stylesheet" type="text/css"> 
+	<script type="text/javascript">
+	function countDown(minTimer,secTimer,min,sec)
+	{
+		var minutes = document.getElementById(min);
+		var seconds = document.getElementById(sec);
+		
+		minutes.innerHTML = minTimer;
+		seconds.innerHTML = secTimer;
+		
+		if(secTimer == 0)
+			{
+				minTimer--;
+				secTimer = 60;
+			}
+		secTimer--;
+		if(minTimer < 0 )
+		{	
+			clearTimeout(countdown);
+			document.getElementById("remove").innerHTML = '<img src="https://fontmeme.com/permalink/200507/f716ff3ddc9ac40f7cd84656a4c47717.png" alt="indiana-jones-font" border="0" style="width:70%;height:20%">';
+			//setTimeout("location.href = 'deletereserve.php';",0);
+		}
+		
+		var countdown = setTimeout('countDown('+minTimer+','+secTimer+',"'+min+'","'+sec+'")',1000);
+	}	
+	 function AutoRefresh( t ) 
+	{
+	   setTimeout("location.reload(true);", t);
+	}
+</script>
+<style>
+
+#qrcode{
+	height:600px;
+	width:600px;
+	border-radius:0px 0px 30px 30px;
+	background-color:black;
+}
+#rankingpage{
+	width: 40%;
+	height:40px;
+	margin:20px;
+	border-radius: 20px;
+	position: relative;
+	background-color: #a84e32;
+	transition: 0.3s all;	
+	border:2px solid orange;
+	color:orange;
+	font-weight:bold;
+}
+#ranking{
+	
+}
+#nav{
+	width: 15%;
+	height:40px;
+	margin:20px;
+	border-radius: 20px;
+	position: relative;
+	background-color: #a84e32;
+	transition: 0.3s all;
+	border:2px solid orange;
+	color:orange;
+	font-weight:orange;
+}
+#rankingpage:hover,#nav:hover{
+	cursor:pointer;
+	background-color:white;
+}
+#remove img{
+	width:30%;
+	height:80px;
+}
+#container{
+		width:80%;
+		border:3px solid orange;
+}
+
+.ribbon{
+	width:78%;
+}
+
+table{
+	border-collapse:collapse;
+}
+
+table,th,td{
+	border:2px solid none;
+	
+}
+
+
+</style>
+</head>
+<body onload="JavaScript:AutoRefresh(5000);">  <!---->
+	<center>
+		<div id="container" style=" vertical-align: middle;">
+					<div class="ribbon">
+					<div class="ribbon-content"><p><b style="font-size:100px;">Match ID : 1</b></p></div>
+					</div><br><br><br><br><br><br><br><br><br>
+				<div id="timer" style="font-family:Verdana; font-size:30px;">
+					<h3><span id="remove"><img src="./Match ID _ 1_files/5cdc75f22a6eb0467ee59b3f6d921397.png"><br><span id="minutes" style="font-size:100px; color:#9FFF6B; font-family:&#39;nothing&#39;;font-style:italic;">7</span> <img src="./Match ID _ 1_files/4d8654cec1dbb2f0fb965fc366e675b8.png"> <span id="seconds" style="font-size:100px; color:#9FFF6B; font-family:&#39;nothing&#39;;font-style:italic;">30</span> <img src="./Match ID _ 1_files/a21d74f3ece53ad30411c12b5369e2fe.png"><br>
+					<img src="./Match ID _ 1_files/0c7671119519ab13045e9daf84eb6a40.png" style="width:60%;">
+					
+					</span> 
+					</h3>
+										<script type="text/javascript">countDown(9-2,60-7,"minutes","seconds");</script>
+				</div>
+				<div id="ranking">
+					<table style="width:100%;">
+					<tbody><tr style="border-bottom: 2px solid orange; text-align:center;">
+					
+						<th style="font-size:30px;">Rank</th>
+						<th style="font-size:30px;">Player name</th>
+						<th style="font-size:30px;">Time taken</th>
+						<th style="font-size:30px;">Current Token</th>
+					</tr><tr>
+											</tr><tr>
+												<td style="text-align:center; font-size:50px;">1st</td>
+							<td style="text-align:center; font-size:50px; text-transform:capitalize">Player</td>
+							<!--<td style="text-align:center;"><img src='image/<br />
+<b>Notice</b>:  Undefined index: image_one in <b>C:\xampp\htdocs\animal-game\ranking.php</b> on line <b>191</b><br />
+'style="vertical-align:middle;width:50px;height:200px;"><img src='image/<br />
+<b>Notice</b>:  Undefined index: image_two in <b>C:\xampp\htdocs\animal-game\ranking.php</b> on line <b>191</b><br />
+'style="vertical-align:middle;width:50px;height:200px;"><img src='image/<br />
+<b>Notice</b>:  Undefined index: image_three in <b>C:\xampp\htdocs\animal-game\ranking.php</b> on line <b>191</b><br />
+' style="vertical-align:middle;width:50px;height:200px;"></td>-->
+							<td style="text-align:center; font-size:30px;">
+							-							 </td>
+							<td style="text-align:center; font-size:50px;">0 <img src="./Match ID _ 1_files/coin.png" style="width:50px;height:50px;"></td>
+							
+						</tr>
+											<tr>
+												<td style="text-align:center; font-size:50px;">2nd</td>
+							<td style="text-align:center; font-size:50px; text-transform:capitalize">jaja</td>
+							<!--<td style="text-align:center;"><img src='image/<br />
+<b>Notice</b>:  Undefined index: image_one in <b>C:\xampp\htdocs\animal-game\ranking.php</b> on line <b>191</b><br />
+'style="vertical-align:middle;width:50px;height:200px;"><img src='image/<br />
+<b>Notice</b>:  Undefined index: image_two in <b>C:\xampp\htdocs\animal-game\ranking.php</b> on line <b>191</b><br />
+'style="vertical-align:middle;width:50px;height:200px;"><img src='image/<br />
+<b>Notice</b>:  Undefined index: image_three in <b>C:\xampp\htdocs\animal-game\ranking.php</b> on line <b>191</b><br />
+' style="vertical-align:middle;width:50px;height:200px;"></td>-->
+							<td style="text-align:center; font-size:30px;">
+							-							 </td>
+							<td style="text-align:center; font-size:50px;">0 <img src="./Match ID _ 1_files/coin.png" style="width:50px;height:50px;"></td>
+							
+						</tr>
+											<tr>
+												<td style="text-align:center; font-size:50px;">3rd</td>
+							<td style="text-align:center; font-size:50px; text-transform:capitalize">asdasd</td>
+							<!--<td style="text-align:center;"><img src='image/<br />
+<b>Notice</b>:  Undefined index: image_one in <b>C:\xampp\htdocs\animal-game\ranking.php</b> on line <b>191</b><br />
+'style="vertical-align:middle;width:50px;height:200px;"><img src='image/<br />
+<b>Notice</b>:  Undefined index: image_two in <b>C:\xampp\htdocs\animal-game\ranking.php</b> on line <b>191</b><br />
+'style="vertical-align:middle;width:50px;height:200px;"><img src='image/<br />
+<b>Notice</b>:  Undefined index: image_three in <b>C:\xampp\htdocs\animal-game\ranking.php</b> on line <b>191</b><br />
+' style="vertical-align:middle;width:50px;height:200px;"></td>-->
+							<td style="text-align:center; font-size:30px;">
+							-							 </td>
+							<td style="text-align:center; font-size:50px;">0 <img src="./Match ID _ 1_files/coin.png" style="width:50px;height:50px;"></td>
+							
+						</tr>
+											<tr>
+												<td style="text-align:center; font-size:50px;">4th</td>
+							<td style="text-align:center; font-size:50px; text-transform:capitalize">asda</td>
+							<!--<td style="text-align:center;"><img src='image/<br />
+<b>Notice</b>:  Undefined index: image_one in <b>C:\xampp\htdocs\animal-game\ranking.php</b> on line <b>191</b><br />
+'style="vertical-align:middle;width:50px;height:200px;"><img src='image/<br />
+<b>Notice</b>:  Undefined index: image_two in <b>C:\xampp\htdocs\animal-game\ranking.php</b> on line <b>191</b><br />
+'style="vertical-align:middle;width:50px;height:200px;"><img src='image/<br />
+<b>Notice</b>:  Undefined index: image_three in <b>C:\xampp\htdocs\animal-game\ranking.php</b> on line <b>191</b><br />
+' style="vertical-align:middle;width:50px;height:200px;"></td>-->
+							<td style="text-align:center; font-size:30px;">
+							-							 </td>
+							<td style="text-align:center; font-size:50px;">0 <img src="./Match ID _ 1_files/coin.png" style="width:50px;height:50px;"></td>
+							
+						</tr>
+											<tr>
+												<td style="text-align:center; font-size:50px;">5th</td>
+							<td style="text-align:center; font-size:50px; text-transform:capitalize">xcvxcv</td>
+							<!--<td style="text-align:center;"><img src='image/<br />
+<b>Notice</b>:  Undefined index: image_one in <b>C:\xampp\htdocs\animal-game\ranking.php</b> on line <b>191</b><br />
+'style="vertical-align:middle;width:50px;height:200px;"><img src='image/<br />
+<b>Notice</b>:  Undefined index: image_two in <b>C:\xampp\htdocs\animal-game\ranking.php</b> on line <b>191</b><br />
+'style="vertical-align:middle;width:50px;height:200px;"><img src='image/<br />
+<b>Notice</b>:  Undefined index: image_three in <b>C:\xampp\htdocs\animal-game\ranking.php</b> on line <b>191</b><br />
+' style="vertical-align:middle;width:50px;height:200px;"></td>-->
+							<td style="text-align:center; font-size:30px;">
+							-							 </td>
+							<td style="text-align:center; font-size:50px;">0 <img src="./Match ID _ 1_files/coin.png" style="width:50px;height:50px;"></td>
+							
+						</tr>
+															</tbody></table>
+				</div>
+							<button id="nav" disabled=""><span style="font-size:20px; font-family:Verdana;">-<span></span></span></button>
+				<button id="rankingpage" onclick="window.location.href=&#39;qrcode.php&#39;"><span style="font-size:20px; font-family:Verdana;">QR code page<span></span></span></button>
+				<button id="nav" disabled=""><span style="font-size:20px; font-family:Verdana;">-<span></span></span></button>
+				</div>
+	</center>
+	<br>
+
+
+
+</body></html>

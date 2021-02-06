@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #clock{
+            background-image: url('');
+            background-size: cover;
+            background-position: center;
+            height: 250px;
+            width: 250px;
+            border: 1px solid #bbb;
+        }
+    </style>
+</head>
+<body>
+    <input type='file'  name="background-image" /><br/><br/>
+    <input type="submit" value="Upload" id="getval">
+    <div id='clock'></div>
+    <script>
+        document.getElementById("getval").addEventListener('change', readURL, true);
+
+        function readURL()
+        {
+            var file = document.getElementById("getval").files[0];
+            var reader = new FileReader();
+
+            reader.onloadend = function()
+            {
+                document.getElementById('clock').style.backgroundImage = "url("+ reader.result +")";
+
+            }
+            if(file){
+                reader.readAsDataURL(file);
+            }
+            else
+            {
+
+            }
+        }
+    </script>
+</body>
+</html>

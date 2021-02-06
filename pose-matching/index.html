@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en">
+  <head>
+    <!-- This pages is our tutorial pages -->
+    <title>Pose Matching Game</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      type="text/javascript"
+      src="https://unpkg.com/webcam-easy/dist/webcam-easy.min.js"
+    ></script>
+    <script
+      src="https://code.jquery.com/jquery-3.5.0.min.js"
+      integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ="
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/posenet"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <!-- MATERIAL DESIGN ICONIC FONT -->
+    <link
+      rel="stylesheet"
+      href="userfont/material-design-iconic-font/css/material-design-iconic-font.min.css"
+    />
+
+    <!-- STYLE CSS -->
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      ::-webkit-scrollbar {
+        width: 0px;
+        background: transparent;
+      }
+
+      #instruc{
+        margin-top: 1.5rem;
+      }
+
+      #instruc > p{
+          text-align:center;
+          font-size: 2rem;
+          
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="wrapper">
+      <h3 class="title">Pose Match Game</h3>
+      <div class="inner">
+        <!-- Game Name -->
+        <h4>Please Watch the Video before proceed</h4>
+        <video id="content1" controls autoplay muted>
+          <source src="images/posevideo.mp4" type="video/mp4" />
+          <!-- tutorial video-->
+        </video>
+
+          <!-- Game instuction -->
+          <div id="instruc">
+            <h3>Game Instruction</h3>
+            <p>1) Only one person can stand infont the webcam.</p>
+            <p>2) Click Play button then wait for 5 second to play game.</p>
+            <p>3) The line will change to red when the system is detecting your pose.</p>
+            <p>4) Please hold your pose for 2 second to get the score.</p>
+
+
+        <!-- Play button click will jump to the user form pages -->
+        <a href="home.html">
+          <button type="submit" id="jp">Play</button>
+        </a>
+      </div>
+    </div>
+    <script>
+      document.getElementById("content1").play();
+    </script>
+  </body>
+</html>

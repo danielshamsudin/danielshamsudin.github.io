@@ -1,0 +1,111 @@
+html,
+body {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  background-color: #29607e;
+  color: #fff;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -ms-user-select: none;
+}
+
+html {
+  height: 100%;
+}
+
+#timer {
+  margin: 15px 0;
+  text-shadow: 2px 2px 4px #000;
+}
+
+.title {
+  text-shadow: 2px 8px 6px rgba(0, 0, 0, 0.2),
+    0px -5px 35px rgba(255, 255, 255, 0.3);
+  margin-bottom: 10px;
+}
+
+.text-countdown {
+  font-size: 1.3rem;
+  color: #dc3545;
+  text-shadow: none;
+  -webkit-animation: pulsate 1.5s ease-out;
+  -webkit-animation-iteration-count: infinite;
+  animation: pulsate 1.5s ease-out;
+  animation-iteration-count: infinite;
+  opacity: 1;
+  transform: scale(1);
+}
+
+/*
+ * Remove the gap between audio, canvas, iframes,
+ * images, videos and the bottom of their containers:
+ * https://github.com/h5bp/html5-boilerplate/issues/440
+ */
+
+audio,
+canvas,
+iframe,
+img,
+svg,
+video {
+  vertical-align: middle;
+}
+
+/* Animation */
+@-webkit-keyframes pulsate {
+  0% {
+    opacity: 0.8;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    -webkit-transform: scale(2);
+    transform: scale(2);
+  }
+  100% {
+    opacity: 0.8;
+    -webkit-transform: scale(3);
+    transform: scale(3);
+  }
+}
+
+   
+
+/* Extra small devices (phones, 600px and down) */
+    @media only screen and (max-width: 600px) {
+      body { }
+    }
+
+    /* Small devices (portrait tablets and large phones, 600px and up) */
+    @media only screen and (min-width: 600px) {
+      body {  }
+    }
+
+    /* Medium devices (landscape tablets, 768px and up) */
+    @media only screen and (min-width: 768px) {
+      body { width:100%;zoom: 240%; }
+    } 
+
+    /* Large devices (laptops/desktops, 992px and up) */
+    @media only screen and (min-width: 992px) {
+      body { zoom: 240%; }
+    } 
+
+       /* Signage */
+    @media only screen and (min-width: 1080px) {
+      body {  zoom: 240%;}
+    }
+
+
+    /* Extra large devices (large laptops and desktops, 1200px and up) */
+    @media only screen and (min-width: 1200px) {
+      body {  zoom: 100%;}
+    }
+
+

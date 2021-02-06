@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login to Admin Page</title>
+    <link rel="stylesheet" href="./style.css" />
+    <link rel="shortcut icon" href="./icon.ico" type="image/x-icon" />
+  </head>
+  <body>
+    <div class="title1 rainbow-bg">
+      <h1 align="center" style="margin: 0;">Admin Login Page</h1>
+    </div>
+    <div class="login-box">
+      <div class="login-form">
+        <form
+          class="login"
+          name="adminacc"
+          action="./adminpage.php"
+          method="POST"
+        >
+          <table>
+            <tr>
+              <td>
+                Username:
+              </td>
+              <td>
+                <input type="text" name="username" id="username" />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Password:
+              </td>
+              <td>
+                <input
+                  type="password"
+                  name="password"
+                  id="password"
+                  maxlength="8"
+                />
+              </td>
+            </tr>
+          </table>
+          <button class="login-btn" onclick="return chk_acc()">
+            Login
+          </button>
+        </form>
+      </div>
+    </div>
+  </body>
+  <script>
+    var username;
+    var password;
+
+    var acc1 = "admin001";
+    var acc1pw = "admin001";
+
+    function chk_acc() {
+      username = document.adminacc.username.value;
+      password = document.adminacc.password.value;
+
+      if (username != acc1 || password != acc1pw) {
+        alert("Incorrect Username and Password!");
+        return false;
+      }
+    }
+  </script>
+</html>

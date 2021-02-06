@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>TM Memory Game</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <style>
+      * {
+        margin: auto;
+        text-align: center;
+      }
+      body,
+      html {
+        background: url("bg2.gif") no-repeat center center fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+        text-align: center;
+      }
+
+      input[type="button"] {
+        background-image: url("button.jpg");
+        -webkit-border-radius: 5px;
+        border-radius: 5px;
+        color: black;
+        font-size: 15px;
+        font-family: Comic Sans MS;
+        text-shadow: 2px 2px white;
+        margin: 4px 2px;
+        padding: 16px 24px;
+        text-decoration: none;
+        cursor: pointer;
+        background-position: left;
+      }
+
+      .glow {
+        font-size: 30px;
+        color: white;
+        text-align: center;
+        -webkit-animation: glow 1s ease-in-out infinite alternate;
+        -moz-animation: glow 1s ease-in-out infinite alternate;
+        animation: glow 1s ease-in-out infinite alternate;
+      }
+
+      @-webkit-keyframes glow {
+        from {
+          text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e8bf4f,
+            0 0 40px #e8bf4f, 0 0 50px #e8bf4f, 0 0 60px #e8bf4f,
+            0 0 70px #e8bf4f;
+        }
+
+        to {
+          text-shadow: 0 0 20px #fff, 0 0 30px #e66b07, 0 0 40px #e66b07,
+            0 0 50px #e66b07, 0 0 60px #e66b07, 0 0 70px #e66b07,
+            0 0 80px #e66b07;
+        }
+      }
+    </style>
+
+    <title>Mini Game</title>
+    <link rel="stylesheet" type="text/css" href="2-memory.css" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="3-memory.js"></script>
+  </head>
+
+  <body>
+    <h1 class="glow">Tantalizing Matching</h1>
+
+    <!-- [PLAY GRID] -->
+    <div id="mem-play"></div>
+
+    <!-- [CONTROLS] -->
+    <br />
+    <p style="text-align: center; color: #fff">
+      Can you match all the TM products without any mistakes?
+    </p>
+
+    <input type="button" value="Reset" onclick="mem.init()" /><input
+      type="button"
+      value="The End"
+      onclick="window.location.href = 'ending.html';"
+    />
+
+    <iframe
+      width="1"
+      height="1"
+      wmode="transparent"
+      src="https://www.youtube.com/embed/7voSN82FGF0?autoplay=1&loop=1&playsinline=1"
+      frameborder="0"
+      allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+    ></iframe>
+  </body>
+</html>

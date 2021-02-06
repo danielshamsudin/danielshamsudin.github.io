@@ -1,0 +1,245 @@
+body {
+  margin: auto;
+  padding: auto;
+
+  border: 30px solid transparent;
+  border-image: url(111.png) 90 round;
+}
+div {
+  text-align: center;
+}
+
+.count {
+  position: absolute;
+  width: 16%;
+  height: 6%;
+  margin: auto auto auto auto;
+  border: 1px solid #808080;
+  border-width: 4px 5px 4px 6px;
+  border-radius: 95% 4% 92% 5%/4% 95% 6% 95%;
+  font-size: 460%;
+  background-color: white;
+  text-align: center;
+  font-weight: bold;
+  border: 10px solid lightyellow;
+  border-radius: 20px;
+}
+
+.info {
+  font-size: 200%;
+  position: absolute;
+  text-align: center;
+  width: 100%;
+}
+
+h3 {
+  top: 0;
+  left: 100px;
+  position: absolute;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 25px;
+  letter-spacing: -0.2px;
+  word-spacing: 0px;
+  color: #ffffff;
+  font-weight: 700;
+  text-decoration: none;
+  font-style: normal;
+  font-variant: normal;
+  text-transform: none;
+  display: none;
+}
+
+.tmLogo {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: auto;
+  height: auto;
+}
+
+#dogcenter {
+  display: none;
+  margin-left: auto;
+  margin-right: auto;
+  width: 70%;
+}
+
+#catcenter {
+  display: none;
+  margin-left: auto;
+  margin-right: auto;
+  width: 70%;
+}
+
+.button {
+  box-shadow: 0px 1px 0px 0px #f0f7fa;
+  background: linear-gradient(to bottom, #ff9e67 5%, #ff9e67 100%);
+  background-color: #ff9e67;
+  border-radius: 6px;
+  border: 1px solid #ff9e67;
+  cursor: pointer;
+  color: #ffffff;
+  font-family: Arial;
+  font-size: 150%;
+  font-weight: bold;
+  text-decoration: none;
+  text-shadow: 0px -1px 0px #5b6178;
+  width: 40%;
+  height: 20%;
+}
+
+.button:hover {
+  background: linear-gradient(to bottom, #fffde3 5%, #fffde3 100%);
+  background-color: #fffde3;
+  color: black;
+}
+
+.button:active {
+  position: relative;
+  top: 1px;
+}
+
+.splashT {
+  z-index: 1;
+  left: 0;
+  top: 0;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+  padding-top: 60px;
+
+  font-size: 300%;
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 40% auto 20% auto; /* 5% from the top, 15% from the bottom and centered */
+  border: 1px solid #808080;
+  border-width: 4px 5px 4px 6px;
+  border-radius: 95% 4% 92% 5%/4% 95% 6% 95%;
+  transform: rotate(0.85deg);
+  width: 100%; /* Could be more or less, depending on screen size */
+  height: 50%;
+}
+
+.container {
+  padding: 16px;
+}
+
+.animate {
+  -webkit-animation: animatezoom 0.6s;
+  animation: animatezoom 0.6s;
+}
+
+.videocanvas {
+  top: auto;
+  right: 30px;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  width: 25%;
+  max-height: 250px;
+
+  border: 10px solid lightyellow;
+  border-radius: 20px;
+}
+
+@media (orientation: landscape) {
+  .videocanvas {
+    width: 15%;
+    max-height: 125px !important;
+  }
+
+  .lineHorizontal {
+    margin-top: 145px !important;
+  }
+
+  .cat-loading {
+    width: 50% !important;
+  }
+
+  #catty {
+    width: 80% !important;
+    margin-left: 10%;
+    margin-top: 5% !important;
+  }
+
+  #doggy {
+    width: 80% !important;
+    margin-left: 10%;
+    margin-top: 5% !important;
+  }
+
+  #splash-text {
+    margin-bottom: 0;
+  }
+}
+
+video {
+  /*transform: scaleX(-1);*/
+  display: none;
+}
+
+.info {
+  font-size: 300%;
+  position: absolute;
+  text-align: center;
+  width: 100%;
+}
+
+#doggy {
+  position: absolute;
+  text-align: center;
+  width: 100%;
+  margin-top: 40%;
+}
+
+#catty {
+  position: absolute;
+  text-align: center;
+  width: 100%;
+  margin-top: 40%;
+}
+
+@media screen and (max-width: 730px) {
+  .count {
+    font-size: 150%;
+  }
+
+  .info {
+    font-size: 150%;
+  }
+
+  .modal-content {
+    width: 40%;
+    height: 40%;
+    font-size: 50%;
+  }
+}
+.lineHorizontal__container {
+  align-items: center;
+}
+.lineHorizontal {
+  border-top: 10px dotted black;
+  position: absolute;
+  margin-top: 270px;
+  width: calc(100% - 60px);
+}

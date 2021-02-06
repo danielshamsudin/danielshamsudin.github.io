@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>E-motion!</title>
+    <link rel="stylesheet" href="./style.css" />
+    <link rel="shortcut icon" href="./icon.ico" type="image/x-icon" />
+  </head>
+
+  <body
+    style="
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    "
+  >
+    <div>
+      <div class="">
+        <h5
+          class=""
+          style="
+            text-shadow: 3px 3px 5px black;
+            text-align: center;
+            font-family: halo;
+            font-size: 80pt;
+            color: white;
+            margin: 0;
+          "
+        >
+          E-motion
+        </h5>
+      </div>
+      <div class="divcen">
+        <h3 class="desc" style="color: white">
+          Press the "Play!" button to start
+        </h3>
+        <button
+          class="playbtn rainbow-bg"
+          onclick="document.location = './instruction.html'"
+        >
+          Play!
+        </button>
+      </div>
+    </div>
+    <audio controls autoplay loop hidden>
+      <source src="1.mp3" type="audio/mpeg" />
+      Your browser does not support the audio element.
+    </audio>
+  </body>
+</html>

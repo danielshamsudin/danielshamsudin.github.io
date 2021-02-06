@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      type="text/javascript"
+      src="https://unpkg.com/webcam-easy/dist/webcam-easy.min.js"
+    ></script>
+    <script
+      src="https://code.jquery.com/jquery-3.5.0.min.js"
+      integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ="
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/posenet"></script>
+
+    <!-- STYLE CSS -->
+    <link rel="stylesheet" href="index.css" />
+
+    <!-- This pages is our game pages -->
+    <title>Game</title>
+    <style>
+      ::-webkit-scrollbar {
+        width: 0px;
+        background: transparent;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="countdown">&nbsp;</div>
+    <div class="wrapper">
+      <div>
+        <h4
+          style="
+            color: black;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
+              'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+          "
+        >
+          Do this pose↓↓↓↓↓
+        </h4>
+        <!-- References pose -->
+        <img style="border: 2px solid black" src="img/a.jpg" id="images" />
+
+        <!-- when game end it will click automatic then go to leader.php the code is in index.js -->
+        <a href="leader.php" id="home" class="round green">h</a>
+      </div>
+
+      <div>
+        <!-- Timer -->
+        <p id="sec"><span>&nbsp;</span></p>
+
+        <p id="score"><span id="score">&nbsp;</span></p>
+
+        <!-- camera -->
+        <video id="webcam" autoplay></video>
+
+        <!-- play and debug button -->
+        <button type="submit" id="setTimer" class="blk">Play</button>
+        <button id="debug">Debug</button>
+        <p><span id="imgSec" style="margin-left: 199px">&nbsp;</span></p>
+        <!-- canvas -->
+        <canvas id="canvas" class="d-none"></canvas>
+      </div>
+
+      <div id="content">
+        <!-- fps position -->
+        <p><span id="fps"></span></p>
+      </div>
+    </div>
+
+    <script src="index.js" type="module"></script>
+
+    <audio id="background-music" src="audio/background_music.wav" loop></audio>
+    <audio id="correct" src="audio/correct.wav"></audio>
+    <audio id="next" src="audio/next.wav"></audio>
+  </body>
+</html>

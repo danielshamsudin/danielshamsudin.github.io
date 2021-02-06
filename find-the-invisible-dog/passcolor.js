@@ -1,0 +1,1 @@
+var bgcolor = localStorage.getItem("pass");
