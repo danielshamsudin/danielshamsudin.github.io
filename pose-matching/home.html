@@ -64,7 +64,8 @@
             Follow this pose
           </h4>
           <!-- References pose -->
-          <img style="border: 2px solid black" src="img/a.jpeg" id="images" />
+          <img class="refPose" style="border: 2px solid black;transform: scaleX(-1);" src="img/100.jpg" id="images" />
+          <canvas id="canvasRef" class="d-none"></canvas>
         </div>
 
         <div style="display: none">
@@ -80,6 +81,8 @@
         <!-- fps position -->
         <p><span id="fps"></span></p>
       </div>
+
+    
     </div>
 
     <script src="index.js" type="module"></script>

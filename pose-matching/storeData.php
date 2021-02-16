@@ -6,7 +6,7 @@
 
 
 
-    $files = fopen("txt_file/".$ID."_".$CURRENTTIME.".json","a");
+    $files = fopen("data_collection/".$ID."_".$CURRENTTIME.".json","a");
     
     fwrite($files,$keypoint."\n");
    fclose($files);

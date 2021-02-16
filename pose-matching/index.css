@@ -195,6 +195,12 @@ h4 {
   left: 0;
 }
 
+#canvasRef {
+  position: absolute;
+  width: 100%;
+  left: 0;
+}
+
 /*fps position*/
 #content {
   text-align: center;

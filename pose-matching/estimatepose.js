@@ -4,6 +4,7 @@
 importScripts('https://cdn.jsdelivr.net/npm/@tensorflow/tfjs');
 importScripts('https://cdn.jsdelivr.net/npm/@tensorflow-models/posenet');
 
+// var architecture = "MobileNetV1";
 var architecture = "ResNet50";
 quantBytes = 4;
 outputStride = 16;
@@ -20,8 +21,9 @@ this.addEventListener('message', function(e) {
 					// architecture: 'MobileNetV1',
 					architecture: architecture,
 					//fliphorizontal: true,
+					imageScaleFactor: 0.5,
 					outputStride: outputStride,
-					inputResolution: {width: e.data.width, height:e.data.height},
+					// inputResolution: {width: e.data.width, height:e.data.height},
 					quantBytes: quantBytes       
 				})
 				tf.dispose(net);
