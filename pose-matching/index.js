@@ -9,7 +9,7 @@ canvasElement.width = videoWidth;
 canvasElement.height = videoHeight;
 const backgroundMusic = document.getElementById("background-music");
 const TIME_COUNT_DOWN_TO_START = 7000;  // ms
-const TIME_PLAYABLE = 120000;  // ms
+const TIME_PLAYABLE = 5000;  // ms
 const TIME_TOTAL = TIME_COUNT_DOWN_TO_START + TIME_PLAYABLE;
 const TIME_GAME_IS_ENDING = 15000;  // ms, the threshold to tell the game is ending soon
 const TIME_CHANGE_REF_POSE_COOL_DOWN = 1000;  // ms, the threshold to tell the game is ending soon
@@ -33,7 +33,7 @@ const imageArray = [
 ];
 const numReferencePose = imageArray.length;
 // let numReferencePose = 7;
-const DEBUG = true;
+const DEBUG = false;
 
 //load camera
 const webcam = new Webcam(webcamElement);
@@ -185,7 +185,7 @@ worker.addEventListener(
     if (DEBUG) 
     {
       document.getElementById("fps").innerHTML = "FPS: " + fps;
-      console.log("FPS: " + fps);
+      // console.log("FPS: " + fps);
     }
     Flag_ProcessFrame = true;
     Flag_ProcessLogic = true;
@@ -366,7 +366,7 @@ function storeData(files, userName, startTime) {
     url: "storeData.php",
     data: {
       keypoint: JSON.stringify(files, null, 3),
-      id: userName,
+      id: "userName",
       currentTime: startTime,
     },
   });
@@ -375,10 +375,13 @@ function storeData(files, userName, startTime) {
 function openDataBase(userName, userid, startTime, totalScore, data) {
   $.ajax({
     type: "POST",
+    // url: "https://fuyoh-ads.com/pose-matching/database.php",
     url: "database.php",
     data: {
-      User_Name: userName,
-      User_gmail: userid,
+      // User_Name: userName,
+      User_Name: "userName",
+      // User_gmail: userid,
+      User_gmail: "userid",
       Time: startTime,
       Score: totalScore,
       MatchData: JSON.stringify(data),
@@ -775,6 +778,6 @@ function gameCompleteAction()
   storeData(files, userName, startTime);
   let finalScore = totalScore * maxScore;
   openDataBase(userName, userid, startTime, finalScore);
-  localStorage.setItem("Score", Math.round(finalScore));
+  // localStorage.setItem("Score", Math.round(finalScore));
   window.parent.wsCreateScore(Math.round(finalScore));
 }
