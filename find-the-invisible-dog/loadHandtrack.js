@@ -24,32 +24,36 @@ function findobj() {
   console.log(h);
 
   //first obj
-  x = Math.random() * w; 
+  x = Math.random() * canvas.width; 
   // console.log(x);
 
-  y = Math.random() * h;
+  y = (Math.random() * video.videoHeight) + (canvas.height - video.videoHeight) ;
   // console.log(y);
+  console.log([x,y]);
 
   //second obj
-  x2 = Math.random() * w;
+  x2 = Math.random() * canvas.width;
   // console.log(x2);
 
-  y2 = Math.random() * h;
+  y2 = (Math.random() * video.videoHeight)+ (canvas.height - video.videoHeight);
+  console.log([x2,y2]);
   // console.log(y2);
 
   //third obj
-  x3 = Math.random() * w;
+  x3 = Math.random() * canvas.width;
   // console.log(x3);
 
-  y3 = Math.random() * h;
+  y3 = (Math.random() * video.videoHeight)+ (canvas.height - video.videoHeight);
   // console.log(y3);
+  console.log([x3,y3]);
 
   //trap
-  trapx = Math.random() * w;
+  trapx = Math.random() * canvas.width;
   // console.log(trapx);
 
-  trapy = Math.random() * h;
+  trapy = (Math.random() * video.videoHeight)+ (canvas.height - video.videoHeight);
   // console.log(trapy);
+  console.log([trapx,trapy]);
 }
 
 // changed imagescalefactor and confidence threshold
@@ -460,9 +464,11 @@ function draw() {
   c.arc(x,y,10,0,Math.PI * 2);
   c.strokeStyle = 'green';
   c.stroke();
+  c.beginPath();
   c.arc(x2,y2,10,0,Math.PI * 2);
   c.strokeStyle = 'green';
   c.stroke();
+  c.beginPath();
   c.arc(x3,y3,10,0,Math.PI * 2);
   c.strokeStyle = 'green';
   c.stroke();
@@ -480,5 +486,6 @@ function draw() {
   c.arc(controlX, controlY, 30, 0, Math.PI * 2);
   c.strokeStyle = 'black';
   c.stroke();
+  c.fillStyle = "rgba(0,0,255,0.5)";
+  c.fillRect(0, (canvas.height - video.videoHeight), canvas.width, video.videoHeight);
 }
-
