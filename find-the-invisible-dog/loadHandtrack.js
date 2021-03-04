@@ -4,10 +4,7 @@ const modal = document.querySelector(".modal");
 modal.style.height = window.innerHeight;
 modal.style.width = window.innerWidth;
 document.getElementsByClassName("splashT").height = window.innerHeight;
-var number1 = 0,
-  number2 = 0,
-  number3 = 0,
-  total = 0;
+var number1 = 0, number2 = 0, number3 = 0, total = 0;
 var x, y, x2, y2, x3, y3, trapx, trapy;
 var disx, disy, disx2, disy2, disx3, disy3, distx, disty;
 var statustrap = 0;
@@ -18,14 +15,16 @@ var catchdog = new Audio("catch dog.mp3");
 var catchcat = new Audio("catch cat.mp3");
 var win = new Audio("win.mp3");
 var lose = new Audio("lose.mp3");
+
+// spawn dogs and cats
 function findobj() {
-  // console.log("width:");
-  // console.log(w);
-  // console.log("height:");
-  // console.log(h);
+  console.log("width:");
+  console.log(w);
+  console.log("height:");
+  console.log(h);
 
   //first obj
-  x = Math.random() * w;
+  x = Math.random() * w; 
   // console.log(x);
 
   y = Math.random() * h;
@@ -53,12 +52,14 @@ function findobj() {
   // console.log(trapy);
 }
 
+// changed imagescalefactor and confidence threshold
+// found that 0.7 scoreThreshold optimal
 const modelParams = {
   //flipHorizontal: true, // flip e.g for video
-  imageScaleFactor: 0.7, // reduce input image size for gains in speed.
+  imageScaleFactor: 1, //changed here
   maxNumBoxes: 1, // maximum number of boxes to detect
   iouThreshold: 0.6, // ioU threshold for non-max suppression
-  scoreThreshold: 0.8, // confidence threshold for predictions.
+  scoreThreshold: 0.7, // confidence threshold for predictions.
 };
 
 navigator.getUserMedia =
@@ -66,13 +67,16 @@ navigator.getUserMedia =
   navigator.webkitGetUserMedia ||
   navigator.mozGetUserMedia ||
   navigator.msGetUserMedia;
-
+  
 handTrack.startVideo(video).then((status) => {
   var countdownToLobby; 
-
+  
   if (status) {
     navigator.getUserMedia(
-      { video: {} },
+      {video:{
+        // width: 1280,
+        // height: 720
+      }}, 
       (stream) => {
         video.srcObject = stream;
         //run
@@ -84,8 +88,6 @@ handTrack.startVideo(video).then((status) => {
       (err) =>{
         console.log("status "+status)
         console.log(err)
-
-
       } 
     )
   }else if (!status) {
@@ -108,12 +110,31 @@ function runDetection() {
     model.renderPredictions(predictions, canvas1, ctx1, video);
     isStart = true;
     if (predictions.length !== 0) {
+      /*
+      prediction returns array 
+      [{
+        bbox: [x, y, width, height]
+        class: string
+        score: int
+      }]
+      */ 
+
+      // change handX,handY to an elipse
       handX = predictions[0].bbox[0] + predictions[0].bbox[2] / 2;
       handY = predictions[0].bbox[1] + predictions[0].bbox[3] / 2;
-
+      
+      // small radius for hand in bbox
+      var toleranceValue = 10;
+      radius = handX + toleranceValue
+      
       // console.log(handX);
+      // console.log(handY);
 
       begin = 1;
+
+      // Note: Object detection now works with the midpoint of the box,
+      // can try using a radius instead of a point so that can act as a
+      // tolerance hence it will be easier. 
 
       //distance predictions obj1
       if (handX > x) {
@@ -228,12 +249,9 @@ function runDetection() {
             }, 300);
           }, 300);
           checkWL();
-        } else if (
-          disx2 >= 151 &&
-          disx2 <= 350 &&
-          disy2 >= 151 &&
-          disy2 <= 350
-        ) {
+        }
+        else if (disx2 >= 151 && disx2 <= 350 && disy2 >= 151 && disy2 <= 350) 
+        {
           console.log("near alr");
           dog.play();
           dog.volume = 0.8;
@@ -309,10 +327,8 @@ function stopDetect() {
   console.log("STOP");
 }
 
-var sec = 90,
-  countDiv = document.getElementById("timer"),
-  secpass,
-  countDown = setInterval(function () {
+var sec = 3600, countDiv = document.getElementById("timer"), secpass,
+countDown = setInterval(function () {
     "use strict";
 
     //start countdown for 1 min
@@ -439,10 +455,30 @@ function draw() {
   c.fillStyle = bgcolor;
   c.fillRect(0, 0, canvas.width, canvas.height);
   requestAnimationFrame(draw);
+  c.lineWidth = 2;
+  c.beginPath();
+  c.arc(x,y,10,0,Math.PI * 2);
+  c.strokeStyle = 'green';
+  c.stroke();
+  c.arc(x2,y2,10,0,Math.PI * 2);
+  c.strokeStyle = 'green';
+  c.stroke();
+  c.arc(x3,y3,10,0,Math.PI * 2);
+  c.strokeStyle = 'green';
+  c.stroke();
+  c.lineWidth = 2;
+  c.beginPath();
+  c.arc(trapx,trapy,10,0,Math.PI * 2);
+  c.strokeStyle = 'red';
+  c.stroke();
+  // c.fillRect(x2,y2,canvas.width,canvas.height);
+  // c.fillRect(x3,y3,canvas.width,canvas.height);
   controlX = handX;
   controlY = handY;
   c.lineWidth = 5;
   c.beginPath();
   c.arc(controlX, controlY, 30, 0, Math.PI * 2);
+  c.strokeStyle = 'black';
   c.stroke();
 }
+
