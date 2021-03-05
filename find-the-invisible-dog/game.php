@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Find The Invisible Dog</title>
     <link rel="stylesheet" href="stylegame.css" />
-<style>
+	<style>
     ::-webkit-scrollbar {
 	width: 0px; 
 	background: transparent; 
@@ -16,22 +16,28 @@
 
   <body>
     <video id="video"></video>
-	
-	<div class="count">
-		<div id="timer"></div>
-	</div> 
+	<div id="container">
+		
+		<div class="count">
+			<div id="timer"></div>
+		</div> 
+		<!--
+		<div class="lineHorizontal__container">
+		</div>
+		-->
+		<div id="midbox">
+			<p id="obj" class="info">You find <span>0</span></p> 
+		</div>
 
-	<div id="midbox">
-	<p id="obj" class="info">You find <span>0</span></p> 
+		<canvas id="canvas1" class="videocanvas"></canvas>
+		<!--
+		<div class="lineHorizontal"></div>
+		-->
 	</div>
-	<div class="lineHorizontal__container">
-	</div>
-    <canvas id="canvas1" class="videocanvas"></canvas>
-	<div class="lineHorizontal"></div>
 	<div id="splash" class="splashT">
-        <h1 id="splash-text" style="color:black;font-size:4rem;"></h1>
+        <h1 id="splash-text"></h1>
        <img src="3.gif" id="loading" class="cat-loading" style="width:80%;"> 
-       <img src="img/loading2.gif" id="loading" style="width:50%;">
+       <img src="img/loading2.gif" id="loading">
 
     </div>
 	<div id="doggy">
