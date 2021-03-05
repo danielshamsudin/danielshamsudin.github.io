@@ -1,35 +1,83 @@
 body {
-  margin: auto;
-  padding: auto;
+    font-family: 'Comic Sans MS'; /*here*/
+    padding: auto;
+    /*
+  height: 100vmin;
+  width: 100vmin;
+  */
+    height: 100vmin; /*here*/
+    width: 100vmin;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
 
-  border: 30px solid transparent;
-  border-image: url(111.png) 90 round;
+    border: 30px solid transparent;
+    border-image: url(111.png) 90 round;
 }
+
+#container { /*here*/
+    margin: auto;
+    position: absolute;
+    /*
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-gap: 10px;
+        */
+    border: dotted black 10px;
+    height: 20vmin;
+    width: 97vmin;
+}
+
+canvas { /*here*/
+    width: 100vmin;
+    height: 100vmin;
+}
+
 div {
   text-align: center;
+  font-size: 100%;
+}
+@media screen and (max-width: 730px) {
+    div{
+        font-size:70%;
+    }
 }
 
 .count {
+    position: absolute;
+    width: 25%;
+    height: 80%;
+    margin: auto auto auto auto;
+    border: 1px solid #808080;
+    border-width: 4px 5px 4px 6px;
+    border-radius: 95% 4% 92% 5%/4% 95% 6% 95%;
+    font-size: 200%;
+    background-color: white;
+    text-align: center;
+    font-weight: bold;
+    border: 10px solid lightyellow;
+    border-radius: 20px;
+}
+
+.videocanvas {
+    
+  top: auto;
+  right: 0;
+  margin: 0;
+  padding: 0;
   position: absolute;
-  width: 16%;
-  height: 6%;
-  margin: auto auto auto auto;
-  border: 1px solid #808080;
-  border-width: 4px 5px 4px 6px;
-  border-radius: 95% 4% 92% 5%/4% 95% 6% 95%;
-  font-size: 460%;
-  background-color: white;
-  text-align: center;
-  font-weight: bold;
+  width: 25%;
+  height: 80%;
   border: 10px solid lightyellow;
   border-radius: 20px;
 }
 
 .info {
-  font-size: 200%;
-  position: absolute;
+  font-size: 100%;
+  position: relative; /*here*/
   text-align: center;
   width: 100%;
+  display: block;
 }
 
 h3 {
@@ -100,17 +148,24 @@ h3 {
 }
 
 .splashT {
+    margin: auto; /*here*/
   z-index: 1;
   left: 0;
   top: 0;
   position: absolute;
-  width: 100%;
+  width: 100%; /*here*/
   height: 100%;
-  background-color: white;
+  background-color: transparent; /*here*/
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+#splash-text { /*here*/
+    color:black;
+    font-family:'Comic Sans MS';
+    font-size: 100%;
 }
 
 .modal {
@@ -140,40 +195,37 @@ h3 {
   height: 50%;
 }
 
+/*
 .container {
   padding: 16px;
 }
+*/
 
 .animate {
   -webkit-animation: animatezoom 0.6s;
   animation: animatezoom 0.6s;
 }
 
-.videocanvas {
-  top: auto;
-  right: 30px;
-  margin: 0;
-  padding: 0;
-  position: absolute;
-  width: 25%;
-  max-height: 250px;
 
-  border: 10px solid lightyellow;
-  border-radius: 20px;
-}
 
 @media (orientation: landscape) {
+  /*
   .videocanvas {
-    width: 15%;
-    max-height: 125px !important;
+    min-width: 15%;
+    height: 17% !important; /*here
+    position: absolute;
+    right: 0;
   }
+  */
 
+  /*
   .lineHorizontal {
+      position: absolute;
     margin-top: 145px !important;
   }
-
-  .cat-loading {
-    width: 50% !important;
+  */
+  #loading {
+    width: 20% !important; /*here*/
   }
 
   #catty {
@@ -218,14 +270,18 @@ video {
   width: 100%;
   margin-top: 40%;
 }
-
+/*
 @media screen and (max-width: 730px) {
+    #loading {
+        width: 20% !important; /*here
+    }
+
   .count {
     font-size: 150%;
   }
 
   .info {
-    font-size: 150%;
+    font-size: 200%;
   }
 
   .modal-content {
@@ -234,12 +290,19 @@ video {
     font-size: 50%;
   }
 }
+*/
+
+/*
 .lineHorizontal__container {
   align-items: center;
 }
+*/
+
+/*
 .lineHorizontal {
   border-top: 10px dotted black;
   position: absolute;
   margin-top: 270px;
-  width: calc(100% - 60px);
+  width: 100%; 
 }
+*/
