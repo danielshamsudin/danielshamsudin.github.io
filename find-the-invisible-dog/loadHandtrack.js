@@ -143,33 +143,21 @@ function runDetection() {
       //distance predictions obj1
       if (handX > x) {
         disx = handX - x;
-        //console.log("hand big");
-        //console.log(disx);
       } else {
         disx = x - handX;
-        //console.log("x big");
-        //console.log(disx);
       }
 
       if (handY > y) {
         disy = handY - y;
-        //console.log("handy big");
-        //console.log(disy);
       } else {
         disy = y - handY;
-        //console.log("y big");
-        //console.log(disy);
       }
 
       //distance predictions obj2
       if (handX > x2) {
         disx2 = handX - x2;
-        //console.log("hand big");
-        //console.log(disx2);
       } else {
         disx2 = x2 - handX;
-        //console.log("x big");
-        //console.log(disx2);
       }
 
       if (handY > y2) {
@@ -218,7 +206,7 @@ function runDetection() {
 
       //sound on when near obj1
       if (number1 == 0) {
-        if (disx >= 0 && disx <= 150 && disy >= 0 && disy <= 150) {
+        if (disx >= 0 && disx <= 50 && disy >= 0 && disy <= 50) {
           console.log("gotcha");
           catchdog.play();
           catchdog.volume = 1.0;
@@ -231,7 +219,7 @@ function runDetection() {
             }, 300);
           }, 300);
           checkWL();
-        } else if (disx >= 151 && disx <= 350 && disy >= 151 && disy <= 350) {
+        } else if (disx > 50 && disx <= 350 && disy > 50 && disy <= 350) {
           console.log("near alr");
           dog.play();
           dog.volume = 0.8;
@@ -240,7 +228,7 @@ function runDetection() {
 
       //sound on when near obj2
       if (number2 == 0) {
-        if (disx2 >= 0 && disx2 <= 150 && disy2 >= 0 && disy2 <= 150) {
+        if (disx2 >= 0 && disx2 <= 50 && disy2 >= 0 && disy2 <= 50) {
           console.log("gotcha");
           catchdog.play();
           catchdog.volume = 1.0;
@@ -254,7 +242,7 @@ function runDetection() {
           }, 300);
           checkWL();
         }
-        else if (disx2 >= 151 && disx2 <= 350 && disy2 >= 151 && disy2 <= 350) 
+        else if (disx2 > 50 && disx2 <= 350 && disy2 > 50 && disy2 <= 350) 
         {
           console.log("near alr");
           dog.play();
@@ -264,7 +252,7 @@ function runDetection() {
 
       //sound on when near obj3
       if (number3 == 0) {
-        if (disx3 >= 0 && disx3 <= 150 && disy3 >= 0 && disy3 <= 150) {
+        if (disx3 >= 0 && disx3 <= 50 && disy3 >= 0 && disy3 <= 50) {
           console.log("gotcha");
           catchdog.play();
           catchdog.volume = 1.0;
@@ -277,12 +265,7 @@ function runDetection() {
             }, 300);
           }, 300);
           checkWL();
-        } else if (
-          disx3 >= 151 &&
-          disx3 <= 350 &&
-          disy3 >= 151 &&
-          disy3 <= 350
-        ) {
+        } else if (disx3 > 50 && disx3 <= 350 && disy3 > 50 && disy3 <= 350) {
           console.log("near alr");
           dog.play();
           dog.volume = 0.8;
@@ -291,7 +274,7 @@ function runDetection() {
 
       //sound on when near trap (cat sound)
       if (statustrap == 0) {
-        if (distx >= 0 && distx <= 150 && disty >= 0 && disty <= 150) {
+        if (distx >= 0 && distx <= 50 && disty >= 0 && disty <= 50) {
           number1 = 0;
           number2 = 0;
           number3 = 0;
@@ -307,12 +290,8 @@ function runDetection() {
             }, 300);
           }, 300);
           statustrap = 1;
-        } else if (
-          distx >= 151 &&
-          distx <= 350 &&
-          disty >= 151 &&
-          disty <= 350
-        ) {
+        } else if (distx > 50 && distx <= 350 && disty > 50 && disty <= 350)
+        {
           cat.play();
           cat.volume = 1.0;
         }
@@ -483,7 +462,8 @@ function draw() {
   controlY = handY;
   c.lineWidth = 5;
   c.beginPath();
-  c.arc(controlX, controlY, 30, 0, Math.PI * 2);
+  c.ellipse(controlX, controlY, 25, 50, 0, 0, Math.PI*2)
+  // c.arc(controlX, controlY, 30, 0, Math.PI * 2);
   c.strokeStyle = 'black';
   c.stroke();
   c.fillStyle = "rgba(0,0,255,0.5)";

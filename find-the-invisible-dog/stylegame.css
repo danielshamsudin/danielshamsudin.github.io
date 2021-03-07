@@ -1,10 +1,6 @@
 body {
     font-family: 'Comic Sans MS'; /*here*/
     padding: auto;
-    /*
-  height: 100vmin;
-  width: 100vmin;
-  */
     height: 100vmin; /*here*/
     width: 100vmin;
     justify-content: center;
@@ -22,7 +18,7 @@ body {
     display: grid;
     grid-template-columns: auto auto auto;
     grid-gap: 10px;
-        */
+    */
     border: dotted black 10px;
     height: 20vmin;
     width: 97vmin;
