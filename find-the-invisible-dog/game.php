@@ -55,6 +55,8 @@
 			<button id="button_h" class="button" style="margin-left:auto;margin-right:auto;display:block;">Scoreboard</button>
 		</div>
 	</div>
+	<!-- <br><br>
+	<div id="stats"></div> -->
     
     <script src="https://cdn.jsdelivr.net/npm/handtrackjs/dist/handtrack.min.js"></script>
     <script src="loadCanvas.js"></script>

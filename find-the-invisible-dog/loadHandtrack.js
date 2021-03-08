@@ -58,9 +58,11 @@ function findobj() {
 
 // changed imagescalefactor and confidence threshold
 // found that 0.7 scoreThreshold optimal
+// change to default and compare FPS
+
 const modelParams = {
   //flipHorizontal: true, // flip e.g for video
-  imageScaleFactor: 1, //changed here
+  imageScaleFactor: 0.2, //changed here
   maxNumBoxes: 1, // maximum number of boxes to detect
   iouThreshold: 0.6, // ioU threshold for non-max suppression
   scoreThreshold: 0.7, // confidence threshold for predictions.
@@ -123,17 +125,9 @@ function runDetection() {
       }]
       */ 
 
-      // change handX,handY to an elipse
       handX = predictions[0].bbox[0] + predictions[0].bbox[2] / 2;
       handY = predictions[0].bbox[1] + predictions[0].bbox[3] / 2;
       
-      // small radius for hand in bbox
-      var toleranceValue = 10;
-      radius = handX + toleranceValue
-      
-      // console.log(handX);
-      // console.log(handY);
-
       begin = 1;
 
       // Note: Object detection now works with the midpoint of the box,
@@ -205,6 +199,8 @@ function runDetection() {
       }
 
       //sound on when near obj1
+      // change to percentage
+
       if (number1 == 0) {
         if (disx >= 0 && disx <= 50 && disy >= 0 && disy <= 50) {
           console.log("gotcha");
@@ -219,7 +215,7 @@ function runDetection() {
             }, 300);
           }, 300);
           checkWL();
-        } else if (disx > 50 && disx <= 350 && disy > 50 && disy <= 350) {
+        } else if (disx > 50 && disx <= 100 && disy > 50 && disy <= 100) {
           console.log("near alr");
           dog.play();
           dog.volume = 0.8;
@@ -242,7 +238,7 @@ function runDetection() {
           }, 300);
           checkWL();
         }
-        else if (disx2 > 50 && disx2 <= 350 && disy2 > 50 && disy2 <= 350) 
+        else if (disx2 > 50 && disx2 <= 100 && disy2 > 50 && disy2 <= 100) 
         {
           console.log("near alr");
           dog.play();
@@ -265,7 +261,7 @@ function runDetection() {
             }, 300);
           }, 300);
           checkWL();
-        } else if (disx3 > 50 && disx3 <= 350 && disy3 > 50 && disy3 <= 350) {
+        } else if (disx3 > 50 && disx3 <= 100 && disy3 > 50 && disy3 <= 100) {
           console.log("near alr");
           dog.play();
           dog.volume = 0.8;
@@ -290,7 +286,7 @@ function runDetection() {
             }, 300);
           }, 300);
           statustrap = 1;
-        } else if (distx > 50 && distx <= 350 && disty > 50 && disty <= 350)
+        } else if (distx > 50 && distx <= 100 && disty > 50 && disty <= 100)
         {
           cat.play();
           cat.volume = 1.0;
@@ -347,19 +343,19 @@ function secpass() {
 }
 
 function checkWL() {
-  total = number1 + number2 + number3;
-  if (total != 3) {
-    if (total == 1) {
-      document.querySelector("#obj span").innerHTML =
-        "<i class='fas fa-dog'></i>";
-    } else if (total == 2) {
-      document.querySelector("#obj span").innerHTML =
-        "<i class='fas fa-dog'></i><i class='fas fa-dog'></i>";
-    }
-  } else if (total == 3) {
-    clearInterval(countDown);
-    display_win();
-  }
+  // total = number1 + number2 + number3;
+  // if (total != 3) {
+  //   if (total == 1) {
+  //     document.querySelector("#obj span").innerHTML =
+  //       "<i class='fas fa-dog'></i>";
+  //   } else if (total == 2) {
+  //     document.querySelector("#obj span").innerHTML =
+  //       "<i class='fas fa-dog'></i><i class='fas fa-dog'></i>";
+  //   }
+  // } else if (total == 3) {
+  //   clearInterval(countDown);
+  //   display_win();
+  // }
 }
 var name;
 function display_win() {
@@ -456,16 +452,60 @@ function draw() {
   c.arc(trapx,trapy,10,0,Math.PI * 2);
   c.strokeStyle = 'red';
   c.stroke();
-  // c.fillRect(x2,y2,canvas.width,canvas.height);
-  // c.fillRect(x3,y3,canvas.width,canvas.height);
+  // controlX = handX - (0.2*canvas.width);
+  // controlY = handY + (0.2*video.videoHeight);
   controlX = handX;
   controlY = handY;
+  offsetX = 0.2 * canvas.width;
+  offsetY = 0.2 * video.videoHeight;
+  // offsetX = 0;
+  // offsetY = 0;
+  
   c.lineWidth = 5;
   c.beginPath();
-  c.ellipse(controlX, controlY, 25, 50, 0, 0, Math.PI*2)
-  // c.arc(controlX, controlY, 30, 0, Math.PI * 2);
+  c.ellipse(controlX - offsetX, controlY + offsetY, 25, 50, 0, 0, Math.PI*2)
   c.strokeStyle = 'black';
   c.stroke();
   c.fillStyle = "rgba(0,0,255,0.5)";
   c.fillRect(0, (canvas.height - video.videoHeight), canvas.width, video.videoHeight);
+  // calculateStats();
+}
+
+function calculateStats() {
+ 
+  var decodedFrames = 0, droppedFrames = 0, startTime = new Date().getTime(), initialTime = new Date().getTime();
+
+  window.setInterval(function(){
+
+      //see if webkit stats are available; exit if they aren't
+      if (!video.webkitDecodedFrameCount){
+          console.log("Video FPS calcs not supported");
+          return;
+      }
+      //get the stats
+      else{
+          var currentTime = new Date().getTime();
+          var deltaTime = (currentTime - startTime) / 1000;
+          var totalTime = (currentTime - initialTime) / 1000;
+          startTime = currentTime;
+
+          // Calculate decoded frames per sec.
+          var currentDecodedFPS  = (video.webkitDecodedFrameCount - decodedFrames) / deltaTime;
+          var decodedFPSavg = video.webkitDecodedFrameCount / totalTime;
+          decodedFrames = video.webkitDecodedFrameCount;
+
+          // Calculate dropped frames per sec.
+          var currentDroppedFPS = (video.webkitDroppedFrameCount - droppedFrames) / deltaTime;
+          var droppedFPSavg = video.webkitDroppedFrameCount / totalTime;
+          droppedFrames = video.webkitDroppedFrameCount;
+
+          //write the results to a table
+          $("#stats")[0].innerHTML =
+                  "<table><tr><th>Type</th><th>Total</th><th>Avg</th><th>Current</th></tr>" +
+                  "<tr><td>Decoded</td><td>" + decodedFrames + "</td><td>" + decodedFPSavg.toFixed() + "</td><td>" + currentDecodedFPS.toFixed()+ "</td></tr>" +
+                  "<tr><td>Dropped</td><td>" + droppedFrames + "</td><td>" + droppedFPSavg.toFixed() + "</td><td>" + currentDroppedFPS.toFixed() + "</td></tr>" +
+                  "<tr><td>All</td><td>" + (decodedFrames + droppedFrames) + "</td><td>" + (decodedFPSavg + droppedFPSavg).toFixed() + "</td><td>" + (currentDecodedFPS + currentDroppedFPS).toFixed() + "</td></tr></table>" +
+                  "Camera resolution: " + video.videoWidth + " x " + video.videoHeight;
+      }
+  }, 1000);
 }
