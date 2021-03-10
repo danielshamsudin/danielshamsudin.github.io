@@ -3,11 +3,7 @@ draw();
 const modal = document.querySelector(".modal");
 modal.style.height = window.innerHeight;
 modal.style.width = window.innerWidth;
-document.getElementsByClassName("splashT").height = window.innerHeight;
-var number1 = 0,
-  number2 = 0,
-  number3 = 0,
-  total = 0;
+var number1 = 0, number2 = 0, number3 = 0, total = 0;
 var x, y, x2, y2, x3, y3, trapx, trapy;
 var disx, disy, disx2, disy2, disx3, disy3, distx, disty;
 var statustrap = 0;
@@ -18,47 +14,57 @@ var catchdog = new Audio("catch dog.mp3");
 var catchcat = new Audio("catch cat.mp3");
 var win = new Audio("win.mp3");
 var lose = new Audio("lose.mp3");
+
+// spawn dogs and cats
 function findobj() {
-  // console.log("width:");
-  // console.log(w);
-  // console.log("height:");
-  // console.log(h);
+  console.log("width:");
+  console.log(w);
+  console.log("height:");
+  console.log(h);
 
   //first obj
-  x = Math.random() * w;
+  x = Math.random() * canvas.width; 
   // console.log(x);
 
-  y = Math.random() * h;
+  y = Math.random() * canvas.height;
   // console.log(y);
+  console.log([x,y]);
 
   //second obj
-  x2 = Math.random() * w;
+  x2 = Math.random() * canvas.width;
   // console.log(x2);
 
-  y2 = Math.random() * h;
+  y2 = Math.random() * canvas.height;
+  console.log([x2,y2]);
   // console.log(y2);
 
   //third obj
-  x3 = Math.random() * w;
+  x3 = Math.random() * canvas.width;
   // console.log(x3);
 
-  y3 = Math.random() * h;
+  y3 = Math.random() * canvas.height;
   // console.log(y3);
+  console.log([x3,y3]);
 
   //trap
-  trapx = Math.random() * w;
+  trapx = Math.random() * canvas.width;
   // console.log(trapx);
 
-  trapy = Math.random() * h;
+  trapy = Math.random() * canvas.height;
   // console.log(trapy);
+  console.log([trapx,trapy]);
 }
+
+// changed imagescalefactor and confidence threshold
+// found that 0.7 scoreThreshold optimal
+// change to default and compare FPS
 
 const modelParams = {
   //flipHorizontal: true, // flip e.g for video
-  imageScaleFactor: 0.7, // reduce input image size for gains in speed.
+  imageScaleFactor: 1, //changed here
   maxNumBoxes: 1, // maximum number of boxes to detect
   iouThreshold: 0.6, // ioU threshold for non-max suppression
-  scoreThreshold: 0.8, // confidence threshold for predictions.
+  scoreThreshold: 0.7, // confidence threshold for predictions.
 };
 
 navigator.getUserMedia =
@@ -66,13 +72,17 @@ navigator.getUserMedia =
   navigator.webkitGetUserMedia ||
   navigator.mozGetUserMedia ||
   navigator.msGetUserMedia;
-
+  
 handTrack.startVideo(video).then((status) => {
   var countdownToLobby; 
-
+  
   if (status) {
+    var timeStart = performance.now();
     navigator.getUserMedia(
-      { video: {} },
+      {video:{
+        // width: 1280,
+        // height: 720
+      }}, 
       (stream) => {
         video.srcObject = stream;
         //run
@@ -84,10 +94,10 @@ handTrack.startVideo(video).then((status) => {
       (err) =>{
         console.log("status "+status)
         console.log(err)
-
-
       } 
     )
+    var timeEnd = performance.now();
+    console.log((1 / (timeEnd - timeStart)).toFixed());
   }else if (!status) {
      window.parent.wsRequireHardwareMessage("camera");
     // location.href = "https://fuyoh-ads.com/campaign_web/#/game";
@@ -100,100 +110,125 @@ var begin = 0;
 function runRedirectToLobby() {
   location.href = "https://fuyoh-ads.com/campaign_web/#/game";
 }
+
+function compareDistance(d1,d2)
+{
+  if (d1 > d2)
+  {
+    return d1-d2;
+  }
+  return d2-d1;
+}
+
 function runDetection() {
   //requestAnimationFrame(runDetection);
   if (model === undefined) return;
-
+  var timeStart = performance.now();
   model.detect(video).then((predictions) => {
-    model.renderPredictions(predictions, canvas1, ctx1, video);
+    model.renderPredictions(predictions, vcanvas, vctx, video);
+    var timeEnd = performance.now();
+    console.log(1000 / (timeEnd - timeStart));
     isStart = true;
+
     if (predictions.length !== 0) {
-      handX = predictions[0].bbox[0] + predictions[0].bbox[2] / 2;
-      handY = predictions[0].bbox[1] + predictions[0].bbox[3] / 2;
+      /*
+      prediction returns array 
+      [{
+        bbox: [x, y, width, height]
+        class: string
+        score: int
+      }]
+      */ 
 
-      // console.log(handX);
+      handX = (predictions[0].bbox[0] + predictions[0].bbox[2] / 2) - (canvas.width * 0.2);
+      handY = (predictions[0].bbox[1] + predictions[0].bbox[3] / 2) - (canvas.height * 0.2);
 
+
+      
       begin = 1;
 
+      // Note: Object detection now works with the midpoint of the box,
+      // can try using a radius instead of a point so that can act as a
+      // tolerance hence it will be easier. 
+
       //distance predictions obj1
-      if (handX > x) {
-        disx = handX - x;
-        //console.log("hand big");
-        //console.log(disx);
-      } else {
-        disx = x - handX;
-        //console.log("x big");
-        //console.log(disx);
-      }
+      // if (handX > x) {
+      //   disx = handX - x;
+      // } else {
+      //   disx = x - handX;
+      // }
 
-      if (handY > y) {
-        disy = handY - y;
-        //console.log("handy big");
-        //console.log(disy);
-      } else {
-        disy = y - handY;
-        //console.log("y big");
-        //console.log(disy);
-      }
-
+      
+      // if (handY > y) {
+      //   disy = handY - y;
+      // } else {
+      //   disy = y - handY;
+      // }
+      
+      disx = compareDistance(handX,x);
+      disy = compareDistance(handY,y);
+      disx2 = compareDistance(handX,x2);
+      disy2 = compareDistance(handY,y2);
+      disx3 = compareDistance(handX,x3);
+      disy3 = compareDistance(handY,y3);
+      distx = compareDistance(handX,trapx);
+      disty = compareDistance(handY,trapy);
       //distance predictions obj2
-      if (handX > x2) {
-        disx2 = handX - x2;
-        //console.log("hand big");
-        //console.log(disx2);
-      } else {
-        disx2 = x2 - handX;
-        //console.log("x big");
-        //console.log(disx2);
-      }
+      // if (handX > x2) {
+      //   disx2 = handX - x2;
+      // } else {
+      //   disx2 = x2 - handX;
+      // }
 
-      if (handY > y2) {
-        disy2 = handY - y2;
-        // console.log("handy big");
-        // console.log(disy2);
-      } else {
-        disy2 = y2 - handY;
-        // console.log("y big");
-        // console.log(disy2);
-      }
+      // if (handY > y2) {
+      //   disy2 = handY - y2;
+      //   // console.log("handy big");
+      //   // console.log(disy2);
+      // } else {
+      //   disy2 = y2 - handY;
+      //   // console.log("y big");
+      //   // console.log(disy2);
+      // }
 
-      //distance predictions obj3
-      if (handX > x3) {
-        disx3 = handX - x3;
-        // console.log("hand big");
-        // console.log(disx3);
-      } else {
-        disx3 = x3 - handX;
-        //  console.log("x big");
-        // console.log(disx3);
-      }
+      // //distance predictions obj3
+      // if (handX > x3) {
+      //   disx3 = handX - x3;
+      //   // console.log("hand big");
+      //   // console.log(disx3);
+      // } else {
+      //   disx3 = x3 - handX;
+      //   //  console.log("x big");
+      //   // console.log(disx3);
+      // }
 
-      if (handY > y3) {
-        disy3 = handY - y3;
-        //  console.log("handy big");
-        // console.log(disy3);
-      } else {
-        disy3 = y3 - handY;
-        // console.log("y big");
-        //  console.log(disy3);
-      }
+      // if (handY > y3) {
+      //   disy3 = handY - y3;
+      //   //  console.log("handy big");
+      //   // console.log(disy3);
+      // } else {
+      //   disy3 = y3 - handY;
+      //   // console.log("y big");
+      //   //  console.log(disy3);
+      // }
 
-      //distance predictions trap
-      if (handX > trapx) {
-        distx = handX - trapx;
-      } else {
-        distx = trapx - handX;
-      }
+      // //distance predictions trap
+      // if (handX > trapx) {
+      //   distx = handX - trapx;
+      // } else {
+      //   distx = trapx - handX;
+      // }
 
-      if (handY > trapy) {
-        disty = handY - trapy;
-      } else {
-        disty = trapy - handY;
-      }
+      // if (handY > trapy) {
+      //   disty = handY - trapy;
+      // } else {
+      //   disty = trapy - handY;
+      // }
 
       //sound on when near obj1
+      // change to percentage
+
       if (number1 == 0) {
-        if (disx >= 0 && disx <= 150 && disy >= 0 && disy <= 150) {
+        if (disx >= 0 && disx <= 50 && disy >= 0 && disy <= 50) {
           console.log("gotcha");
           catchdog.play();
           catchdog.volume = 1.0;
@@ -206,7 +241,7 @@ function runDetection() {
             }, 300);
           }, 300);
           checkWL();
-        } else if (disx >= 151 && disx <= 350 && disy >= 151 && disy <= 350) {
+        } else if (disx > 50 && disx <= 100 && disy > 50 && disy <= 100) {
           console.log("near alr");
           dog.play();
           dog.volume = 0.8;
@@ -215,7 +250,7 @@ function runDetection() {
 
       //sound on when near obj2
       if (number2 == 0) {
-        if (disx2 >= 0 && disx2 <= 150 && disy2 >= 0 && disy2 <= 150) {
+        if (disx2 >= 0 && disx2 <= 50 && disy2 >= 0 && disy2 <= 50) {
           console.log("gotcha");
           catchdog.play();
           catchdog.volume = 1.0;
@@ -228,12 +263,9 @@ function runDetection() {
             }, 300);
           }, 300);
           checkWL();
-        } else if (
-          disx2 >= 151 &&
-          disx2 <= 350 &&
-          disy2 >= 151 &&
-          disy2 <= 350
-        ) {
+        }
+        else if (disx2 > 50 && disx2 <= 100 && disy2 > 50 && disy2 <= 100) 
+        {
           console.log("near alr");
           dog.play();
           dog.volume = 0.8;
@@ -242,7 +274,7 @@ function runDetection() {
 
       //sound on when near obj3
       if (number3 == 0) {
-        if (disx3 >= 0 && disx3 <= 150 && disy3 >= 0 && disy3 <= 150) {
+        if (disx3 >= 0 && disx3 <= 50 && disy3 >= 0 && disy3 <= 50) {
           console.log("gotcha");
           catchdog.play();
           catchdog.volume = 1.0;
@@ -255,12 +287,7 @@ function runDetection() {
             }, 300);
           }, 300);
           checkWL();
-        } else if (
-          disx3 >= 151 &&
-          disx3 <= 350 &&
-          disy3 >= 151 &&
-          disy3 <= 350
-        ) {
+        } else if (disx3 > 50 && disx3 <= 100 && disy3 > 50 && disy3 <= 100) {
           console.log("near alr");
           dog.play();
           dog.volume = 0.8;
@@ -269,14 +296,14 @@ function runDetection() {
 
       //sound on when near trap (cat sound)
       if (statustrap == 0) {
-        if (distx >= 0 && distx <= 150 && disty >= 0 && disty <= 150) {
+        if (distx >= 0 && distx <= 50 && disty >= 0 && disty <= 50) {
           number1 = 0;
           number2 = 0;
           number3 = 0;
           catchcat.play();
           catchcat.volume = 1.0;
           stopDetect();
-          document.querySelector("#obj span").innerHTML =
+            document.querySelector(".container-item2 span").innerHTML =
             "<i class='fas fa-cat'></i>!!!";
           setTimeout(() => {
             document.getElementById("catcenter").style.display = "block";
@@ -285,18 +312,15 @@ function runDetection() {
             }, 300);
           }, 300);
           statustrap = 1;
-        } else if (
-          distx >= 151 &&
-          distx <= 350 &&
-          disty >= 151 &&
-          disty <= 350
-        ) {
+        } else if (distx > 50 && distx <= 100 && disty > 50 && disty <= 100)
+        {
           cat.play();
           cat.volume = 1.0;
         }
       }
     }
   });
+  
 }
 
 handTrack.load(modelParams).then((lmodel) => {
@@ -309,10 +333,8 @@ function stopDetect() {
   console.log("STOP");
 }
 
-var sec = 90,
-  countDiv = document.getElementById("timer"),
-  secpass,
-  countDown = setInterval(function () {
+var sec = 3600, countDiv = document.getElementById("timer"), secpass,
+countDown = setInterval(function () {
     "use strict";
 
     //start countdown for 1 min
@@ -348,28 +370,30 @@ function secpass() {
 }
 
 function checkWL() {
-  total = number1 + number2 + number3;
-  if (total != 3) {
-    if (total == 1) {
-      document.querySelector("#obj span").innerHTML =
-        "<i class='fas fa-dog'></i>";
-    } else if (total == 2) {
-      document.querySelector("#obj span").innerHTML =
-        "<i class='fas fa-dog'></i><i class='fas fa-dog'></i>";
-    }
-  } else if (total == 3) {
-    clearInterval(countDown);
-    display_win();
-  }
+   total = number1 + number2 + number3;
+   if (total != 3) {
+     if (total == 1) {
+       document.querySelector(".container-item2 span").innerHTML =
+         "<i class='fas fa-dog'></i>";
+     } else if (total == 2) {
+       document.querySelector(".container-item2 span").innerHTML =
+         "<i class='fas fa-dog'></i><i class='fas fa-dog'></i>";
+     }
+   } else if (total == 3) {
+     clearInterval(countDown);
+     display_win();
+   }
 }
+
 var name;
+
 function display_win() {
   score = 1000;
   total = 3;
   win.play();
   win.volume = 1.0;
   statustrap = 1;
-  document.querySelector("#obj span").innerHTML =
+    document.querySelector(".container-item2 span").innerHTML =
     "<i class='fas fa-dog'></i><i class='fas fa-dog'></i><i class='fas fa-dog'></i>";
   document.getElementById("display").style.display = "block";
   document.getElementById("score").innerHTML =
@@ -439,10 +463,31 @@ function draw() {
   c.fillStyle = bgcolor;
   c.fillRect(0, 0, canvas.width, canvas.height);
   requestAnimationFrame(draw);
-  controlX = handX;
-  controlY = handY;
+  c.lineWidth = 2;
+  c.beginPath();
+  c.arc(x,y,5,0,Math.PI * 2);
+  c.strokeStyle = 'green';
+  c.stroke();
+  c.beginPath();
+  c.arc(x2,y2,5,0,Math.PI * 2);
+  c.strokeStyle = 'green';
+  c.stroke();
+  c.beginPath();
+  c.arc(x3,y3,5,0,Math.PI * 2);
+  c.strokeStyle = 'green';
+  c.stroke();
+  c.lineWidth = 2;
+  c.beginPath();
+  c.arc(trapx,trapy,5,0,Math.PI * 2);
+  c.strokeStyle = 'red';
+  c.stroke();
+
+  let controlX = handX;
+  let controlY = handY;
+  
   c.lineWidth = 5;
   c.beginPath();
-  c.arc(controlX, controlY, 30, 0, Math.PI * 2);
+  c.ellipse(controlX, controlY, 25, 50, 0, 0, Math.PI*2);
+  c.strokeStyle = 'black';
   c.stroke();
 }
