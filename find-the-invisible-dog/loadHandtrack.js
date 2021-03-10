@@ -27,7 +27,7 @@ function findobj() {
   x = Math.random() * canvas.width; 
   // console.log(x);
 
-  y = (Math.random() * video.videoHeight) + (canvas.height - video.videoHeight) ;
+  y = (Math.random() * video.videoHeight) + (canvas.height - video.videoHeight);
   // console.log(y);
   console.log([x,y]);
 
@@ -35,7 +35,7 @@ function findobj() {
   x2 = Math.random() * canvas.width;
   // console.log(x2);
 
-  y2 = (Math.random() * video.videoHeight)+ (canvas.height - video.videoHeight);
+  y2 = (Math.random() * video.videoHeight) + (canvas.height - video.videoHeight);
   console.log([x2,y2]);
   // console.log(y2);
 
@@ -43,7 +43,7 @@ function findobj() {
   x3 = Math.random() * canvas.width;
   // console.log(x3);
 
-  y3 = (Math.random() * video.videoHeight)+ (canvas.height - video.videoHeight);
+  y3 = (Math.random() * video.videoHeight) + (canvas.height - video.videoHeight);
   // console.log(y3);
   console.log([x3,y3]);
 
@@ -51,7 +51,7 @@ function findobj() {
   trapx = Math.random() * canvas.width;
   // console.log(trapx);
 
-  trapy = (Math.random() * video.videoHeight)+ (canvas.height - video.videoHeight);
+  trapy = (Math.random() * video.videoHeight) + (canvas.height - video.videoHeight);
   // console.log(trapy);
   console.log([trapx,trapy]);
 }
@@ -62,7 +62,7 @@ function findobj() {
 
 const modelParams = {
   //flipHorizontal: true, // flip e.g for video
-  imageScaleFactor: 0.2, //changed here
+  imageScaleFactor: 1, //changed here
   maxNumBoxes: 1, // maximum number of boxes to detect
   iouThreshold: 0.6, // ioU threshold for non-max suppression
   scoreThreshold: 0.7, // confidence threshold for predictions.
@@ -78,6 +78,7 @@ handTrack.startVideo(video).then((status) => {
   var countdownToLobby; 
   
   if (status) {
+    var timeStart = performance.now();
     navigator.getUserMedia(
       {video:{
         // width: 1280,
@@ -96,6 +97,8 @@ handTrack.startVideo(video).then((status) => {
         console.log(err)
       } 
     )
+    var timeEnd = performance.now();
+    console.log((1 / (timeEnd - timeStart)).toFixed());
   }else if (!status) {
      window.parent.wsRequireHardwareMessage("camera");
     // location.href = "https://fuyoh-ads.com/campaign_web/#/game";
@@ -108,12 +111,24 @@ var begin = 0;
 function runRedirectToLobby() {
   location.href = "https://fuyoh-ads.com/campaign_web/#/game";
 }
+
+function compareDistance(d1,d2)
+{
+  if (d1 > d2)
+  {
+    return d1-d2;
+  }
+  return d2-d1;
+}
+
 function runDetection() {
   //requestAnimationFrame(runDetection);
   if (model === undefined) return;
-
+  var timeStart = performance.now();
   model.detect(video).then((predictions) => {
     model.renderPredictions(predictions, canvas1, ctx1, video);
+    var timeEnd = performance.now();
+    console.log(1000 / (timeEnd - timeStart));
     isStart = true;
     if (predictions.length !== 0) {
       /*
@@ -125,8 +140,10 @@ function runDetection() {
       }]
       */ 
 
-      handX = predictions[0].bbox[0] + predictions[0].bbox[2] / 2;
-      handY = predictions[0].bbox[1] + predictions[0].bbox[3] / 2;
+      handX = (predictions[0].bbox[0] + predictions[0].bbox[2] / 2) - (0.2 * canvas.width);
+      handY = (predictions[0].bbox[1] + predictions[0].bbox[3] / 2) + (0.2 * video.videoHeight);
+
+
       
       begin = 1;
 
@@ -135,68 +152,77 @@ function runDetection() {
       // tolerance hence it will be easier. 
 
       //distance predictions obj1
-      if (handX > x) {
-        disx = handX - x;
-      } else {
-        disx = x - handX;
-      }
+      // if (handX > x) {
+      //   disx = handX - x;
+      // } else {
+      //   disx = x - handX;
+      // }
 
-      if (handY > y) {
-        disy = handY - y;
-      } else {
-        disy = y - handY;
-      }
-
+      
+      // if (handY > y) {
+      //   disy = handY - y;
+      // } else {
+      //   disy = y - handY;
+      // }
+      
+      disx = compareDistance(handX,x);
+      disy = compareDistance(handY,y);
+      disx2 = compareDistance(handX,x2);
+      disy2 = compareDistance(handY,y2);
+      disx3 = compareDistance(handX,x3);
+      disy3 = compareDistance(handY,y3);
+      distx = compareDistance(handX,trapx);
+      disty = compareDistance(handY,trapy);
       //distance predictions obj2
-      if (handX > x2) {
-        disx2 = handX - x2;
-      } else {
-        disx2 = x2 - handX;
-      }
+      // if (handX > x2) {
+      //   disx2 = handX - x2;
+      // } else {
+      //   disx2 = x2 - handX;
+      // }
 
-      if (handY > y2) {
-        disy2 = handY - y2;
-        // console.log("handy big");
-        // console.log(disy2);
-      } else {
-        disy2 = y2 - handY;
-        // console.log("y big");
-        // console.log(disy2);
-      }
+      // if (handY > y2) {
+      //   disy2 = handY - y2;
+      //   // console.log("handy big");
+      //   // console.log(disy2);
+      // } else {
+      //   disy2 = y2 - handY;
+      //   // console.log("y big");
+      //   // console.log(disy2);
+      // }
 
-      //distance predictions obj3
-      if (handX > x3) {
-        disx3 = handX - x3;
-        // console.log("hand big");
-        // console.log(disx3);
-      } else {
-        disx3 = x3 - handX;
-        //  console.log("x big");
-        // console.log(disx3);
-      }
+      // //distance predictions obj3
+      // if (handX > x3) {
+      //   disx3 = handX - x3;
+      //   // console.log("hand big");
+      //   // console.log(disx3);
+      // } else {
+      //   disx3 = x3 - handX;
+      //   //  console.log("x big");
+      //   // console.log(disx3);
+      // }
 
-      if (handY > y3) {
-        disy3 = handY - y3;
-        //  console.log("handy big");
-        // console.log(disy3);
-      } else {
-        disy3 = y3 - handY;
-        // console.log("y big");
-        //  console.log(disy3);
-      }
+      // if (handY > y3) {
+      //   disy3 = handY - y3;
+      //   //  console.log("handy big");
+      //   // console.log(disy3);
+      // } else {
+      //   disy3 = y3 - handY;
+      //   // console.log("y big");
+      //   //  console.log(disy3);
+      // }
 
-      //distance predictions trap
-      if (handX > trapx) {
-        distx = handX - trapx;
-      } else {
-        distx = trapx - handX;
-      }
+      // //distance predictions trap
+      // if (handX > trapx) {
+      //   distx = handX - trapx;
+      // } else {
+      //   distx = trapx - handX;
+      // }
 
-      if (handY > trapy) {
-        disty = handY - trapy;
-      } else {
-        disty = trapy - handY;
-      }
+      // if (handY > trapy) {
+      //   disty = handY - trapy;
+      // } else {
+      //   disty = trapy - handY;
+      // }
 
       //sound on when near obj1
       // change to percentage
@@ -294,6 +320,7 @@ function runDetection() {
       }
     }
   });
+  
 }
 
 handTrack.load(modelParams).then((lmodel) => {
@@ -452,60 +479,15 @@ function draw() {
   c.arc(trapx,trapy,10,0,Math.PI * 2);
   c.strokeStyle = 'red';
   c.stroke();
-  // controlX = handX - (0.2*canvas.width);
-  // controlY = handY + (0.2*video.videoHeight);
-  controlX = handX;
-  controlY = handY;
-  offsetX = 0.2 * canvas.width;
-  offsetY = 0.2 * video.videoHeight;
-  // offsetX = 0;
-  // offsetY = 0;
+
+  let controlX = handX;
+  let controlY = handY;
   
   c.lineWidth = 5;
   c.beginPath();
-  c.ellipse(controlX - offsetX, controlY + offsetY, 25, 50, 0, 0, Math.PI*2)
+  c.ellipse(controlX, controlY, 25, 50, 0, 0, Math.PI*2);
   c.strokeStyle = 'black';
   c.stroke();
-  c.fillStyle = "rgba(0,0,255,0.5)";
+  c.fillStyle = "rgba(0,0,255,0.2)";
   c.fillRect(0, (canvas.height - video.videoHeight), canvas.width, video.videoHeight);
-  // calculateStats();
-}
-
-function calculateStats() {
- 
-  var decodedFrames = 0, droppedFrames = 0, startTime = new Date().getTime(), initialTime = new Date().getTime();
-
-  window.setInterval(function(){
-
-      //see if webkit stats are available; exit if they aren't
-      if (!video.webkitDecodedFrameCount){
-          console.log("Video FPS calcs not supported");
-          return;
-      }
-      //get the stats
-      else{
-          var currentTime = new Date().getTime();
-          var deltaTime = (currentTime - startTime) / 1000;
-          var totalTime = (currentTime - initialTime) / 1000;
-          startTime = currentTime;
-
-          // Calculate decoded frames per sec.
-          var currentDecodedFPS  = (video.webkitDecodedFrameCount - decodedFrames) / deltaTime;
-          var decodedFPSavg = video.webkitDecodedFrameCount / totalTime;
-          decodedFrames = video.webkitDecodedFrameCount;
-
-          // Calculate dropped frames per sec.
-          var currentDroppedFPS = (video.webkitDroppedFrameCount - droppedFrames) / deltaTime;
-          var droppedFPSavg = video.webkitDroppedFrameCount / totalTime;
-          droppedFrames = video.webkitDroppedFrameCount;
-
-          //write the results to a table
-          $("#stats")[0].innerHTML =
-                  "<table><tr><th>Type</th><th>Total</th><th>Avg</th><th>Current</th></tr>" +
-                  "<tr><td>Decoded</td><td>" + decodedFrames + "</td><td>" + decodedFPSavg.toFixed() + "</td><td>" + currentDecodedFPS.toFixed()+ "</td></tr>" +
-                  "<tr><td>Dropped</td><td>" + droppedFrames + "</td><td>" + droppedFPSavg.toFixed() + "</td><td>" + currentDroppedFPS.toFixed() + "</td></tr>" +
-                  "<tr><td>All</td><td>" + (decodedFrames + droppedFrames) + "</td><td>" + (decodedFPSavg + droppedFPSavg).toFixed() + "</td><td>" + (currentDecodedFPS + currentDroppedFPS).toFixed() + "</td></tr></table>" +
-                  "Camera resolution: " + video.videoWidth + " x " + video.videoHeight;
-      }
-  }, 1000);
 }
