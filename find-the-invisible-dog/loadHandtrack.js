@@ -3,7 +3,6 @@ draw();
 const modal = document.querySelector(".modal");
 modal.style.height = window.innerHeight;
 modal.style.width = window.innerWidth;
-document.getElementsByClassName("splashT").height = window.innerHeight;
 var number1 = 0, number2 = 0, number3 = 0, total = 0;
 var x, y, x2, y2, x3, y3, trapx, trapy;
 var disx, disy, disx2, disy2, disx3, disy3, distx, disty;
@@ -27,7 +26,7 @@ function findobj() {
   x = Math.random() * canvas.width; 
   // console.log(x);
 
-  y = (Math.random() * video.videoHeight) + (canvas.height - video.videoHeight);
+  y = Math.random() * canvas.height;
   // console.log(y);
   console.log([x,y]);
 
@@ -35,7 +34,7 @@ function findobj() {
   x2 = Math.random() * canvas.width;
   // console.log(x2);
 
-  y2 = (Math.random() * video.videoHeight) + (canvas.height - video.videoHeight);
+  y2 = Math.random() * canvas.height;
   console.log([x2,y2]);
   // console.log(y2);
 
@@ -43,7 +42,7 @@ function findobj() {
   x3 = Math.random() * canvas.width;
   // console.log(x3);
 
-  y3 = (Math.random() * video.videoHeight) + (canvas.height - video.videoHeight);
+  y3 = Math.random() * canvas.height;
   // console.log(y3);
   console.log([x3,y3]);
 
@@ -51,7 +50,7 @@ function findobj() {
   trapx = Math.random() * canvas.width;
   // console.log(trapx);
 
-  trapy = (Math.random() * video.videoHeight) + (canvas.height - video.videoHeight);
+  trapy = Math.random() * canvas.height;
   // console.log(trapy);
   console.log([trapx,trapy]);
 }
@@ -126,10 +125,11 @@ function runDetection() {
   if (model === undefined) return;
   var timeStart = performance.now();
   model.detect(video).then((predictions) => {
-    model.renderPredictions(predictions, canvas1, ctx1, video);
+    model.renderPredictions(predictions, vcanvas, vctx, video);
     var timeEnd = performance.now();
     console.log(1000 / (timeEnd - timeStart));
     isStart = true;
+
     if (predictions.length !== 0) {
       /*
       prediction returns array 
@@ -140,8 +140,8 @@ function runDetection() {
       }]
       */ 
 
-      handX = (predictions[0].bbox[0] + predictions[0].bbox[2] / 2) - (0.2 * canvas.width);
-      handY = (predictions[0].bbox[1] + predictions[0].bbox[3] / 2) + (0.2 * video.videoHeight);
+      handX = (predictions[0].bbox[0] + predictions[0].bbox[2] / 2) - (canvas.width * 0.2);
+      handY = (predictions[0].bbox[1] + predictions[0].bbox[3] / 2) - (canvas.height * 0.2);
 
 
       
@@ -303,7 +303,7 @@ function runDetection() {
           catchcat.play();
           catchcat.volume = 1.0;
           stopDetect();
-          document.querySelector("#obj span").innerHTML =
+            document.querySelector(".container-item2 span").innerHTML =
             "<i class='fas fa-cat'></i>!!!";
           setTimeout(() => {
             document.getElementById("catcenter").style.display = "block";
@@ -370,28 +370,30 @@ function secpass() {
 }
 
 function checkWL() {
-  // total = number1 + number2 + number3;
-  // if (total != 3) {
-  //   if (total == 1) {
-  //     document.querySelector("#obj span").innerHTML =
-  //       "<i class='fas fa-dog'></i>";
-  //   } else if (total == 2) {
-  //     document.querySelector("#obj span").innerHTML =
-  //       "<i class='fas fa-dog'></i><i class='fas fa-dog'></i>";
-  //   }
-  // } else if (total == 3) {
-  //   clearInterval(countDown);
-  //   display_win();
-  // }
+  //  total = number1 + number2 + number3;
+  //  if (total != 3) {
+  //    if (total == 1) {
+  //      document.querySelector(".container-item2 span").innerHTML =
+  //        "<i class='fas fa-dog'></i>";
+  //    } else if (total == 2) {
+  //      document.querySelector(".container-item2 span").innerHTML =
+  //        "<i class='fas fa-dog'></i><i class='fas fa-dog'></i>";
+  //    }
+  //  } else if (total == 3) {
+  //    clearInterval(countDown);
+  //    display_win();
+  //  }
 }
+
 var name;
+
 function display_win() {
   score = 1000;
   total = 3;
   win.play();
   win.volume = 1.0;
   statustrap = 1;
-  document.querySelector("#obj span").innerHTML =
+    document.querySelector(".container-item2 span").innerHTML =
     "<i class='fas fa-dog'></i><i class='fas fa-dog'></i><i class='fas fa-dog'></i>";
   document.getElementById("display").style.display = "block";
   document.getElementById("score").innerHTML =
@@ -463,20 +465,20 @@ function draw() {
   requestAnimationFrame(draw);
   c.lineWidth = 2;
   c.beginPath();
-  c.arc(x,y,10,0,Math.PI * 2);
+  c.arc(x,y,5,0,Math.PI * 2);
   c.strokeStyle = 'green';
   c.stroke();
   c.beginPath();
-  c.arc(x2,y2,10,0,Math.PI * 2);
+  c.arc(x2,y2,5,0,Math.PI * 2);
   c.strokeStyle = 'green';
   c.stroke();
   c.beginPath();
-  c.arc(x3,y3,10,0,Math.PI * 2);
+  c.arc(x3,y3,5,0,Math.PI * 2);
   c.strokeStyle = 'green';
   c.stroke();
   c.lineWidth = 2;
   c.beginPath();
-  c.arc(trapx,trapy,10,0,Math.PI * 2);
+  c.arc(trapx,trapy,5,0,Math.PI * 2);
   c.strokeStyle = 'red';
   c.stroke();
 
@@ -485,9 +487,9 @@ function draw() {
   
   c.lineWidth = 5;
   c.beginPath();
+  controlX = (controlX >= canvas.width) ? canvas.width : controlX;
+  controlY = (controlY >= canvas.height) ? canvas.height : controlY;
   c.ellipse(controlX, controlY, 25, 50, 0, 0, Math.PI*2);
   c.strokeStyle = 'black';
   c.stroke();
-  c.fillStyle = "rgba(0,0,255,0.2)";
-  c.fillRect(0, (canvas.height - video.videoHeight), canvas.width, video.videoHeight);
 }
