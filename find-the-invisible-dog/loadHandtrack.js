@@ -1,4 +1,20 @@
+// String utility function to use with toFormattedString()
+String.prototype.padLeft = function (length, character)
+{
+	return new Array(length - this.length + 1).join(character || ' ')+ this;
+}
+
+// utility function to format Date() object to dd/mm/YYYY hh:mm
+Date.prototype.toFormattedString = function () {
+    return [String(this.getDate()).padLeft(2, '0'),
+            String(this.getMonth()+1).padLeft(2, '0'),
+            String(this.getFullYear()).substr(2, 2)].join("/") + " " +
+           [String(this.getHours()).padLeft(2, '0'),
+            String(this.getMinutes()).padLeft(2, '0')].join(":");
+};
+
 //findobj();
+var stDate = new Date(Date.now()).toFormattedString();
 draw();
 const modal = document.querySelector(".modal");
 modal.style.height = window.innerHeight;
@@ -14,6 +30,8 @@ var catchdog = new Audio("catch dog.mp3");
 var catchcat = new Audio("catch cat.mp3");
 var win = new Audio("win.mp3");
 var lose = new Audio("lose.mp3");
+
+var perfTime = [];
 
 // spawn dogs and cats
 function findobj() {
@@ -61,10 +79,10 @@ function findobj() {
 
 const modelParams = {
   //flipHorizontal: true, // flip e.g for video
-  imageScaleFactor: 1, //changed here
+  imageScaleFactor: 0.1, //changed here
   maxNumBoxes: 1, // maximum number of boxes to detect
   iouThreshold: 0.6, // ioU threshold for non-max suppression
-  scoreThreshold: 0.7, // confidence threshold for predictions.
+  scoreThreshold: 0.79, // confidence threshold for predictions.
 };
 
 navigator.getUserMedia =
@@ -77,7 +95,6 @@ handTrack.startVideo(video).then((status) => {
   var countdownToLobby; 
   
   if (status) {
-    var timeStart = performance.now();
     navigator.getUserMedia(
       {video:{
         // width: 1280,
@@ -96,8 +113,6 @@ handTrack.startVideo(video).then((status) => {
         console.log(err)
       } 
     )
-    var timeEnd = performance.now();
-    console.log((1 / (timeEnd - timeStart)).toFixed());
   }else if (!status) {
      window.parent.wsRequireHardwareMessage("camera");
     // location.href = "https://fuyoh-ads.com/campaign_web/#/game";
@@ -111,6 +126,10 @@ function runRedirectToLobby() {
   location.href = "https://fuyoh-ads.com/campaign_web/#/game";
 }
 
+// function to compare distance of targets/trap to handX,handY
+// params: 
+// d1 -> target / trap x or y value
+// d2 -> handX or handY value
 function compareDistance(d1,d2)
 {
   if (d1 > d2)
@@ -126,45 +145,25 @@ function runDetection() {
   var timeStart = performance.now();
   model.detect(video).then((predictions) => {
     model.renderPredictions(predictions, vcanvas, vctx, video);
+
     var timeEnd = performance.now();
-    console.log(1000 / (timeEnd - timeStart));
+    var resTime = 1000 / (timeEnd - timeStart);
+    var roundedResTime = Math.round((resTime + Number.EPSILON) * 100) / 100;
+    var sTime = Date.now();
+    var tid = setInterval(perfTime.push(roundedResTime),2000);
+
+    if (Date.now() - sTime >= 10000)
+    {
+      tid = null;
+    }
+
     isStart = true;
-
     if (predictions.length !== 0) {
-      /*
-      prediction returns array 
-      [{
-        bbox: [x, y, width, height]
-        class: string
-        score: int
-      }]
-      */ 
-
       handX = (predictions[0].bbox[0] + predictions[0].bbox[2] / 2) - (canvas.width * 0.2);
       handY = (predictions[0].bbox[1] + predictions[0].bbox[3] / 2) - (canvas.height * 0.2);
 
-
-      
       begin = 1;
 
-      // Note: Object detection now works with the midpoint of the box,
-      // can try using a radius instead of a point so that can act as a
-      // tolerance hence it will be easier. 
-
-      //distance predictions obj1
-      // if (handX > x) {
-      //   disx = handX - x;
-      // } else {
-      //   disx = x - handX;
-      // }
-
-      
-      // if (handY > y) {
-      //   disy = handY - y;
-      // } else {
-      //   disy = y - handY;
-      // }
-      
       disx = compareDistance(handX,x);
       disy = compareDistance(handY,y);
       disx2 = compareDistance(handX,x2);
@@ -173,60 +172,8 @@ function runDetection() {
       disy3 = compareDistance(handY,y3);
       distx = compareDistance(handX,trapx);
       disty = compareDistance(handY,trapy);
-      //distance predictions obj2
-      // if (handX > x2) {
-      //   disx2 = handX - x2;
-      // } else {
-      //   disx2 = x2 - handX;
-      // }
-
-      // if (handY > y2) {
-      //   disy2 = handY - y2;
-      //   // console.log("handy big");
-      //   // console.log(disy2);
-      // } else {
-      //   disy2 = y2 - handY;
-      //   // console.log("y big");
-      //   // console.log(disy2);
-      // }
-
-      // //distance predictions obj3
-      // if (handX > x3) {
-      //   disx3 = handX - x3;
-      //   // console.log("hand big");
-      //   // console.log(disx3);
-      // } else {
-      //   disx3 = x3 - handX;
-      //   //  console.log("x big");
-      //   // console.log(disx3);
-      // }
-
-      // if (handY > y3) {
-      //   disy3 = handY - y3;
-      //   //  console.log("handy big");
-      //   // console.log(disy3);
-      // } else {
-      //   disy3 = y3 - handY;
-      //   // console.log("y big");
-      //   //  console.log(disy3);
-      // }
-
-      // //distance predictions trap
-      // if (handX > trapx) {
-      //   distx = handX - trapx;
-      // } else {
-      //   distx = trapx - handX;
-      // }
-
-      // if (handY > trapy) {
-      //   disty = handY - trapy;
-      // } else {
-      //   disty = trapy - handY;
-      // }
-
+      
       //sound on when near obj1
-      // change to percentage
-
       if (number1 == 0) {
         if (disx >= 0 && disx <= 50 && disy >= 0 && disy <= 50) {
           console.log("gotcha");
@@ -370,34 +317,34 @@ function secpass() {
 }
 
 function checkWL() {
-  //  total = number1 + number2 + number3;
-  //  if (total != 3) {
-  //    if (total == 1) {
-  //      document.querySelector(".container-item2 span").innerHTML =
-  //        "<i class='fas fa-dog'></i>";
-  //    } else if (total == 2) {
-  //      document.querySelector(".container-item2 span").innerHTML =
-  //        "<i class='fas fa-dog'></i><i class='fas fa-dog'></i>";
-  //    }
-  //  } else if (total == 3) {
-  //    clearInterval(countDown);
-  //    display_win();
-  //  }
+   total = number1 + number2 + number3;
+   if (total != 3) {
+     if (total == 1) {
+       document.querySelector(".container-item2 span").innerHTML =
+         "<i class='fas fa-dog'></i>";
+     } else if (total == 2) {
+       document.querySelector(".container-item2 span").innerHTML =
+         "<i class='fas fa-dog'></i><i class='fas fa-dog'></i>";
+     }
+   } else if (total == 3) {
+      clearInterval(countDown);
+    //  console.log(perfTime.length);
+      display_win();
+   }
 }
 
 var name;
 
 function display_win() {
+  dlData();
   score = 1000;
   total = 3;
   win.play();
   win.volume = 1.0;
   statustrap = 1;
-    document.querySelector(".container-item2 span").innerHTML =
-    "<i class='fas fa-dog'></i><i class='fas fa-dog'></i><i class='fas fa-dog'></i>";
+  document.querySelector(".container-item2 span").innerHTML = "<i class='fas fa-dog'></i><i class='fas fa-dog'></i><i class='fas fa-dog'></i>";
   document.getElementById("display").style.display = "block";
-  document.getElementById("score").innerHTML =
-    "Congrats!You Win!Your score is " + score;
+  document.getElementById("score").innerHTML = "Congrats!You Win!Your score is " + score;
 
   window.parent.wsCreateScore(score);
 
@@ -418,6 +365,52 @@ function display_win() {
   };
 }
 
+function dlData() {
+  console.log(perfTime.length);
+  var data = new Object();
+  data.starttime = stDate;
+  data.avgfps = (function()
+  {
+    var sum = perfTime.reduce((sum, val) => (sum += val));
+    return Math.round((sum / perfTime.length)*1000) / 1000;
+  })();
+
+  data.median = (function()
+  {
+    const sorted = perfTime.sort();
+    const midElement = Math.ceil(perfTime.length / 2);
+    const median = (perfTime.length % 2 == 0) ? (perfTime[midElement] + perfTime[midElement - 1]) / 2 : perfTime[midElement -1];
+    return Math.round(median * 1000) / 1000;
+  })();
+
+  data.stddev = (function()
+  {
+    var numerator = perfTime.reduce((numerator, v)=> (numerator += ((v-data.avgfps)**2)));
+    numerator /= perfTime.length;
+    numerator = Math.sqrt(numerator);
+    return Math.round(numerator * 1000) / 1000;
+  })();
+
+  data.animalLocation = {
+    'dog1': [x,y],
+    'dog2': [x2,y2],
+    'dog3': [x3,y3],
+    'trap': [trapx,trapy]
+  }
+
+
+  const text = JSON.stringify(data);
+  const name = "data.json";
+  const type = "text/plain";
+
+  const a = document.createElement("a");
+  const file = new Blob([text], { type: type });
+  a.href = URL.createObjectURL(file);
+  a.download = name;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+}
 function display_lose() {
   lose.play();
   lose.volume = 1.0;
