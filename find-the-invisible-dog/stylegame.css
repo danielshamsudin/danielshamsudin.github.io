@@ -1,6 +1,6 @@
 html {
-    height: 100vh;
-    width: 100vw;
+    height: 100vh; /* viewport height = 100%, adjustment not recommended */
+    width: 100vw; /* viewport width = 100%, adjustment not recommended */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -8,21 +8,21 @@ html {
 }
 
 body {
-    box-sizing: border-box; /*border does not adds extra width or height*/
+    box-sizing: border-box; /* border does not adds extra width or height */
     border: 10px solid transparent;
     border-image: url(111.png) 90 round;
-    height: 100vmin;
+    height: 100vmin; /* minimum viewport 100%, can be adjusted */
     width: 100vmin;
     position: relative;
 }
 
 p {
     font-family: 'Comic Sans MS';
-    font-size: 100%;
+    font-size: 200%;
     text-align: center;
 }
 
-#gui-container {
+#gui-container { /* a 3x2 grid container */
     background-color: blanchedalmond;
     width: 100%;
     height: 100%;
@@ -32,10 +32,10 @@ p {
     grid-gap: 10px;
 }
 
-.container-item1 {
-    background-color: darkorange;
+.container-item1 { /* timer container */
+    background-color: azure;
     box-sizing: border-box;
-    border: 5px solid cyan;
+    border: 5px dashed black;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -43,10 +43,10 @@ p {
     height: auto;
 }
 
-.container-item2 {
-    background-color: darkred;
+.container-item2 { /* status container */
+    background-color: azure;
     box-sizing: border-box;
-    border: 5px solid cyan;
+    border: 5px dashed black;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -54,40 +54,40 @@ p {
     height: auto;
 }
 
-.container-item3 {
-    background-color: greenyellow;
+.container-item3 { /* video canvas/vcanvas container */
+    background-color: azure;
     box-sizing: border-box;
-    border: 5px solid cyan;
+    border: 5px dashed black;
     display: flex;
-    width: calc(100% - 20px);
+    width: calc(100% - 20px); /* 20px is the border width */
     height: auto;
 }
 
-.container-item4 {
-    background-color: mediumpurple;
+.container-item4 { /* play region container */
+    background-color: azure;
     box-sizing: border-box;
-    border: 5px solid cyan;
+    border: 5px groove black;
     grid-column: span 3;
     display: flex;
-    width: calc(100% - 20px);
+    width: calc(100% - 20px); /* 20px is the border width */
     height: calc(100% - 10px);
 }
 
-#vcanvas {
+#vcanvas { /* video canvas */
     width: 100%;
     height: auto;
 }
 
-#canvas {
+#canvas { /* play region */
     width: 100%;
     height: auto
 }
 
-video {
+video { /*video used by handtrack.js*/
     display: none;
 }
 
-.splashT {
+.splashT { /* loading interface, div that stores loading symbols img */
     background-color: white;
     width: 100%;
     height: 100%;
@@ -99,6 +99,7 @@ video {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+
     /*alternate centering method
     top: 50%;
     left: 50%;
@@ -108,28 +109,51 @@ video {
     */
 }
 
-#loading {
+#loading { /* loading symbols */
     width: 30%;
     height: 30%;
 }
 
-#dogcenter {
-    display: none;
-    margin-left: auto;
-    margin-right: auto;
-    width: 50%;
+#doggy { /* div that stores the #dogcenter img */
+    margin: auto;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
 }
 
-#catcenter {
-    display: none;
-    margin-left: auto;
-    margin-right: auto;
-    width: 50%;
+#catty { /* div that stores the #catcenter img */
+    margin: auto;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
 }
 
-/*Contents below yet to be modified*/
+#dogcenter { /* dog img */
+    display: none;
+    height: 30%;
+    width: 30%;
+}
+
+#catcenter { /* cat img */
+    display: none;
+    height: 30%;
+    width: 30%;
+}
 
 .button {
+    text-align: center;
     box-shadow: 0px 1px 0px 0px #f0f7fa;
     background: linear-gradient(to bottom, #ff9e67 5%, #ff9e67 100%);
     background-color: #ff9e67;
@@ -138,9 +162,8 @@ video {
     cursor: pointer;
     color: #ffffff;
     font-family: Arial;
-    font-size: 150%;
+    font-size: 100%;
     font-weight: bold;
-    text-decoration: none;
     text-shadow: 0px -1px 0px #5b6178;
     width: 40%;
     height: 20%;
@@ -157,33 +180,58 @@ video {
         top: 1px;
     }
 
-.modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
+.modal { /* summary interface */
+    margin: auto;
+    display: none;
+    position: absolute; 
     left: 0;
     top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
+    width: 100%;
+    height: 100%;
     background-color: rgb(0, 0, 0); /* Fallback color */
     background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
-    padding-top: 60px;
-    font-size: 300%;
 }
 
-.modal-content {
+.modal-content { /* summary interface elements */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     background-color: #fefefe;
-    margin: 40% auto 20% auto; /* 5% from the top, 15% from the bottom and centered */
+    margin: auto;
     border: 1px solid #808080;
     border-width: 4px 5px 4px 6px;
     border-radius: 95% 4% 92% 5%/4% 95% 6% 95%;
     transform: rotate(0.85deg);
-    width: 100%; /* Could be more or less, depending on screen size */
+    width: 80%;
     height: 50%;
 }
 
+.tmlogo { /* tmlogo img */
+    width: 10%;
+    height: 10%;
+}
 .animate {
     -webkit-animation: animatezoom 0.6s;
     animation: animatezoom 0.6s;
+}
+
+@media screen and (min-width: 3820px) {
+    p {
+        font-size: 300%;
+    }
+
+    .button {
+        font-size: 300%;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    p {
+        font-size: 100%;
+    }
+
+    .button {
+        font-size: 100%;
+    }
 }
