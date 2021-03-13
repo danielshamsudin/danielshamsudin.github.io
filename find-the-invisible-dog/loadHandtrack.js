@@ -13,6 +13,32 @@ Date.prototype.toFormattedString = function () {
             String(this.getMinutes()).padLeft(2, '0')].join(":");
 };
 
+class spawnableItem
+{
+  constructor(name)
+  {
+    this.name = name;
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+  }
+
+  x()
+  {
+    return this.x;
+  }
+
+  y()
+  {
+    return this.y;
+  }
+}
+
+let dog1 = new spawnableItem('dog1');
+let dog2 = new spawnableItem('dog2');
+let dog3 = new spawnableItem('dog3');
+let trap = new spawnableItem('trap');
+
+
 //findobj();
 var stDate = new Date(Date.now()).toFormattedString();
 draw();
@@ -41,34 +67,34 @@ function findobj() {
   console.log(h);
 
   //first obj
-  x = Math.random() * canvas.width; 
+  x = dog1.x;
   // console.log(x);
 
-  y = Math.random() * canvas.height;
+  y = dog1.y;
   // console.log(y);
   console.log([x,y]);
 
   //second obj
-  x2 = Math.random() * canvas.width;
+  x2 = dog2.x;
   // console.log(x2);
 
-  y2 = Math.random() * canvas.height;
+  y2 = dog2.y;
   console.log([x2,y2]);
   // console.log(y2);
 
   //third obj
-  x3 = Math.random() * canvas.width;
+  x3 = dog3.x;
   // console.log(x3);
 
-  y3 = Math.random() * canvas.height;
+  y3 = dog3.y;
   // console.log(y3);
   console.log([x3,y3]);
 
   //trap
-  trapx = Math.random() * canvas.width;
+  trapx = trap.x;
   // console.log(trapx);
 
-  trapy = Math.random() * canvas.height;
+  trapy = trap.y;
   // console.log(trapy);
   console.log([trapx,trapy]);
 }
@@ -164,13 +190,13 @@ function runDetection() {
 
       begin = 1;
 
-      disx = compareDistance(handX,x);
+      disx = compareDistance(handX,x); //distance x to handX
       disy = compareDistance(handY,y);
-      disx2 = compareDistance(handX,x2);
+      disx2 = compareDistance(handX,x2); // distance x2 to handX
       disy2 = compareDistance(handY,y2);
-      disx3 = compareDistance(handX,x3);
+      disx3 = compareDistance(handX,x3); // distance x3 to handX
       disy3 = compareDistance(handY,y3);
-      distx = compareDistance(handX,trapx);
+      distx = compareDistance(handX,trapx); // distance trapx to handX
       disty = compareDistance(handY,trapy);
       
       //sound on when near obj1
@@ -366,7 +392,6 @@ function display_win() {
 }
 
 function dlData() {
-  console.log(perfTime.length);
   var data = new Object();
   data.starttime = stDate;
   data.avgfps = (function()
@@ -391,14 +416,33 @@ function dlData() {
     return Math.round(numerator * 1000) / 1000;
   })();
 
-  data.animalLocation = {
-    'dog1': [x,y],
-    'dog2': [x2,y2],
-    'dog3': [x3,y3],
-    'trap': [trapx,trapy]
+
+  // create item object
+  // change to array gameObj
+
+  data.gameObj = [];
+  data.gameObj.push(dog1,dog2,dog3,trap);
+
+  data.handLocation = 
+  {
+    'handLocation' : [handX,handY]
   }
 
-
+  $.ajax({
+    type:"POST",
+    url:"gamedata.php",
+    data:
+    {
+      startTime: data.starttime,
+      avgFPS: data.avgfps,
+      median: data.median,
+      stddevfps: data.stddev,
+      handLocation: data.handLocation,
+      gameObj: gameobj,
+      
+    },
+    // on success do nothing
+  })
   const text = JSON.stringify(data);
   const name = "data.json";
   const type = "text/plain";
