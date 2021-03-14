@@ -1,10 +1,14 @@
 const video = document.querySelector("#video");
-
+var ccontainer = document.querySelector(".container-item4"); //play region container
+var vcontainer = document.querySelector(".container-item3"); //video canvas container
 video.width = window.innerWidth;
 video.height = window.innerHeight;
+
 var canvas = document.querySelector("#canvas");
-canvas.setAttribute('width', '640');
-canvas.setAttribute('height', '480');
+
+canvas.setAttribute('width', ccontainer.scrollWidth);
+canvas.setAttribute('height', ccontainer.scrollHeight);
+
 var c = canvas.getContext("2d");
 
 //canvas.width = window.innerWidth;
@@ -13,8 +17,8 @@ var c = canvas.getContext("2d");
 //canvas.height = document.body.scrollHeight;
 
 var vcanvas = document.querySelector("#vcanvas");
-vcanvas.setAttribute('width', '640');
-vcanvas.setAttribute('height', '480');
+vcanvas.setAttribute('width', vcontainer.scrollWidth);
+vcanvas.setAttribute('height', vcontainer.scrollHeight);
 var vctx = vcanvas.getContext("2d");
 
 let model;

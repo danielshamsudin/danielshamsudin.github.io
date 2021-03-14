@@ -13,13 +13,15 @@ Date.prototype.toFormattedString = function () {
             String(this.getMinutes()).padLeft(2, '0')].join(":");
 };
 
+var cwidth = document.getElementsByClassName('container-item4')[0].clientWidth;
+var cheight = document.getElementsByClassName('container-item4')[0].clientHeight;
 class spawnableItem
 {
   constructor(name)
   {
     this.name = name;
-    this.x = Math.random() * canvas.width;
-    this.y = Math.random() * canvas.height;
+    this.x = Math.random() * cwidth;
+    this.y = Math.random() * cheight;
   }
 
   x()
@@ -37,7 +39,6 @@ let dog1 = new spawnableItem('dog1');
 let dog2 = new spawnableItem('dog2');
 let dog3 = new spawnableItem('dog3');
 let trap = new spawnableItem('trap');
-
 
 //findobj();
 var stDate = new Date(Date.now()).toFormattedString();
@@ -58,6 +59,7 @@ var win = new Audio("win.mp3");
 var lose = new Audio("lose.mp3");
 
 var perfTime = [];
+var handLocations = [];
 
 // spawn dogs and cats
 function findobj() {
@@ -99,16 +101,17 @@ function findobj() {
   console.log([trapx,trapy]);
 }
 
+
 // changed imagescalefactor and confidence threshold
 // found that 0.7 scoreThreshold optimal
 // change to default and compare FPS
 
 const modelParams = {
   //flipHorizontal: true, // flip e.g for video
-  imageScaleFactor: 0.1, //changed here
+  imageScaleFactor: 0.2, //changed here
   maxNumBoxes: 1, // maximum number of boxes to detect
-  iouThreshold: 0.6, // ioU threshold for non-max suppression
-  scoreThreshold: 0.79, // confidence threshold for predictions.
+  iouThreshold: 0.5, // ioU threshold for non-max suppression
+  scoreThreshold: 0.7, // confidence threshold for predictions.
 };
 
 navigator.getUserMedia =
@@ -118,14 +121,12 @@ navigator.getUserMedia =
   navigator.msGetUserMedia;
   
 handTrack.startVideo(video).then((status) => {
+  video.width = 1920;
+  video.height = 1080;
   var countdownToLobby; 
-  
   if (status) {
     navigator.getUserMedia(
-      {video:{
-        // width: 1280,
-        // height: 720
-      }}, 
+      {video:{}}, 
       (stream) => {
         video.srcObject = stream;
         //run
@@ -171,32 +172,26 @@ function runDetection() {
   var timeStart = performance.now();
   model.detect(video).then((predictions) => {
     model.renderPredictions(predictions, vcanvas, vctx, video);
-
-    var timeEnd = performance.now();
-    var resTime = 1000 / (timeEnd - timeStart);
-    var roundedResTime = Math.round((resTime + Number.EPSILON) * 100) / 100;
-    var sTime = Date.now();
-    var tid = setInterval(perfTime.push(roundedResTime),2000);
-
-    if (Date.now() - sTime >= 10000)
-    {
-      tid = null;
-    }
+    var tid = setInterval(perfTime.push(model.getFPS()),2000);
+    var tid2 = setInterval(handLocations.push([handX,handY]),2000);
 
     isStart = true;
     if (predictions.length !== 0) {
-      handX = (predictions[0].bbox[0] + predictions[0].bbox[2] / 2) - (canvas.width * 0.2);
-      handY = (predictions[0].bbox[1] + predictions[0].bbox[3] / 2) - (canvas.height * 0.2);
+      midX = (predictions[0].bbox[0] + predictions[0].bbox[2] / 2);
+      midY = (predictions[0].bbox[1] + predictions[0].bbox[3] / 2);
+      handX = (cwidth * (midX / video.width)) + ((midX > video.width / 2)? (canvas.width * 0.1) : -(canvas.width*0.1));
+      handY = (cheight * (midY / video.height)) + ((midY > video.height / 2)? (canvas.height * 0.1) : -(canvas.height*0.1));
+      
 
       begin = 1;
 
-      disx = compareDistance(handX,x); //distance x to handX
+      disx = compareDistance(handX,x);
       disy = compareDistance(handY,y);
-      disx2 = compareDistance(handX,x2); // distance x2 to handX
+      disx2 = compareDistance(handX,x2);
       disy2 = compareDistance(handY,y2);
-      disx3 = compareDistance(handX,x3); // distance x3 to handX
+      disx3 = compareDistance(handX,x3);
       disy3 = compareDistance(handY,y3);
-      distx = compareDistance(handX,trapx); // distance trapx to handX
+      distx = compareDistance(handX,trapx);
       disty = compareDistance(handY,trapy);
       
       //sound on when near obj1
@@ -208,9 +203,9 @@ function runDetection() {
           number1 = 1;
           stopDetect();
           setTimeout(() => {
-            document.getElementById("dogcenter").style.display = "block";
+              document.getElementById("dogcenter").style.display = "flex";
             setTimeout(() => {
-              document.getElementById("dogcenter").style.display = "none";
+                document.getElementById("dogcenter").style.display = "none";
             }, 300);
           }, 300);
           checkWL();
@@ -230,9 +225,9 @@ function runDetection() {
           number2 = 1;
           stopDetect();
           setTimeout(() => {
-            document.getElementById("dogcenter").style.display = "block";
+              document.getElementById("dogcenter").style.display = "flex";
             setTimeout(() => {
-              document.getElementById("dogcenter").style.display = "none";
+                document.getElementById("dogcenter").style.display = "none";
             }, 300);
           }, 300);
           checkWL();
@@ -254,9 +249,9 @@ function runDetection() {
           number3 = 1;
           stopDetect();
           setTimeout(() => {
-            document.getElementById("dogcenter").style.display = "block";
+              document.getElementById("dogcenter").style.display = "flex";
             setTimeout(() => {
-              document.getElementById("dogcenter").style.display = "none";
+                document.getElementById("dogcenter").style.display = "none";
             }, 300);
           }, 300);
           checkWL();
@@ -279,9 +274,9 @@ function runDetection() {
             document.querySelector(".container-item2 span").innerHTML =
             "<i class='fas fa-cat'></i>!!!";
           setTimeout(() => {
-            document.getElementById("catcenter").style.display = "block";
+            document.getElementById("catcenter").style.display = "flex";
             setTimeout(() => {
-              document.getElementById("catcenter").style.display = "none";
+                document.getElementById("catcenter").style.display = "none";
             }, 300);
           }, 300);
           statustrap = 1;
@@ -343,20 +338,20 @@ function secpass() {
 }
 
 function checkWL() {
-   total = number1 + number2 + number3;
-   if (total != 3) {
-     if (total == 1) {
-       document.querySelector(".container-item2 span").innerHTML =
-         "<i class='fas fa-dog'></i>";
-     } else if (total == 2) {
-       document.querySelector(".container-item2 span").innerHTML =
-         "<i class='fas fa-dog'></i><i class='fas fa-dog'></i>";
-     }
-   } else if (total == 3) {
-      clearInterval(countDown);
-    //  console.log(perfTime.length);
-      display_win();
-   }
+  // total = number1 + number2 + number3;
+  // if (total != 3) {
+  //   if (total == 1) {
+  //     document.querySelector(".container-item2 span").innerHTML =
+  //       "<i class='fas fa-dog'></i>";
+  //   } else if (total == 2) {
+  //     document.querySelector(".container-item2 span").innerHTML =
+  //       "<i class='fas fa-dog'></i><i class='fas fa-dog'></i>";
+  //   }
+  // } else if (total == 3) {
+  //   clearInterval(countDown);
+  // //  console.log(perfTime.length);
+  //   display_win();
+  // }
 }
 
 var name;
@@ -370,7 +365,7 @@ function display_win() {
   statustrap = 1;
   document.querySelector(".container-item2 span").innerHTML = "<i class='fas fa-dog'></i><i class='fas fa-dog'></i><i class='fas fa-dog'></i>";
   document.getElementById("display").style.display = "block";
-  document.getElementById("score").innerHTML = "Congrats!You Win!Your score is " + score;
+  document.getElementById("score").innerHTML = "Congrats! You Win! Your score is " + score;
 
   window.parent.wsCreateScore(score);
 
@@ -392,6 +387,7 @@ function display_win() {
 }
 
 function dlData() {
+  console.log(perfTime.length);
   var data = new Object();
   data.starttime = stDate;
   data.avgfps = (function()
@@ -416,17 +412,12 @@ function dlData() {
     return Math.round(numerator * 1000) / 1000;
   })();
 
-
-  // create item object
-  // change to array gameObj
-
   data.gameObj = [];
   data.gameObj.push(dog1,dog2,dog3,trap);
 
-  data.handLocation = 
-  {
-    'handLocation' : [handX,handY]
-  }
+  data.handLocation = handLocations.filter(function([i,j], index, arr){
+    return (i != null) && (j != null);
+  });
 
   $.ajax({
     type:"POST",
@@ -438,11 +429,12 @@ function dlData() {
       median: data.median,
       stddevfps: data.stddev,
       handLocation: data.handLocation,
-      gameObj: gameobj,
+      gameObj: data.gameObj,
       
     },
     // on success do nothing
   })
+
   const text = JSON.stringify(data);
   const name = "data.json";
   const type = "text/plain";
@@ -524,9 +516,17 @@ function draw() {
   
   c.lineWidth = 5;
   c.beginPath();
-  controlX = (controlX >= canvas.width) ? canvas.width : controlX;
-  controlY = (controlY >= canvas.height) ? canvas.height : controlY;
-  c.ellipse(controlX, controlY, 25, 50, 0, 0, Math.PI*2);
-  c.strokeStyle = 'black';
-  c.stroke();
+  controlX = (controlX >= cwidth) ? cwidth : controlX;
+  controlY = (controlY >= cheight) ? cheight : controlY;
+
+    if (canvas.width >= 0 && canvas.width <2000) {
+        c.ellipse(controlX, controlY, 25, 50, 0, 0, Math.PI * 2);
+        c.strokeStyle = 'black';
+        c.stroke();
+    }
+    else if (canvas.width >= 2000) {
+        c.ellipse(controlX, controlY, 50, 100, 0, 0, Math.PI * 2);
+        c.strokeStyle = 'black';
+        c.stroke();
+    }
 }

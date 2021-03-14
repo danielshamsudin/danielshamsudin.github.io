@@ -10,7 +10,7 @@
     <video id="video"></video>
     <div id="gui-container">
         <div id="count" class="container-item1">
-            <div id="timer">1</div>
+            <p id="timer">1</p>
         </div>
 
         <div class="container-item2">
@@ -41,10 +41,11 @@
 
     <div id="display" class="modal">
         <div class="modal-content animate">
-            <img src="<?php echo " images /".$row['image']; ?>" class="tmLogo"></img>
-            <p id="score" style=" position:relative;text-align:center"></p>
-            <!--<button id="button_tg" class="button">Try Again</button>-->
-            <button id="button_h" class="button" style="margin-left:auto;margin-right:auto;display:block;">Scoreboard</button>
+            <!-- <img src="<?php echo " images /".$row['image']; ?>" class="tmLogo"></img> -->
+            <img src="img/tmlogo.png" class="tmlogo"></img>
+            <p id="score"></p>
+            <!-- <button id="button_tg" class="button">Try Again</button> -->
+            <button id="button_h" class="button">Scoreboard</button>
         </div>
     </div>
 
