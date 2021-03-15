@@ -32,11 +32,11 @@
     </div>
 
     <div id="doggy">
-        <img src="img/dog.png" id="dogcenter">
+        <img id="dogcenter">
     </div>
 
     <div id="catty">
-        <img src="img/cat.png" id="catcenter">
+        <img id="catcenter">
     </div>
 
     <div id="display" class="modal">
