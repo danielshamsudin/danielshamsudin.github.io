@@ -5,10 +5,8 @@ video.width = window.innerWidth;
 video.height = window.innerHeight;
 
 var canvas = document.querySelector("#canvas");
-
 canvas.setAttribute('width', ccontainer.scrollWidth);
 canvas.setAttribute('height', ccontainer.scrollHeight);
-
 var c = canvas.getContext("2d");
 
 //canvas.width = window.innerWidth;
@@ -21,6 +19,8 @@ vcanvas.setAttribute('width', vcontainer.scrollWidth);
 vcanvas.setAttribute('height', vcontainer.scrollHeight);
 var vctx = vcanvas.getContext("2d");
 
+document.getElementById("dogcenter").src = "img/dog.png";
+document.getElementById("catcenter").src = "img/cat.png";
 let model;
 let handX, handY;
 
