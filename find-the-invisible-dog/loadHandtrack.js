@@ -8,39 +8,35 @@ String.prototype.padLeft = function (length, character)
 Date.prototype.toFormattedString = function () {
     return [String(this.getDate()).padLeft(2, '0'),
             String(this.getMonth()+1).padLeft(2, '0'),
-            String(this.getFullYear()).substr(2, 2)].join("/") + " " +
+            String(this.getFullYear())].join("/") + " " +
            [String(this.getHours()).padLeft(2, '0'),
-            String(this.getMinutes()).padLeft(2, '0')].join(":");
+            String(this.getMinutes()).padLeft(2, '0'),
+            String(this.getSeconds()).padLeft(2, '0')].join(":");
 };
 
-var cwidth = document.getElementsByClassName('container-item4')[0].clientWidth;
-var cheight = document.getElementsByClassName('container-item4')[0].clientHeight;
-class spawnableItem
+// give admin control over how many dogs and cat
+var cwidth = document.getElementsByClassName("container-item4")[0].clientWidth;
+var cheight = document.getElementsByClassName("container-item4")[0].clientHeight;
+
+var spawn = [];
+
+var numOfTarget = 3; // get from JSON
+var numOfTrap = 5; // get from JSON
+
+// target creation
+for (var i =1; i <= numOfTarget; i++)
 {
-  constructor(name)
-  {
-    this.name = name;
-    this.x = Math.random() * cwidth;
-    this.y = Math.random() * cheight;
-  }
-
-  x()
-  {
-    return this.x;
-  }
-
-  y()
-  {
-    return this.y;
-  }
+  spawn.push(new spawnableItem('dog', cwidth, cheight));
 }
 
-let dog1 = new spawnableItem('dog1');
-let dog2 = new spawnableItem('dog2');
-let dog3 = new spawnableItem('dog3');
-let trap = new spawnableItem('trap');
+// trap creation
+for (var i=1; i <= numOfTrap; i++)
+{
+  spawn.push(new spawnableItem('trap', cwidth, cheight, i));
+}
 
-//findobj();
+var lastTouchedTrap = 0;
+var dogImage = "";
 var stDate = new Date(Date.now()).toFormattedString();
 draw();
 const modal = document.querySelector(".modal");
@@ -61,51 +57,23 @@ var lose = new Audio("lose.mp3");
 var perfTime = [];
 var handLocations = [];
 
-// spawn dogs and cats
-function findobj() {
-  console.log("width:");
-  console.log(w);
-  console.log("height:");
-  console.log(h);
+// distance checking for each objects so that they are not close to each other
+// (function(){
+//   for (var i=0;i<spawn.length;i++)
+//   {
+//     for (var j = i+1; j<spawn.length; j++)
+//     {
+//       if(calcEuclDistance(spawn[i], spawn[j]) <= (0.1*cheight))
+//       {
+//         spawn[j].regenerateXY();
+//       }
+//     }
+//   }
+// })();
 
-  //first obj
-  x = dog1.x;
-  // console.log(x);
+// forEach 
 
-  y = dog1.y;
-  // console.log(y);
-  console.log([x,y]);
-
-  //second obj
-  x2 = dog2.x;
-  // console.log(x2);
-
-  y2 = dog2.y;
-  console.log([x2,y2]);
-  // console.log(y2);
-
-  //third obj
-  x3 = dog3.x;
-  // console.log(x3);
-
-  y3 = dog3.y;
-  // console.log(y3);
-  console.log([x3,y3]);
-
-  //trap
-  trapx = trap.x;
-  // console.log(trapx);
-
-  trapy = trap.y;
-  // console.log(trapy);
-  console.log([trapx,trapy]);
-}
-
-
-// changed imagescalefactor and confidence threshold
-// found that 0.7 scoreThreshold optimal
-// change to default and compare FPS
-
+// put in json file from server
 const modelParams = {
   //flipHorizontal: true, // flip e.g for video
   imageScaleFactor: 0.2, //changed here
@@ -114,11 +82,7 @@ const modelParams = {
   scoreThreshold: 0.7, // confidence threshold for predictions.
 };
 
-navigator.getUserMedia =
-  navigator.getUserMedia ||
-  navigator.webkitGetUserMedia ||
-  navigator.mozGetUserMedia ||
-  navigator.msGetUserMedia;
+navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
   
 handTrack.startVideo(video).then((status) => {
   video.width = 1920;
@@ -153,19 +117,6 @@ function runRedirectToLobby() {
   location.href = "https://fuyoh-ads.com/campaign_web/#/game";
 }
 
-// function to compare distance of targets/trap to handX,handY
-// params: 
-// d1 -> target / trap x or y value
-// d2 -> handX or handY value
-function compareDistance(d1,d2)
-{
-  if (d1 > d2)
-  {
-    return d1-d2;
-  }
-  return d2-d1;
-}
-
 function runDetection() {
   //requestAnimationFrame(runDetection);
   if (model === undefined) return;
@@ -179,113 +130,150 @@ function runDetection() {
     if (predictions.length !== 0) {
       midX = (predictions[0].bbox[0] + predictions[0].bbox[2] / 2);
       midY = (predictions[0].bbox[1] + predictions[0].bbox[3] / 2);
-      handX = (cwidth * (midX / video.width)) + ((midX > video.width / 2)? (canvas.width * 0.1) : -(canvas.width*0.1));
-      handY = (cheight * (midY / video.height)) + ((midY > video.height / 2)? (canvas.height * 0.1) : -(canvas.height*0.1));
-      
-
+      handX = (cwidth * (midX / video.width)) + ((midX >= video.width / 2)? (canvas.width * 0.1) : -(canvas.width*0.1));
+      handY = (cheight * (midY / video.height)) + ((midY >= video.height / 2)? (canvas.height * 0.1) : -(canvas.height*0.1));
+    
       begin = 1;
 
-      disx = compareDistance(handX,x);
-      disy = compareDistance(handY,y);
-      disx2 = compareDistance(handX,x2);
-      disy2 = compareDistance(handY,y2);
-      disx3 = compareDistance(handX,x3);
-      disy3 = compareDistance(handY,y3);
-      distx = compareDistance(handX,trapx);
-      disty = compareDistance(handY,trapy);
-      
-      //sound on when near obj1
-      if (number1 == 0) {
-        if (disx >= 0 && disx <= 50 && disy >= 0 && disy <= 50) {
-          console.log("gotcha");
-          catchdog.play();
-          catchdog.volume = 1.0;
-          number1 = 1;
-          stopDetect();
-          setTimeout(() => {
-              document.getElementById("dogcenter").style.display = "flex";
-            setTimeout(() => {
-                document.getElementById("dogcenter").style.display = "none";
-            }, 300);
-          }, 300);
-          checkWL();
-        } else if (disx > 50 && disx <= 100 && disy > 50 && disy <= 100) {
-          console.log("near alr");
-          dog.play();
-          dog.volume = 0.8;
-        }
+      for(i=0;i<spawn.length;i++)
+      {
+        spawn[i].calculateDistanceHandToObject(handX,handY);
       }
 
-      //sound on when near obj2
-      if (number2 == 0) {
-        if (disx2 >= 0 && disx2 <= 50 && disy2 >= 0 && disy2 <= 50) {
-          console.log("gotcha");
-          catchdog.play();
-          catchdog.volume = 1.0;
-          number2 = 1;
-          stopDetect();
-          setTimeout(() => {
-              document.getElementById("dogcenter").style.display = "flex";
-            setTimeout(() => {
-                document.getElementById("dogcenter").style.display = "none";
-            }, 300);
-          }, 300);
-          checkWL();
-        }
-        else if (disx2 > 50 && disx2 <= 100 && disy2 > 50 && disy2 <= 100) 
+      for (var i=0;i<spawn.length;i++) // repeatedly redetect one target as many
+      {
+        if (spawn[i].type == 'dog')
         {
-          console.log("near alr");
-          dog.play();
-          dog.volume = 0.8;
-        }
-      }
-
-      //sound on when near obj3
-      if (number3 == 0) {
-        if (disx3 >= 0 && disx3 <= 50 && disy3 >= 0 && disy3 <= 50) {
-          console.log("gotcha");
-          catchdog.play();
-          catchdog.volume = 1.0;
-          number3 = 1;
-          stopDetect();
-          setTimeout(() => {
-              document.getElementById("dogcenter").style.display = "flex";
+          if (spawn[i].distanceX >= 0 && spawn[i].distanceX <= 50 && spawn[i].distanceY >= 0 && spawn[i].distanceY <= 50)
+          {
+            if (spawn[i].isTouch == true) break;
+            spawn[i].isTouch = true;
+            console.log("touched dog");
+            catchdog.play();
+            catchdog.volume = 1.0;
+            stopDetect();
             setTimeout(() => {
-                document.getElementById("dogcenter").style.display = "none";
+                document.getElementById("dogcenter").style.display = "flex";
+              setTimeout(() => {
+                  document.getElementById("dogcenter").style.display = "none";
+              }, 300);
             }, 300);
-          }, 300);
-          checkWL();
-        } else if (disx3 > 50 && disx3 <= 100 && disy3 > 50 && disy3 <= 100) {
-          console.log("near alr");
-          dog.play();
-          dog.volume = 0.8;
+            checkWL();
+          }else if (spawn[i].distanceX > 50 && spawn[i].distanceX <= 100 && spawn[i].distanceY > 50 && spawn[i].distanceY <= 100) {
+            // console.log("near dog");
+            dog.play();
+            dog.volume = 0.8;
+          }
+        }
+        else if (spawn[i].type == 'trap')
+        {
+          if (spawn[i].distanceX >= 0 && spawn[i].distanceX <= 50 && spawn[i].distanceY >= 0 && spawn[i].distanceY <= 50)
+          {
+            if (lastTouchedTrap == spawn[i].id) break;
+            catchcat.play();
+            catchcat.volume = 1.0;
+            stopDetect();
+            document.querySelector(".container-item2 span").innerHTML = "<i class='fas fa-cat'></i>!!!";
+            setTimeout(() => {
+              document.getElementById("catcenter").style.display = "flex";
+              setTimeout(() => {
+                  document.getElementById("catcenter").style.display = "none";
+              }, 300);
+            }, 300);
+            spawn[i].isTouch = true; //cat isTouch
+            lastTouchedTrap = spawn[i].id;
+            spawn.forEach(index => {
+              index.isTouch = false;
+            });
+          }else if (spawn[i].distanceX > 50 && spawn[i].distanceX <= 100 && spawn[i].distanceY > 50 && spawn[i].distanceY <= 100) {
+            console.log("near cat");
+            cat.play();
+            cat.volume = 0.8;
+          }
         }
       }
+      //sound on when near obj1
+      // if (number1 == 0) {
+      //   if (disx >= 0 && disx <= 50 && disy >= 0 && disy <= 50) {
+      //     console.log("gotcha");
+      //     catchdog.play();
+      //     catchdog.volume = 1.0;
+      //     number1 = 1;
+      //     stopDetect();
+      //     setTimeout(() => {
+      //         document.getElementById("dogcenter").style.display = "flex";
+      //       setTimeout(() => {
+      //           document.getElementById("dogcenter").style.display = "none";
+      //       }, 300);
+      //     }, 300);
+      //     checkWL();
+      //   } else if (disx > 50 && disx <= 100 && disy > 50 && disy <= 100) {
+      //     console.log("near alr");
+      //     dog.play();
+      //     dog.volume = 0.8;
+      //   }
+      // }
+
+      // //sound on when near obj2
+      // if (number2 == 0) {
+      //   if (disx2 >= 0 && disx2 <= 50 && disy2 >= 0 && disy2 <= 50) {
+      //     console.log("gotcha");
+      //     catchdog.play();
+      //     catchdog.volume = 1.0;
+      //     number2 = 1;
+      //     stopDetect();
+      //     setTimeout(() => {
+      //         document.getElementById("dogcenter").style.display = "flex";
+      //       setTimeout(() => {
+      //           document.getElementById("dogcenter").style.display = "none";
+      //       }, 300);
+      //     }, 300);
+      //     checkWL();
+      //   }
+      //   else if (disx2 > 50 && disx2 <= 100 && disy2 > 50 && disy2 <= 100) 
+      //   {
+      //     console.log("near alr");
+      //     dog.play();
+      //     dog.volume = 0.8;
+      //   }
+      // }
+
+      // //sound on when near obj3
+      // if (number3 == 0) {
+      //   if (disx3 >= 0 && disx3 <= 50 && disy3 >= 0 && disy3 <= 50) {
+      //     console.log("gotcha");
+      //     catchdog.play();
+      //     catchdog.volume = 1.0;
+      //     number3 = 1;
+      //     stopDetect();
+      //     setTimeout(() => {
+      //         document.getElementById("dogcenter").style.display = "flex";
+      //       setTimeout(() => {
+      //           document.getElementById("dogcenter").style.display = "none";
+      //       }, 300);
+      //     }, 300);
+      //     checkWL();
+      //   } else if (disx3 > 50 && disx3 <= 100 && disy3 > 50 && disy3 <= 100) {
+      //     console.log("near alr");
+      //     dog.play();
+      //     dog.volume = 0.8;
+      //   }
+      // }
 
       //sound on when near trap (cat sound)
-      if (statustrap == 0) {
-        if (distx >= 0 && distx <= 50 && disty >= 0 && disty <= 50) {
-          number1 = 0;
-          number2 = 0;
-          number3 = 0;
-          catchcat.play();
-          catchcat.volume = 1.0;
-          stopDetect();
-            document.querySelector(".container-item2 span").innerHTML =
-            "<i class='fas fa-cat'></i>!!!";
-          setTimeout(() => {
-            document.getElementById("catcenter").style.display = "flex";
-            setTimeout(() => {
-                document.getElementById("catcenter").style.display = "none";
-            }, 300);
-          }, 300);
-          statustrap = 1;
-        } else if (distx > 50 && distx <= 100 && disty > 50 && disty <= 100)
-        {
-          cat.play();
-          cat.volume = 1.0;
-        }
-      }
+      // if (statustrap == 0) {
+      //   if (distx >= 0 && distx <= 50 && disty >= 0 && disty <= 50) {
+      //     number1 = 0;
+      //     number2 = 0;
+      //     number3 = 0;
+          
+      //     statustrap = 1;
+      //   } else if (distx > 50 && distx <= 100 && disty > 50 && disty <= 100)
+      //   {
+      //     cat.play();
+      //     cat.volume = 1.0;
+      //   }
+      // }
     }
   });
   
@@ -338,28 +326,29 @@ function secpass() {
 }
 
 function checkWL() {
-  // total = number1 + number2 + number3;
-  // if (total != 3) {
-  //   if (total == 1) {
-  //     document.querySelector(".container-item2 span").innerHTML =
-  //       "<i class='fas fa-dog'></i>";
-  //   } else if (total == 2) {
-  //     document.querySelector(".container-item2 span").innerHTML =
-  //       "<i class='fas fa-dog'></i><i class='fas fa-dog'></i>";
-  //   }
-  // } else if (total == 3) {
-  //   clearInterval(countDown);
-  // //  console.log(perfTime.length);
-  //   display_win();
-  // }
+  for(i=0;i<spawn.length;i++)
+  {
+    if (spawn[i].isTouch == true && spawn[i].type != 'trap')
+    {
+      total++;
+      dogImage += "<i class='fas fa-dog'></i>";
+    }
+  }
+  console.log(total);
+  document.querySelector(".container-item2 span").innerHTML = dogImage;
+  
+  if (total == numOfTarget) {
+    clearInterval(countDown);
+    dogImage = "";
+    display_win();
+  }
 }
 
 var name;
 
 function display_win() {
   dlData();
-  score = 1000;
-  total = 3;
+  score = (total / numOfTarget) * 100; // set score for dogs
   win.play();
   win.volume = 1.0;
   statustrap = 1;
@@ -389,13 +378,13 @@ function display_win() {
 function dlData() {
   console.log(perfTime.length);
   var data = new Object();
-  data.starttime = stDate;
+  data.starttime = stDate; //convert to timetz
   data.avgfps = (function()
   {
     var sum = perfTime.reduce((sum, val) => (sum += val));
     return Math.round((sum / perfTime.length)*1000) / 1000;
   })();
-
+  // model.getFPS()
   data.median = (function()
   {
     const sorted = perfTime.sort();
@@ -412,8 +401,8 @@ function dlData() {
     return Math.round(numerator * 1000) / 1000;
   })();
 
-  data.gameObj = [];
-  data.gameObj.push(dog1,dog2,dog3,trap);
+  // push on constructor on object creation
+  data.gameObj = spawn;
 
   data.handLocation = handLocations.filter(function([i,j], index, arr){
     return (i != null) && (j != null);
@@ -462,11 +451,11 @@ function display_lose() {
       "No catch anything!Score is " + score;
   } else if (total != 0) {
     // console.log("hi lose");
-    score = total*300 ;
+    score = total*300;
     document.getElementById("score").innerHTML =
       "You only catch " + total + ".Score is " + score;
   }
-
+  
   window.parent.wsCreateScore(score);
 
   document.getElementById("button_h").onclick = function () {
@@ -493,23 +482,35 @@ function draw() {
   c.fillRect(0, 0, canvas.width, canvas.height);
   requestAnimationFrame(draw);
   c.lineWidth = 2;
-  c.beginPath();
-  c.arc(x,y,5,0,Math.PI * 2);
-  c.strokeStyle = 'green';
-  c.stroke();
-  c.beginPath();
-  c.arc(x2,y2,5,0,Math.PI * 2);
-  c.strokeStyle = 'green';
-  c.stroke();
-  c.beginPath();
-  c.arc(x3,y3,5,0,Math.PI * 2);
-  c.strokeStyle = 'green';
-  c.stroke();
-  c.lineWidth = 2;
-  c.beginPath();
-  c.arc(trapx,trapy,5,0,Math.PI * 2);
-  c.strokeStyle = 'red';
-  c.stroke();
+  spawn.forEach(item =>{
+    c.beginPath();
+    c.arc(item.x, item.y, 5, 0, Math.PI * 2);
+    if (item.type == 'dog')
+    {
+      c.strokeStyle = 'green';
+    }
+    else
+    {
+      c.strokeStyle = 'red';
+    }
+    c.stroke();
+  });
+  // c.arc(x1,y1,5,0,Math.PI * 2);
+  // c.strokeStyle = 'green';
+  // c.stroke();
+  // c.beginPath();
+  // c.arc(x2,y2,5,0,Math.PI * 2);
+  // c.strokeStyle = 'green';
+  // c.stroke();
+  // c.beginPath();
+  // c.arc(x3,y3,5,0,Math.PI * 2);
+  // c.strokeStyle = 'green';
+  // c.stroke();
+  // c.lineWidth = 2;
+  // c.beginPath();
+  // c.arc(trapx1,trapy1,5,0,Math.PI * 2);
+  // c.strokeStyle = 'red';
+
 
   let controlX = handX;
   let controlY = handY;

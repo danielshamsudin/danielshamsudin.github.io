@@ -53,6 +53,7 @@
     <script src="https://cdn.jsdelivr.net/npm/handtrackjs/dist/handtrack.min.js"></script>
     <script src="loadCanvas.js"></script>
 	<script src="state.js"></script>
+    <script src="spawnableItem.js"></script>
 	<script src="choose.js"></script>
     <script src="loadHandtrack.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
