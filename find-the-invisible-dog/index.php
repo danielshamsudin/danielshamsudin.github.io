@@ -9,20 +9,15 @@
 <!-- <div class="hint">
 Click to play &#9836;
 </div>	 -->
-	<audio autoplay id="gameAudio">
-		<source src="backgroundsound.mp3" type="audio/mpeg">
+	<audio autoplay id="BGM">
+		<source type="audio/mpeg">
 		Your browser does not support the audio tag.
 	</audio>
-
-	<script>
-		var x = document.getElementById("gameAudio");
-		x.volume = 0.2;
-	</script>
 
 	<div class="wrapper">
 
 		<div class="title">
-			Find the INVISIBLE DOGGGG <img src="img/dog.png" id="dogLogo">
+			Find the INVISIBLE DOGGGG <img id="titleimg">
 		</div>
 		<br><br>
 	
@@ -40,13 +35,13 @@ Click to play &#9836;
 			</p>
 			<p>
 				&#10049; Please find three <b>DOGSSS</b> in seconds!<br>
-				<img src="img/dog.png" id="new" ><br><br>
+				<img id="catchimg"><br><br>
 			</p>
 			<p>
 				&#10049; Be Careful there will be a random <b>CAT</b>!<br>
 				&nbsp;&nbsp;There will be<b> cat sound </b>when you near the CAT!<br>
 				&nbsp;&nbsp;CAT will reset everything and u need to find again!<br>
-				<img src="img/cat.png" id="new" ><br><br>
+				<img id="trapimg"><br><br>
 			</p>
 			
 			<div class="ls">
@@ -59,5 +54,6 @@ Click to play &#9836;
 			<img src="img/scroll-down.png">
 		</div>
 	</div>
+	<script src="loadItem.js"></script>
 </body>
 </html>
