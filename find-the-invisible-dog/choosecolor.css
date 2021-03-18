@@ -12,10 +12,38 @@ body {
     box-sizing: border-box; /* border does not adds extra width or height */
     border: 10px solid transparent;
     border-image: url(111.png) 90 round;
-    height: 100vmin; /* minimum viewport 100%, can be adjusted */
+    height: 100vh; /* minimum viewport 100%, can be adjusted */
     width: 100vmin;
     position: relative;
     background-color: #FCE5B0;
+}
+
+#catchimg{
+    display: none;
+}
+
+#trapimg {
+    display: none;
+}
+
+#titleimgcontainer {
+    width: 5%;
+    height: 5%;
+    border: 1px black solid;
+    background-color: white;
+    color: white;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#titleimgcontainer > img{
+    width: 90%;
+    height: auto;
 }
 
 @font-face {
@@ -113,5 +141,25 @@ img {
 
     .btn {
         font-size: 600%;
+    }
+}
+@media screen and (min-height: 3820px) {
+    label {
+        font-size: 600%;
+    }
+
+    .title1 {
+        font-size: 700%;
+    }
+
+    .btn {
+        font-size: 600%;
+    }
+}
+
+@media screen and (orientation: portrait) {
+    img {
+        width: 30%;
+        height: 10%;
     }
 }
