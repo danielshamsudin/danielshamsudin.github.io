@@ -5,6 +5,7 @@ html {
     justify-content: center;
     align-items: center;
     margin: 0;
+    background-color: black;
 }
 
 body {
@@ -20,6 +21,28 @@ p {
     font-family: 'Comic Sans MS';
     font-size: 200%;
     text-align: center;
+}
+
+#titleimgcontainer {
+    width: 5%;
+    height: 5%;
+    border: 1px black solid;
+    background-color: white;
+    color: white;
+    position: absolute;
+    margin-top: 5px;
+    margin-left: 5px;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#titleimgcontainer > img{
+    width: 90%;
+    height: auto;
 }
 
 #gui-container { /* a 3x2 grid container */
@@ -64,6 +87,7 @@ p {
 }
 
 .container-item4 { /* play region container */
+    position: relative;
     background-color: azure;
     box-sizing: border-box;
     border: 5px groove black;
@@ -140,13 +164,13 @@ video { /*video used by handtrack.js*/
     height: 100%;
 }
 
-#dogcenter { /* dog img */
+#catchimg { /* dog img */
     display: none;
     height: 30%;
     width: 30%;
 }
 
-#catcenter { /* cat img */
+#trapimg { /* cat img */
     display: none;
     height: 30%;
     width: 30%;
