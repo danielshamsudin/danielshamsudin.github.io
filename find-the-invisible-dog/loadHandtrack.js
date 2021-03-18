@@ -47,6 +47,8 @@ var x, y, x2, y2, x3, y3, trapx, trapy;
 var disx, disy, disx2, disy2, disx3, disy3, distx, disty;
 var statustrap = 0;
 var score = 0;
+
+
 var dog = new Audio("dog.mp3");
 var cat = new Audio("cat.mp3");
 var catchdog = new Audio("catch dog.mp3");
@@ -378,13 +380,12 @@ function display_win() {
 function dlData() {
   console.log(perfTime.length);
   var data = new Object();
-  data.starttime = stDate; //convert to timetz
+  data.starttime = stDate;
   data.avgfps = (function()
   {
     var sum = perfTime.reduce((sum, val) => (sum += val));
     return Math.round((sum / perfTime.length)*1000) / 1000;
   })();
-  // model.getFPS()
   data.median = (function()
   {
     const sorted = perfTime.sort();
@@ -401,7 +402,6 @@ function dlData() {
     return Math.round(numerator * 1000) / 1000;
   })();
 
-  // push on constructor on object creation
   data.gameObj = spawn;
 
   data.handLocation = handLocations.filter(function([i,j], index, arr){
@@ -436,9 +436,10 @@ function dlData() {
   a.click();
   a.remove();
 }
+
 function display_lose() {
-  lose.play();
-  lose.volume = 1.0;
+  BGM.pause();
+  loseAudio.play();
   number1 = 1;
   number2 = 1;
   number3 = 1;
