@@ -4,13 +4,6 @@ var vcontainer = document.querySelector(".container-item3"); //video canvas cont
 video.width = window.innerWidth;
 video.height = window.innerHeight;
 
-<<<<<<< HEAD
-var canvas = document.querySelector("#canvas");
-
-canvas.setAttribute('width', ccontainer.scrollWidth);
-canvas.setAttribute('height', ccontainer.scrollHeight);
-
-=======
 var ellipse = document.getElementById("ellipse");
 //window.scrollY + document.querySelector('#elementId'). // Y
 //window.scrollX + document.querySelector('#elementId'). // X
@@ -18,7 +11,6 @@ var ellipse = document.getElementById("ellipse");
 var canvas = document.querySelector("#canvas");
 canvas.setAttribute('width', ccontainer.scrollWidth);
 canvas.setAttribute('height', ccontainer.scrollHeight);
->>>>>>> origin/mw_dev
 var c = canvas.getContext("2d");
 
 //canvas.width = window.innerWidth;
@@ -31,8 +23,6 @@ vcanvas.setAttribute('width', vcontainer.scrollWidth);
 vcanvas.setAttribute('height', vcontainer.scrollHeight);
 var vctx = vcanvas.getContext("2d");
 
-//document.getElementById("dogcenter").src = "img/dog.png";
-//document.getElementById("catcenter").src = "img/cat.png";
 let model;
 let handX, handY;
 
