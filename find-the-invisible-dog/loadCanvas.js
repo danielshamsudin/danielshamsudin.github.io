@@ -4,6 +4,10 @@ var vcontainer = document.querySelector(".container-item3"); //video canvas cont
 video.width = window.innerWidth;
 video.height = window.innerHeight;
 
+var ellipse = document.getElementById("ellipse");
+//window.scrollY + document.querySelector('#elementId'). // Y
+//window.scrollX + document.querySelector('#elementId'). // X
+
 var canvas = document.querySelector("#canvas");
 canvas.setAttribute('width', ccontainer.scrollWidth);
 canvas.setAttribute('height', ccontainer.scrollHeight);
@@ -19,8 +23,8 @@ vcanvas.setAttribute('width', vcontainer.scrollWidth);
 vcanvas.setAttribute('height', vcontainer.scrollHeight);
 var vctx = vcanvas.getContext("2d");
 
-document.getElementById("dogcenter").src = "img/dog.png";
-document.getElementById("catcenter").src = "img/cat.png";
+//document.getElementById("dogcenter").src = "img/dog.png";
+//document.getElementById("catcenter").src = "img/cat.png";
 let model;
 let handX, handY;
 
