@@ -14,155 +14,151 @@
   </head>
 
   <body>
+	<div id="catchimg"></div>
+	<div id="trapimg"></div>
 
-  <audio autoplay id="gameAudio">
-	<source src="backgroundsound.mp3" type="audio/mpeg">
-	Your browser does not support the audio tag.
-  </audio>
+  	<audio autoplay id="BGM">
+  		<source type="audio/mpeg">
+  		Your browser does not support the audio tag.
+  	</audio>
 
-	<script>
-		var x = document.getElementById("gameAudio");
-		 x.volume = 0.2;
-	</script>
-
-    <div class="title1">
-      <h1 align="center" style="margin: 0;">Select background color</h1><br>
-    </div>
-
-	<div id="selection">
-		  <!-- <label>
-            <input type="radio" name="padcol" id="orange" value="orange" />
-            <img src="img/orange.png" /><br>
-            orange
-          </label>
-		 
-		  <label>
-            <input type="radio" name="padcol" id="yellow" value="yellow" />
-			<img src="img/yellow.jpg" /><br>
-            yellow
-          </label>
-		
-		  <label>
-            <input type="radio" name="padcol" id="red" value="red" />
-			<img src="img/red.jpg" /><br>
-            red
-          </label>
-		
-		  <label>
-            <input type="radio" name="padcol" id="blue" value="blue" />
-			<img src="img/blue.png" /><br>
-            blue
-          </label>
-		
-		  <label>
-            <input type="radio" name="padcol" id="purple" value="purple" />
-			<img src="img/purple.png" /><br>
-            purple
-          </label> -->
+	<div id="titleimgcontainer">
+		<img id="titleimg">
 	</div>
-    <div class="div-btn">
-        <form action="game.php">
-          <input
-			class="btn"
-			type="submit"
-            value="Start game!"
-            onclick="return setColor()"
-          />
-        </form>
-    </div>
-    <script src="choose.js"></script>
-    <script>
 
-	var xhttp = new XMLHttpRequest();
-	xhttp.onreadystatechange = function() {
-		if (this.readyState == 4 && this.status == 200) {
-		
-		console.log(this.responseText)
+  	<div class="title1">
+  		<h1 align="center" style="margin: 0;">Select background color</h1><br>
+  	</div>
 
-		let json =JSON.parse(this.responseText) 
+  	<div id="selection">
+  		<!-- <label>
+		  <input type="radio" name="padcol" id="orange" value="orange" />
+		  <img src="img/orange.png" /><br>
+		  orange
+		</label>
 
-		if(json)
-		{
-			let settings = json.data
+		<label>
+		  <input type="radio" name="padcol" id="yellow" value="yellow" />
+		  <img src="img/yellow.jpg" /><br>
+		  yellow
+		</label>
 
-			console.log(settings)
+		<label>
+		  <input type="radio" name="padcol" id="red" value="red" />
+		  <img src="img/red.jpg" /><br>
+		  red
+		</label>
 
-			for(var i=0;i<settings.length;i++)
-			{
-			let data = settings[i];
+		<label>
+		  <input type="radio" name="padcol" id="blue" value="blue" />
+		  <img src="img/blue.png" /><br>
+		  blue
+		</label>
 
-			if(data.type =="color")
-			{
-				let colors = data.data.colors;
-			
+		<label>
+		  <input type="radio" name="padcol" id="purple" value="purple" />
+		  <img src="img/purple.png" /><br>
+		  purple
+		</label> -->
+  	</div>
+  	<div class="div-btn">
+  		<form action="game.php">
+  			<input class="btn"
+					 type="submit"
+					 value="Start game!"
+					 onclick="return setColor()" />
+  		</form>
+  	</div>
+  	<script src="choose.js"></script>
+  	<script src="loadItem.js"></script>
+  	<script>
 
-				setPaddleColor(colors);
+		  var xhttp = new XMLHttpRequest();
+		  xhttp.onreadystatechange = function () {
+			  if (this.readyState == 4 && this.status == 200) {
 
-			}
+				  console.log(this.responseText)
 
-			}
+				  let json = JSON.parse(this.responseText)
 
+				  if (json) {
+					  let settings = json.data
 
-		}
+					  console.log(settings)
 
+					  for (var i = 0; i < settings.length; i++) {
+						  let data = settings[i];
 
-		}
-	};
-	xhttp.open("GET", "https://fuyoh-ads.com/game_web/campaign_game/settings?activity_id=2", true);
-	xhttp.send();
-
-
-      function setColor() {
-		var radios = document.getElementsByTagName('input');
-		var padColor ;
-		for (var i = 0; i < radios.length; i++) {
-    		if (radios[i].type === 'radio' && radios[i].checked) {
-			// get value, set checked flag or do whatever you need to
-			padColor = radios[i].value;       
-		}
-		}
-	
-		if(!padColor){
-		alert(
-				"You didn't select a paddle color! Please select a paddle color to start the game."
-			);
-          return false;
-		}
-	
-
-        localStorage.setItem("pass", padColor);
-	  	
-		}
-	  
-
-	function setPaddleColor(colors){
-		for(var i=0;i<colors.length;i++)
-		{
-			let color =colors[i]
-			console.log(color)	
-
-			var name  = ntc.name(color);
-			let colorName =name[1]
-
-			var iLabel = document.createElement('label');
-
-			iLabel.innerHTML = ``;
-
-			iLabel.innerHTML +=`
-								<div class="color-div">
-									<input type="radio" name="padcol" id="colorcode" value="${color}" ${i==0?"checked":""}/>
-									<div class="color-box" style="background:${color}"></div>
-								</div>
-								<div>${colorName}</div>
-								
-							`;
-			var theDiv = document.getElementById("selection");
-			theDiv.appendChild(iLabel);
+						  if (data.type == "color") {
+							  let colors = data.data.colors;
 
 
-		}
+							  setPaddleColor(colors);
 
-	}
-    </script>
+						  }
+
+					  }
+
+
+				  }
+
+
+			  }
+		  };
+		  xhttp.open("GET", "https://fuyoh-ads.com/game_web/campaign_game/settings?activity_id=2", true);
+		  xhttp.send();
+
+
+		  function setColor() {
+			  var radios = document.getElementsByTagName('input');
+			  var padColor;
+			  for (var i = 0; i < radios.length; i++) {
+				  if (radios[i].type === 'radio' && radios[i].checked) {
+					  // get value, set checked flag or do whatever you need to
+					  padColor = radios[i].value;
+				  }
+			  }
+
+			  if (!padColor) {
+				  alert(
+					  "You didn't select a paddle color! Please select a paddle color to start the game."
+				  );
+				  return false;
+			  }
+
+
+			  localStorage.setItem("pass", padColor);
+
+		  }
+
+
+		  function setPaddleColor(colors) {
+			  for (var i = 0; i < colors.length; i++) {
+				  let color = colors[i]
+				  console.log(color)
+
+				  var name = ntc.name(color);
+				  let colorName = name[1]
+
+				  var iLabel = document.createElement('label');
+
+				  iLabel.innerHTML = ``;
+
+				  iLabel.innerHTML += `
+									  <div class="color-div">
+										  <input type="radio" name="padcol" id="colorcode" value="${color}" ${i == 0 ? "checked" : ""}/>
+										  <div class="color-box" style="background:${color}"></div>
+									  </div>
+									  <div>${colorName}</div>
+
+								  `;
+				  var theDiv = document.getElementById("selection");
+				  theDiv.appendChild(iLabel);
+
+
+			  }
+
+		  }
+  	</script>
   </body>
 </html>
