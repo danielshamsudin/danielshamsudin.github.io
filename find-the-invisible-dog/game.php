@@ -7,6 +7,14 @@
     <link rel="stylesheet" href="stylegame.css" />
 </head>
 <body>
+    <audio autoplay id="BGM">
+  		<source type="audio/mpeg">
+  		Your browser does not support the audio tag.
+  	</audio>
+
+    <div id="titleimgcontainer">
+        <img id="titleimg">
+    </div>
     <video id="video"></video>
     <div id="gui-container">
         <div id="count" class="container-item1">
@@ -32,11 +40,11 @@
     </div>
 
     <div id="doggy">
-        <img id="dogcenter">
+        <img id="catchimg">
     </div>
 
     <div id="catty">
-        <img id="catcenter">
+        <img id="trapimg">
     </div>
 
     <div id="display" class="modal">
@@ -55,6 +63,7 @@
 	<script src="state.js"></script>
 	<script src="choose.js"></script>
     <script src="loadHandtrack.js"></script>
+    <script src="loadItem.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src='https://kit.fontawesome.com/a076d05399.js'></script>
 </body>
