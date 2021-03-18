@@ -5,6 +5,19 @@ html {
     justify-content: center;
     align-items: center;
     margin: 0;
+<<<<<<< HEAD
+}
+
+body {
+    box-sizing: border-box; /* border does not adds extra width or height */
+    border: 10px solid transparent;
+    border-image: url(111.png) 90 round;
+    height: 100vmin; /* minimum viewport 100%, can be adjusted */
+    width: 100vmin;
+    position: relative;
+}
+
+=======
     background-color: black;
 }
 
@@ -17,10 +30,224 @@ body {
     position: relative;
 }
 
+>>>>>>> origin/mw_dev
 p {
     font-family: 'Comic Sans MS';
     font-size: 200%;
     text-align: center;
+<<<<<<< HEAD
+}
+
+#gui-container { /* a 3x2 grid container */
+    background-color: blanchedalmond;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 25% 46% 29%;
+    grid-template-rows: 20% 80%;
+    grid-gap: 10px;
+}
+
+.container-item1 { /* timer container */
+    background-color: azure;
+    box-sizing: border-box;
+    border: 5px dashed black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: auto;
+}
+
+.container-item2 { /* status container */
+    background-color: azure;
+    box-sizing: border-box;
+    border: 5px dashed black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: auto;
+}
+
+.container-item3 { /* video canvas/vcanvas container */
+    background-color: azure;
+    box-sizing: border-box;
+    border: 5px dashed black;
+    display: flex;
+    width: calc(100% - 20px); /* 20px is the border width */
+    height: auto;
+}
+
+.container-item4 { /* play region container */
+    background-color: azure;
+    box-sizing: border-box;
+    border: 5px groove black;
+    grid-column: span 3;
+    display: flex;
+    width: calc(100% - 20px); /* 20px is the border width */
+    height: calc(100% - 10px);
+}
+
+#vcanvas { /* video canvas */
+    width: 100%;
+    height: auto;
+}
+
+#canvas { /* play region */
+    width: 100%;
+    height: auto
+}
+
+video { /*video used by handtrack.js*/
+    display: none;
+}
+
+.splashT { /* loading interface, div that stores loading symbols img */
+    background-color: white;
+    width: 100%;
+    height: 100%;
+
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    /*alternate centering method
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    */
+}
+
+#loading { /* loading symbols */
+    width: 30%;
+    height: 30%;
+}
+
+#doggy { /* div that stores the #dogcenter img */
+    margin: auto;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#catty { /* div that stores the #catcenter img */
+    margin: auto;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#dogcenter { /* dog img */
+    display: none;
+    height: 30%;
+    width: 30%;
+}
+
+#catcenter { /* cat img */
+    display: none;
+    height: 30%;
+    width: 30%;
+}
+
+.button {
+    text-align: center;
+    box-shadow: 0px 1px 0px 0px #f0f7fa;
+    background: linear-gradient(to bottom, #ff9e67 5%, #ff9e67 100%);
+    background-color: #ff9e67;
+    border-radius: 6px;
+    border: 1px solid #ff9e67;
+    cursor: pointer;
+    color: #ffffff;
+    font-family: Arial;
+    font-size: 100%;
+    font-weight: bold;
+    text-shadow: 0px -1px 0px #5b6178;
+    width: 40%;
+    height: 20%;
+}
+
+    .button:hover {
+        background: linear-gradient(to bottom, #fffde3 5%, #fffde3 100%);
+        background-color: #fffde3;
+        color: black;
+    }
+
+    .button:active {
+        position: relative;
+        top: 1px;
+    }
+
+.modal { /* summary interface */
+    margin: auto;
+    display: none;
+    position: absolute; 
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(0, 0, 0); /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+.modal-content { /* summary interface elements */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #fefefe;
+    margin: auto;
+    border: 1px solid #808080;
+    border-width: 4px 5px 4px 6px;
+    border-radius: 95% 4% 92% 5%/4% 95% 6% 95%;
+    transform: rotate(0.85deg);
+    width: 80%;
+    height: 50%;
+}
+
+.tmlogo { /* tmlogo img */
+    width: 10%;
+    height: 10%;
+}
+.animate {
+    -webkit-animation: animatezoom 0.6s;
+    animation: animatezoom 0.6s;
+}
+
+@media screen and (min-width: 3820px) {
+    p {
+        font-size: 300%;
+    }
+
+    .button {
+        font-size: 300%;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    p {
+        font-size: 100%;
+    }
+
+=======
 }
 
 #titleimgcontainer {
@@ -255,6 +482,7 @@ video { /*video used by handtrack.js*/
         font-size: 100%;
     }
 
+>>>>>>> origin/mw_dev
     .button {
         font-size: 100%;
     }

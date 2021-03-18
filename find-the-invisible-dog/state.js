@@ -25,6 +25,6 @@ function state() {
 	   state();
     }, 500);
   } 
-      isPlay = true;
-      findobj();
+  isPlay = true;
+  // findobj();
 }
