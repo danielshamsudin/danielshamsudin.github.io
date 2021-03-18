@@ -13,6 +13,33 @@ Date.prototype.toFormattedString = function () {
             String(this.getMinutes()).padLeft(2, '0')].join(":");
 };
 
+var cwidth = document.getElementsByClassName('container-item4')[0].clientWidth;
+var cheight = document.getElementsByClassName('container-item4')[0].clientHeight;
+class spawnableItem
+{
+  constructor(name)
+  {
+    this.name = name;
+    this.x = Math.random() * cwidth;
+    this.y = Math.random() * cheight;
+  }
+
+  x()
+  {
+    return this.x;
+  }
+
+  y()
+  {
+    return this.y;
+  }
+}
+
+let dog1 = new spawnableItem('dog1');
+let dog2 = new spawnableItem('dog2');
+let dog3 = new spawnableItem('dog3');
+let trap = new spawnableItem('trap');
+
 //findobj();
 var stDate = new Date(Date.now()).toFormattedString();
 draw();
@@ -24,14 +51,18 @@ var x, y, x2, y2, x3, y3, trapx, trapy;
 var disx, disy, disx2, disy2, disx3, disy3, distx, disty;
 var statustrap = 0;
 var score = 0;
+
+/*
 var dog = new Audio("dog.mp3");
 var cat = new Audio("cat.mp3");
 var catchdog = new Audio("catch dog.mp3");
 var catchcat = new Audio("catch cat.mp3");
 var win = new Audio("win.mp3");
 var lose = new Audio("lose.mp3");
+*/
 
 var perfTime = [];
+var handLocations = [];
 
 // spawn dogs and cats
 function findobj() {
@@ -41,37 +72,38 @@ function findobj() {
   console.log(h);
 
   //first obj
-  x = Math.random() * canvas.width; 
+  x = dog1.x;
   // console.log(x);
 
-  y = Math.random() * canvas.height;
+  y = dog1.y;
   // console.log(y);
   console.log([x,y]);
 
   //second obj
-  x2 = Math.random() * canvas.width;
+  x2 = dog2.x;
   // console.log(x2);
 
-  y2 = Math.random() * canvas.height;
+  y2 = dog2.y;
   console.log([x2,y2]);
   // console.log(y2);
 
   //third obj
-  x3 = Math.random() * canvas.width;
+  x3 = dog3.x;
   // console.log(x3);
 
-  y3 = Math.random() * canvas.height;
+  y3 = dog3.y;
   // console.log(y3);
   console.log([x3,y3]);
 
   //trap
-  trapx = Math.random() * canvas.width;
+  trapx = trap.x;
   // console.log(trapx);
 
-  trapy = Math.random() * canvas.height;
+  trapy = trap.y;
   // console.log(trapy);
   console.log([trapx,trapy]);
 }
+
 
 // changed imagescalefactor and confidence threshold
 // found that 0.7 scoreThreshold optimal
@@ -79,10 +111,10 @@ function findobj() {
 
 const modelParams = {
   //flipHorizontal: true, // flip e.g for video
-  imageScaleFactor: 0.1, //changed here
+  imageScaleFactor: 0.2, //changed here
   maxNumBoxes: 1, // maximum number of boxes to detect
-  iouThreshold: 0.6, // ioU threshold for non-max suppression
-  scoreThreshold: 0.79, // confidence threshold for predictions.
+  iouThreshold: 0.5, // ioU threshold for non-max suppression
+  scoreThreshold: 0.7, // confidence threshold for predictions.
 };
 
 navigator.getUserMedia =
@@ -92,14 +124,12 @@ navigator.getUserMedia =
   navigator.msGetUserMedia;
   
 handTrack.startVideo(video).then((status) => {
+  video.width = 1920;
+  video.height = 1080;
   var countdownToLobby; 
-  
   if (status) {
     navigator.getUserMedia(
-      {video:{
-        // width: 1280,
-        // height: 720
-      }}, 
+      {video:{}}, 
       (stream) => {
         video.srcObject = stream;
         //run
@@ -145,22 +175,18 @@ function runDetection() {
   var timeStart = performance.now();
   model.detect(video).then((predictions) => {
     model.renderPredictions(predictions, vcanvas, vctx, video);
+    var tid = setInterval(perfTime.push(model.getFPS()),2000);
+    var tid2 = setInterval(handLocations.push([handX,handY]),2000);
 
-    var timeEnd = performance.now();
-    var resTime = 1000 / (timeEnd - timeStart);
-    var roundedResTime = Math.round((resTime + Number.EPSILON) * 100) / 100;
-    var sTime = Date.now();
-    var tid = setInterval(perfTime.push(roundedResTime),2000);
-
-    if (Date.now() - sTime >= 10000)
-    {
-      tid = null;
-    }
+    //console.log(handLocations);
 
     isStart = true;
     if (predictions.length !== 0) {
-      handX = (predictions[0].bbox[0] + predictions[0].bbox[2] / 2) - (canvas.width * 0.2);
-      handY = (predictions[0].bbox[1] + predictions[0].bbox[3] / 2) - (canvas.height * 0.2);
+      midX = (predictions[0].bbox[0] + predictions[0].bbox[2] / 2);
+      midY = (predictions[0].bbox[1] + predictions[0].bbox[3] / 2);
+      handX = (cwidth * (midX / video.width)) + ((midX > video.width / 2)? (canvas.width * 0.1) : -(canvas.width*0.1));
+      handY = (cheight * (midY / video.height)) + ((midY > video.height / 2)? (canvas.height * 0.1) : -(canvas.height*0.1));
+      
 
       begin = 1;
 
@@ -177,21 +203,19 @@ function runDetection() {
       if (number1 == 0) {
         if (disx >= 0 && disx <= 50 && disy >= 0 && disy <= 50) {
           console.log("gotcha");
-          catchdog.play();
-          catchdog.volume = 1.0;
+          catchAudio.play();
           number1 = 1;
           stopDetect();
           setTimeout(() => {
-              document.getElementById("dogcenter").style.display = "flex";
+              document.getElementById("catchimg").style.display = "flex";
             setTimeout(() => {
-                document.getElementById("dogcenter").style.display = "none";
+                document.getElementById("catchimg").style.display = "none";
             }, 300);
           }, 300);
           checkWL();
         } else if (disx > 50 && disx <= 100 && disy > 50 && disy <= 100) {
           console.log("near alr");
-          dog.play();
-          dog.volume = 0.8;
+          catchNearby.play();
         }
       }
 
@@ -199,14 +223,13 @@ function runDetection() {
       if (number2 == 0) {
         if (disx2 >= 0 && disx2 <= 50 && disy2 >= 0 && disy2 <= 50) {
           console.log("gotcha");
-          catchdog.play();
-          catchdog.volume = 1.0;
+          catchAudio.play();
           number2 = 1;
           stopDetect();
           setTimeout(() => {
-              document.getElementById("dogcenter").style.display = "flex";
+              document.getElementById("catchimg").style.display = "flex";
             setTimeout(() => {
-                document.getElementById("dogcenter").style.display = "none";
+                document.getElementById("catchimg").style.display = "none";
             }, 300);
           }, 300);
           checkWL();
@@ -214,8 +237,7 @@ function runDetection() {
         else if (disx2 > 50 && disx2 <= 100 && disy2 > 50 && disy2 <= 100) 
         {
           console.log("near alr");
-          dog.play();
-          dog.volume = 0.8;
+          catchNearby.play();
         }
       }
 
@@ -223,21 +245,19 @@ function runDetection() {
       if (number3 == 0) {
         if (disx3 >= 0 && disx3 <= 50 && disy3 >= 0 && disy3 <= 50) {
           console.log("gotcha");
-          catchdog.play();
-          catchdog.volume = 1.0;
+          catchAudio.play();
           number3 = 1;
           stopDetect();
           setTimeout(() => {
-              document.getElementById("dogcenter").style.display = "flex";
+              document.getElementById("catchimg").style.display = "flex";
             setTimeout(() => {
-                document.getElementById("dogcenter").style.display = "none";
+                document.getElementById("catchimg").style.display = "none";
             }, 300);
           }, 300);
           checkWL();
         } else if (disx3 > 50 && disx3 <= 100 && disy3 > 50 && disy3 <= 100) {
           console.log("near alr");
-          dog.play();
-          dog.volume = 0.8;
+          catchNearby.play();
         }
       }
 
@@ -247,22 +267,20 @@ function runDetection() {
           number1 = 0;
           number2 = 0;
           number3 = 0;
-          catchcat.play();
-          catchcat.volume = 1.0;
+          trapAudio.play();
           stopDetect();
             document.querySelector(".container-item2 span").innerHTML =
             "<i class='fas fa-cat'></i>!!!";
           setTimeout(() => {
-            document.getElementById("catcenter").style.display = "flex";
+              document.getElementById("trapimg").style.display = "flex";
             setTimeout(() => {
-                document.getElementById("catcenter").style.display = "none";
+                document.getElementById("trapimg").style.display = "none";
             }, 300);
           }, 300);
           statustrap = 1;
         } else if (distx > 50 && distx <= 100 && disty > 50 && disty <= 100)
         {
-          cat.play();
-          cat.volume = 1.0;
+          trapNearby.play();
         }
       }
     }
@@ -317,20 +335,20 @@ function secpass() {
 }
 
 function checkWL() {
-   total = number1 + number2 + number3;
-   if (total != 3) {
-     if (total == 1) {
-       document.querySelector(".container-item2 span").innerHTML =
-         "<i class='fas fa-dog'></i>";
-     } else if (total == 2) {
-       document.querySelector(".container-item2 span").innerHTML =
-         "<i class='fas fa-dog'></i><i class='fas fa-dog'></i>";
-     }
-   } else if (total == 3) {
-      clearInterval(countDown);
-    //  console.log(perfTime.length);
-      display_win();
-   }
+  // total = number1 + number2 + number3;
+  // if (total != 3) {
+  //   if (total == 1) {
+  //     document.querySelector(".container-item2 span").innerHTML =
+  //       "<i class='fas fa-dog'></i>";
+  //   } else if (total == 2) {
+  //     document.querySelector(".container-item2 span").innerHTML =
+  //       "<i class='fas fa-dog'></i><i class='fas fa-dog'></i>";
+  //   }
+  // } else if (total == 3) {
+  //   clearInterval(countDown);
+  // //  console.log(perfTime.length);
+  //   display_win();
+  // }
 }
 
 var name;
@@ -339,8 +357,8 @@ function display_win() {
   dlData();
   score = 1000;
   total = 3;
-  win.play();
-  win.volume = 1.0;
+  BGM.pause();
+  winAudio.play();
   statustrap = 1;
   document.querySelector(".container-item2 span").innerHTML = "<i class='fas fa-dog'></i><i class='fas fa-dog'></i><i class='fas fa-dog'></i>";
   document.getElementById("display").style.display = "block";
@@ -391,13 +409,28 @@ function dlData() {
     return Math.round(numerator * 1000) / 1000;
   })();
 
-  data.animalLocation = {
-    'dog1': [x,y],
-    'dog2': [x2,y2],
-    'dog3': [x3,y3],
-    'trap': [trapx,trapy]
-  }
+  data.gameObj = [];
+  data.gameObj.push(dog1,dog2,dog3,trap);
 
+  data.handLocation = handLocations.filter(function([i,j], index, arr){
+    return (i != null) && (j != null);
+  });
+
+  $.ajax({
+    type:"POST",
+    url:"gamedata.php",
+    data:
+    {
+      startTime: data.starttime,
+      avgFPS: data.avgfps,
+      median: data.median,
+      stddevfps: data.stddev,
+      handLocation: data.handLocation,
+      gameObj: data.gameObj,
+      
+    },
+    // on success do nothing
+  })
 
   const text = JSON.stringify(data);
   const name = "data.json";
@@ -411,9 +444,10 @@ function dlData() {
   a.click();
   a.remove();
 }
+
 function display_lose() {
-  lose.play();
-  lose.volume = 1.0;
+  BGM.pause();
+  loseAudio.play();
   number1 = 1;
   number2 = 1;
   number3 = 1;
@@ -480,8 +514,8 @@ function draw() {
   
   c.lineWidth = 5;
   c.beginPath();
-  controlX = (controlX >= canvas.width) ? canvas.width : controlX;
-  controlY = (controlY >= canvas.height) ? canvas.height : controlY;
+  controlX = (controlX >= cwidth) ? cwidth : controlX;
+  controlY = (controlY >= cheight) ? cheight : controlY;
 
     if (canvas.width >= 0 && canvas.width <2000) {
         c.ellipse(controlX, controlY, 25, 50, 0, 0, Math.PI * 2);
