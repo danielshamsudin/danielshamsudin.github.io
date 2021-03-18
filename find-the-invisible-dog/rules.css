@@ -20,8 +20,8 @@ body {
 	box-sizing: border-box; /* border does not adds extra width or height */
 	border: 20px solid transparent;
 	border-image: url(111.png) 90 round;
-	height: 100vmin; /* minimum viewport 100%, can be adjusted */
-	width: 100vmin;
+	height: 100vh;
+	width: 100vmin; /* minimum viewport 100%, can be adjusted */
 	position: relative;
 }
 
@@ -33,29 +33,32 @@ body {
 .title {
 	width: 100%;
 	height: 20%;
-	font-size: 300%;
+	font-size: 400%;
 	font-family: font1;
 	letter-spacing: 3px;
 	word-spacing: 10px;
 	text-align: center;
+	margin-top: 5%;
+	margin-bottom: 5%;
 	margin: auto;
 }
-
-#dogLogo {
+.title > img {
 	display: block;
 	margin: auto;
-	width: 20%;
+	width: 30%;
+	height: auto;
 }
 
 p {
-	font-size: 250%;
+	font-size: 350%;
 	font-family: font2;
 	word-spacing: 5px;
 }
 
 img {
-	width: 50%;
-	height: 50%;
+	width: 50%; 
+	height: auto;
+	object-fit: scale-down;
 }
 
 .wrapper {
@@ -118,7 +121,7 @@ img {
 	width: 100%;
 	height: 100%;
 	font-family: font1;
-	font-size: 200%;
+	font-size: 300%;
 	background-color: #FF9E67;
 	color: white;
 	border-radius: 10px;
@@ -137,7 +140,7 @@ audio
 	display: none;
 }
 
-@media screen and (min-width: 3820px) {
+@media screen and (min-width: 3820px)  {
 	p {
 		font-size: 800%;
 	}
@@ -148,6 +151,30 @@ audio
 
 	#btn {
 		font-size: 800%;
+	}
+}
+@media screen and (min-height: 3820px) {
+	p {
+		font-size: 800%;
+	}
+
+	.title {
+		font-size: 1000%;
+	}
+
+	#btn {
+		font-size: 800%;
+	}
+}
+
+@media screen and (orientation: portrait) {
+	.scroll-down > img{
+		width: 100%;
+		height: 80%;
+	}
+	img {
+		width: 50%;
+		height: 30%;
 	}
 }
 /*
