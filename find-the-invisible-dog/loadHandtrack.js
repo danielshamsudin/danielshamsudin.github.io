@@ -21,7 +21,7 @@ var cheight = document.getElementsByClassName("container-item4")[0].clientHeight
 var spawn = [];
 
 var numOfTarget = 3; // get from JSON
-var numOfTrap = 5; // get from JSON
+var numOfTrap = 1; // get from JSON
 
 // target creation
 for (var i =1; i <= numOfTarget; i++)
@@ -137,18 +137,17 @@ function runDetection() {
     
       begin = 1;
 
-      for(i=0;i<spawn.length;i++)
+      for (var i=0;i<spawn.length;i++)
       {
         spawn[i].calculateDistanceHandToObject(handX,handY);
       }
 
       for (var i=0;i<spawn.length;i++) // repeatedly redetect one target as many
       {
-        if (spawn[i].type == 'dog')
+        if (spawn[i].type == 'dog' && spawn[i].isTouch == false) //target
         {
           if (spawn[i].distanceX >= 0 && spawn[i].distanceX <= 50 && spawn[i].distanceY >= 0 && spawn[i].distanceY <= 50)
           {
-            if (spawn[i].isTouch == true) break;
             spawn[i].isTouch = true;
             console.log("touched dog");
             catchdog.play();
@@ -160,7 +159,11 @@ function runDetection() {
                   document.getElementById("dogcenter").style.display = "none";
               }, 300);
             }, 300);
+            if (total == -1) total+=2;
+            else total++;
+            
             checkWL();
+            console.log('returned from checkWL');
           }else if (spawn[i].distanceX > 50 && spawn[i].distanceX <= 100 && spawn[i].distanceY > 50 && spawn[i].distanceY <= 100) {
             // console.log("near dog");
             dog.play();
@@ -171,10 +174,11 @@ function runDetection() {
         {
           if (spawn[i].distanceX >= 0 && spawn[i].distanceX <= 50 && spawn[i].distanceY >= 0 && spawn[i].distanceY <= 50)
           {
-            if (lastTouchedTrap == spawn[i].id) break;
+            total = 0;
             catchcat.play();
             catchcat.volume = 1.0;
             stopDetect();
+            dogImage = "";
             document.querySelector(".container-item2 span").innerHTML = "<i class='fas fa-cat'></i>!!!";
             setTimeout(() => {
               document.getElementById("catcenter").style.display = "flex";
@@ -183,7 +187,7 @@ function runDetection() {
               }, 300);
             }, 300);
             spawn[i].isTouch = true; //cat isTouch
-            lastTouchedTrap = spawn[i].id;
+            total = -1;
             spawn.forEach(index => {
               index.isTouch = false;
             });
@@ -194,6 +198,7 @@ function runDetection() {
           }
         }
       }
+      
       //sound on when near obj1
       // if (number1 == 0) {
       //   if (disx >= 0 && disx <= 50 && disy >= 0 && disy <= 50) {
@@ -328,14 +333,28 @@ function secpass() {
 }
 
 function checkWL() {
-  for(i=0;i<spawn.length;i++)
+  console.log('enter checkWL');
+  // for(i=0;i<spawn.length;i++)
+  // {
+  //   if (spawn[i].isTouch == true && spawn[i].type != 'trap')
+  //   {
+
+  //     total++;
+  //     dogImage += "<i class='fas fa-dog'></i>";
+  //   }
+  // }
+  dogImage = "";
+  if (total == -1)
   {
-    if (spawn[i].isTouch == true && spawn[i].type != 'trap')
+    dogImage = "<i class='fas fa-cat'></i>!!!";
+  }
+  else{
+    for (i=0;i<total;i++)
     {
-      total++;
       dogImage += "<i class='fas fa-dog'></i>";
     }
   }
+
   console.log(total);
   document.querySelector(".container-item2 span").innerHTML = dogImage;
   
@@ -349,7 +368,7 @@ function checkWL() {
 var name;
 
 function display_win() {
-  dlData();
+  // dlData();
   score = (total / numOfTarget) * 100; // set score for dogs
   win.play();
   win.volume = 1.0;
