@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Find The Invisible Dog</title>
     <link rel="stylesheet" href="stylegame.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <audio autoplay id="BGM">
@@ -12,8 +14,8 @@
   		Your browser does not support the audio tag.
   	</audio>
 
-    <div id="titleimgcontainer">
-        <img id="titleimg">
+    <div id="logoimgcontainer">
+        <img id="logoimg">
     </div>
     <video id="video"></video>
     <div id="gui-container">
@@ -31,6 +33,7 @@
 
         <div class="container-item4">
             <canvas id="canvas"></canvas>
+            <div id="handimgcontainer"><img id="handimg"></div
         </div>
     </div>
 
@@ -66,7 +69,6 @@
 	<script src="choose.js"></script>
     <script src="loadHandtrack.js"></script>
     <script src="loadItem.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src='https://kit.fontawesome.com/a076d05399.js'></script>
 </body>
 </html>

@@ -4,7 +4,7 @@ var vcontainer = document.querySelector(".container-item3"); //video canvas cont
 video.width = window.innerWidth;
 video.height = window.innerHeight;
 
-var ellipse = document.getElementById("ellipse");
+var handimgcontainer = document.getElementById("handimgcontainer");
 //window.scrollY + document.querySelector('#elementId'). // Y
 //window.scrollX + document.querySelector('#elementId'). // X
 
@@ -28,7 +28,7 @@ let handX, handY;
 
 //var w = window.innerWidth;
 //var h = window.innerHeight;
-var w = canvas.width; // here
+var w = canvas.width;
 var h = canvas.height;
 
 var isStart = false;

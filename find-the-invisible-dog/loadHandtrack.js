@@ -48,15 +48,6 @@ var disx, disy, disx2, disy2, disx3, disy3, distx, disty;
 var statustrap = 0;
 var score = 0;
 
-/*
-var dog = new Audio("dog.mp3");
-var cat = new Audio("cat.mp3");
-var catchdog = new Audio("catch dog.mp3");
-var catchcat = new Audio("catch cat.mp3");
-var win = new Audio("win.mp3");
-var lose = new Audio("lose.mp3");
-*/
-
 var perfTime = [];
 var handLocations = [];
 
@@ -540,6 +531,12 @@ function draw() {
   c.beginPath();
   controlX = (controlX >= cwidth) ? cwidth : controlX;
   controlY = (controlY >= cheight) ? cheight : controlY;
+
+    var handImgPosX = controlX - (handimgcontainer.clientWidth / 2);
+    var handImgPosY = controlY - (handimgcontainer.clientHeight / 2);
+
+    handimgcontainer.style.left = handImgPosX + "px";
+    handimgcontainer.style.top = handImgPosY + "px";
 
     if (canvas.width >= 0 && canvas.width <2000) {
         c.ellipse(controlX, controlY, 25, 50, 0, 0, Math.PI * 2);

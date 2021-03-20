@@ -23,7 +23,7 @@ p {
     text-align: center;
 }
 
-#titleimgcontainer {
+#logoimgcontainer {
     width: 5%;
     height: 5%;
     border: 1px black solid;
@@ -40,7 +40,7 @@ p {
     align-items: center;
 }
 
-#titleimgcontainer > img{
+#logoimgcontainer > img{
     width: 90%;
     height: auto;
 }
@@ -97,12 +97,32 @@ p {
     height: calc(100% - 10px);
 }
 
+#handimgcontainer {
+    z-index: 1;
+    margin: auto;
+    position: absolute;
+    width: 15%;
+    height: 15%;
+    /*
+    border: 2px solid red;
+    border-radius: 50% 50%; //ellipse shape
+    */
+}
+
+#handimg {
+    object-fit: scale-down;
+    width: 100%;
+    height: 100%;
+}
+
 #vcanvas { /* video canvas */
     width: 100%;
     height: auto;
 }
 
 #canvas { /* play region */
+    z-index: 0;
+    position: absolute;
     width: 100%;
     height: auto
 }
@@ -112,6 +132,7 @@ video { /*video used by handtrack.js*/
 }
 
 .splashT { /* loading interface, div that stores loading symbols img */
+    z-index: 2;
     background-color: white;
     width: 100%;
     height: 100%;
@@ -123,7 +144,6 @@ video { /*video used by handtrack.js*/
     flex-direction: column;
     align-items: center;
     justify-content: center;
-
     /*alternate centering method
     top: 50%;
     left: 50%;
@@ -258,4 +278,9 @@ video { /*video used by handtrack.js*/
     .button {
         font-size: 100%;
     }
+}
+
+::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
 }
