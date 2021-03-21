@@ -7,12 +7,26 @@ function getItem() {
         async: false,
         success: function (data) {
             result = data;
+        },
+        error: function (xhr, textStatus, errorMessage) { //If error, everything is default
+            console.log("Error: " + xhr.status + " " + errorMessage);
+            result = {
+                "BGM": "Items/bgm/default/backgroundsound.mp3",
+                "winAudio": "Items/bgm/default/win.mp3",
+                "loseAudio": "Items/bgm/default/lose.mp3",
+                "logoImg": "Items/Image/default/dog.png",
+                "catchImg": "Items/Image/default/dog.png",
+                "catchAudio": "Items/Audio/default/catch dog.mp3",
+                "catchNearby": "Items/Audio/default/dog.mp3",
+                "trapImg": "Items/Image/default/cat.png",
+                "trapAudio": "Items/Audio/default/catch cat.mp3",
+                "trapNearby": "Items/Audio/default/cat.mp3",
+                "handImg": "Items/Image/handimage/hand.png"
+            };
         }
     });
     return result;
 }
-
-//if error = default
 
 console.log(itemObj);
 
