@@ -1,11 +1,12 @@
 class spawnableItem {
   // check x,y distance, if too close, regenerate
-  constructor(type,containerWidth,containerHeight)
+  constructor(type,containerWidth,containerHeight,radius)
   {
     this.type = type;
     this.isTouch = false; 
     this.x = Math.random() * containerWidth;
     this.y = Math.random() * containerHeight;
+    this.radius = radius;
   }
 
   regenerateXY(containerWidth, containerHeight)
