@@ -38,7 +38,7 @@ var spawn = [];
 var numOfTarget = 3; // get from JSON
 var numOfTrap = 1; // get from JSON
 var objRadius = 5; // get from JSON
-var handRadius = 5; // get from JSON
+var handRadius = 20; // get from JSON
 
 //create function to receive game data; ajax function
 // target creation
@@ -445,6 +445,12 @@ function draw() {
   c.beginPath();
   controlX = (controlX >= cwidth) ? cwidth : controlX;
   controlY = (controlY >= cheight) ? cheight : controlY;
+
+  var handImgPosX = controlX - (handimgcontainer.clientWidth / 2);
+  var handImgPosY = controlY - (handimgcontainer.clientHeight / 2);
+
+  handimgcontainer.style.left = handImgPosX + "px";
+  handimgcontainer.style.top = handImgPosY + "px";
 
   if (canvas.width >= 0 && canvas.width <2000) {
       c.ellipse(controlX, controlY, 25, 50, 0, 0, Math.PI * 2);
