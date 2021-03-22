@@ -452,14 +452,14 @@ function draw() {
   handimgcontainer.style.left = handImgPosX + "px";
   handimgcontainer.style.top = handImgPosY + "px";
 
-  if (canvas.width >= 0 && canvas.width <2000) {
-      c.ellipse(controlX, controlY, 25, 50, 0, 0, Math.PI * 2);
-      c.strokeStyle = 'black';
-      c.stroke();
-  }
-  else if (canvas.width >= 2000) {
-      c.ellipse(controlX, controlY, 50, 100, 0, 0, Math.PI * 2);
-      c.strokeStyle = 'black';
-      c.stroke();
-  }
+  // if (canvas.width >= 0 && canvas.width <2000) {
+  //     c.ellipse(controlX, controlY, 25, 50, 0, 0, Math.PI * 2);
+  //     c.strokeStyle = 'black';
+  //     c.stroke();
+  // }
+  // else if (canvas.width >= 2000) {
+  //     c.ellipse(controlX, controlY, 50, 100, 0, 0, Math.PI * 2);
+  //     c.strokeStyle = 'black';
+  //     c.stroke();
+  // }
 }
