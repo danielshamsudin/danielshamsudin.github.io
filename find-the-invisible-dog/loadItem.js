@@ -34,15 +34,15 @@ var BGM = document.getElementById("BGM");
 BGM.src = itemObj.BGM;
 BGM.volume = 0.2;
 
-var logoImg = document.querySelector("#logoimg");
+var logoImg = document.querySelector("#logoimg"); // 1:1 ratio recommendedW
 logoImg.src = itemObj.logoImg;
 
-var catchImg = document.querySelector("#catchimg");
+var catchImg = document.querySelector("#catchimg"); //aka dog img, 1:1 ratio recommended
 catchImg.src = itemObj.catchImg;
-var catchAudio = new Audio(itemObj.catchAudio);
-var catchNearby = new Audio(itemObj.catchNearby);
+var catchAudio = new Audio(itemObj.catchAudio); //aka dog audio
+var catchNearby = new Audio(itemObj.catchNearby); //aka dog nearby audio
 
-var trapImg = document.querySelector("#trapimg");
+var trapImg = document.querySelector("#trapimg"); // 1:1 ratio recommended
 trapImg.src = itemObj.trapImg;
 var trapAudio = new Audio(itemObj.trapAudio);
 var trapNearby = new Audio(itemObj.trapNearby);
@@ -52,5 +52,5 @@ var loseAudio = new Audio(itemObj.loseAudio);
 winAudio.volume = 0.2;
 loseAudio.volume = 0.2;
 
-var handImg = document.querySelector("#handimg"); //1:1 ratio / hand img, easy to know
+var handImg = document.querySelector("#handimg"); //1:1 ratio recommended
 handImg.src = itemObj.handImg;

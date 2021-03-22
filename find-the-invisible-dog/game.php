@@ -17,6 +17,7 @@
     <div id="logoimgcontainer">
         <img id="logoimg">
     </div>
+
     <video id="video"></video>
     <div id="gui-container">
         <div id="count" class="container-item1">
@@ -33,7 +34,8 @@
 
         <div class="container-item4">
             <canvas id="canvas"></canvas>
-            <div id="handimgcontainer"><img id="handimg"></div
+            <div id="handimgcontainer"><img id="handimg"></div>
+            <img id="backgroundimg" src="grass.jpg">
         </div>
     </div>
 

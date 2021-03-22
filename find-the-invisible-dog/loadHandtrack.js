@@ -140,6 +140,7 @@ function runDetection() {
         {
           if (spawn[i].distanceX >= 0 && spawn[i].distanceX <= 50 && spawn[i].distanceY >= 0 && spawn[i].distanceY <= 50)
           {
+            secpass("target");
             spawn[i].isTouch = true;
             console.log("touched dog");
             catchAudio.play();
@@ -167,6 +168,7 @@ function runDetection() {
           if (spawn[i].distanceX >= 0 && spawn[i].distanceX <= 50 && spawn[i].distanceY >= 0 && spawn[i].distanceY <= 50)
           {
             total = 0;
+            secpass("trap");
             trapAudio.play();
             trapAudio.volume = 1.0;
             stopDetect();
@@ -288,17 +290,19 @@ function stopDetect() {
   console.log("STOP");
 }
 
+var recordTimeTouch = [];
+
 var sec = 3600, countDiv = document.getElementById("timer"), secpass,
 countDown = setInterval(function () {
     "use strict";
 
     //start countdown for 1 min
     if (begin == 1) {
-      secpass();
+      secpass(null);
     }
   }, 1000);
 
-function secpass() {
+function secpass(touchType) {
   "use strict";
 
   var min = Math.floor(sec / 60),
@@ -322,6 +326,11 @@ function secpass() {
       display_lose();
     }
   }
+
+    if (touchType == "target" || touchType == "trap") {
+        recordTimeTouch.push({ "time": min + ":" + remSec, "touchtype": touchType });
+        console.log(recordTimeTouch);
+    }
 }
 
 function checkWL() {
@@ -391,6 +400,9 @@ function display_win() {
 function dlData() {
   console.log(perfTime.length);
   var data = new Object();
+  data.touchtime = recordTimeTouch;
+  data.playcanvassize = { "playcanvaswidth": canvas.width, "playcanvasheight": canvas.height };
+  data.windowsize = { "windowwidth": window.innerWidth, "windowheight": window.innerHeight };
   data.starttime = stDate;
   data.avgfps = (function()
   {
@@ -430,7 +442,9 @@ function dlData() {
       stddevfps: data.stddev,
       handLocation: data.handLocation,
       gameObj: data.gameObj,
-      
+      touchTime: data.touchtime,
+      playableCanvasSize: data.playcanvassize,
+      windowSize: data.windowsize
     },
     // on success do nothing
   })
@@ -490,8 +504,9 @@ function display_lose() {
 
 var bgcolor = localStorage.getItem("pass");
 function draw() {
-  c.fillStyle = bgcolor;
-  c.fillRect(0, 0, canvas.width, canvas.height);
+  //c.fillStyle = bgcolor;
+  //c.fillRect(0, 0, canvas.width, canvas.height);
+    document.getElementsByTagName('html')[0].style.background = bgcolor;
   requestAnimationFrame(draw);
   c.lineWidth = 2;
   spawn.forEach(item =>{
@@ -539,13 +554,13 @@ function draw() {
     handimgcontainer.style.top = handImgPosY + "px";
 
     if (canvas.width >= 0 && canvas.width <2000) {
-        c.ellipse(controlX, controlY, 25, 50, 0, 0, Math.PI * 2);
-        c.strokeStyle = 'black';
-        c.stroke();
+        //c.ellipse(controlX, controlY, 25, 50, 0, 0, Math.PI * 2);
+        //c.strokeStyle = 'black';
+        //c.stroke();
     }
     else if (canvas.width >= 2000) {
-        c.ellipse(controlX, controlY, 50, 100, 0, 0, Math.PI * 2);
-        c.strokeStyle = 'black';
-        c.stroke();
+        //c.ellipse(controlX, controlY, 50, 100, 0, 0, Math.PI * 2);
+        //c.strokeStyle = 'black';
+        //c.stroke();
     }
 }
