@@ -140,7 +140,7 @@ function runDetection() {
         {
           if (spawn[i].distanceX >= 0 && spawn[i].distanceX <= 50 && spawn[i].distanceY >= 0 && spawn[i].distanceY <= 50)
           {
-            secpass("target");
+            recordTimeTouch.push(calcTouchTime("target")); //calc touch time
             spawn[i].isTouch = true;
             console.log("touched dog");
             catchAudio.play();
@@ -168,7 +168,7 @@ function runDetection() {
           if (spawn[i].distanceX >= 0 && spawn[i].distanceX <= 50 && spawn[i].distanceY >= 0 && spawn[i].distanceY <= 50)
           {
             total = 0;
-            secpass("trap");
+            recordTimeTouch.push(calcTouchTime("trap")); //calc touch time
             trapAudio.play();
             trapAudio.volume = 1.0;
             stopDetect();
@@ -290,7 +290,30 @@ function stopDetect() {
   console.log("STOP");
 }
 
+var touchTimeStart = performance.now(); 
+var touchTimeEnd, touchSec, touchMinute;
 var recordTimeTouch = [];
+
+function calcTouchTime (touchType) { //For data collection
+
+    if (touchType == "target" || touchType == "trap") {
+
+        touchTimeEnd = performance.now();
+        touchSec = ((touchTimeEnd - touchTimeStart) / 1000);
+        touchMinute = Math.floor(touchSec / 60);
+        touchSec = Math.floor(touchSec - (touchMinute * 60));
+
+        if (touchMinute < 10) {
+            touchMinute = "0" + touchMinute;
+        }
+        if (touchSec < 10) {
+            touchSec = "0" + touchSec;
+        }
+
+        console.log(recordTimeTouch);
+        return { "time": touchMinute + ":" + touchSec, "touchtype": touchType };
+    }
+} 
 
 var sec = 3600, countDiv = document.getElementById("timer"), secpass,
 countDown = setInterval(function () {
@@ -298,15 +321,15 @@ countDown = setInterval(function () {
 
     //start countdown for 1 min
     if (begin == 1) {
-      secpass(null);
+      secpass();
     }
   }, 1000);
 
-function secpass(touchType) {
+function secpass() {
   "use strict";
 
-  var min = Math.floor(sec / 60),
-    remSec = sec % 60;
+  var min = Math.floor(sec / 60), //remaining minutes
+    remSec = sec % 60; //remaining seconds
 
   if (remSec < 10) {
     remSec = "0" + remSec;
@@ -326,11 +349,6 @@ function secpass(touchType) {
       display_lose();
     }
   }
-
-    if (touchType == "target" || touchType == "trap") {
-        recordTimeTouch.push({ "time": min + ":" + remSec, "touchtype": touchType });
-        console.log(recordTimeTouch);
-    }
 }
 
 function checkWL() {
@@ -403,6 +421,8 @@ function dlData() {
   data.touchtime = recordTimeTouch;
   data.playcanvassize = { "playcanvaswidth": canvas.width, "playcanvasheight": canvas.height };
   data.windowsize = { "windowwidth": window.innerWidth, "windowheight": window.innerHeight };
+  data.handSize = {"handImgWidth": handImg.width, "handImgHeight": handImg.height };
+  data.loadingTimeTaken = loadingTimeEllapse;
   data.starttime = stDate;
   data.avgfps = (function()
   {
@@ -444,7 +464,9 @@ function dlData() {
       gameObj: data.gameObj,
       touchTime: data.touchtime,
       playableCanvasSize: data.playcanvassize,
-      windowSize: data.windowsize
+      windowSize: data.windowsize,
+      handSize: data.handSize,
+      loadingTimeTaken: data.loadingTimeTaken
     },
     // on success do nothing
   })
