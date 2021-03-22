@@ -35,8 +35,8 @@ var isStart = false;
 var isSplash = false;
 var isPlay = false;
 
-c.fillStyle = "white";
-c.fillRect(0, 0, canvas.width, canvas.height);
+//c.fillStyle = "white";
+//c.fillRect(0, 0, canvas.width, canvas.height);
 document.getElementById("splash-text").innerHTML = "Dogs Come... <br> ..READYYYYYYYY";
 
 
