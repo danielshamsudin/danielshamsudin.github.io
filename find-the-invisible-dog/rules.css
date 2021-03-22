@@ -19,7 +19,7 @@ body {
 	*/
 	box-sizing: border-box; /* border does not adds extra width or height */
 	border: 20px solid transparent;
-	border-image: url(111.png) 90 round;
+	/* border-image: url(111.png) 90 round; */
 	height: 100vh;
 	width: 100vmin; /* minimum viewport 100%, can be adjusted */
 	position: relative;

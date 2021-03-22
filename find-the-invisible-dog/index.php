@@ -4,6 +4,8 @@
 	Intro Page
 	</title>
 	<link rel="stylesheet" href="rules.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 <!-- <div class="hint">
@@ -17,7 +19,7 @@ Click to play &#9836;
 	<div class="wrapper">
 
 		<div class="title">
-			Find the INVISIBLE DOGGGG <img id="titleimg">
+			Find the INVISIBLE DOGGGG <img id="logoimg">
 		</div>
 		<br><br>
 	

@@ -4,7 +4,7 @@ var vcontainer = document.querySelector(".container-item3"); //video canvas cont
 video.width = window.innerWidth;
 video.height = window.innerHeight;
 
-var ellipse = document.getElementById("ellipse");
+var handimgcontainer = document.getElementById("handimgcontainer");
 //window.scrollY + document.querySelector('#elementId'). // Y
 //window.scrollX + document.querySelector('#elementId'). // X
 
@@ -23,14 +23,12 @@ vcanvas.setAttribute('width', vcontainer.scrollWidth);
 vcanvas.setAttribute('height', vcontainer.scrollHeight);
 var vctx = vcanvas.getContext("2d");
 
-//document.getElementById("dogcenter").src = "img/dog.png";
-//document.getElementById("catcenter").src = "img/cat.png";
 let model;
 let handX, handY;
 
 //var w = window.innerWidth;
 //var h = window.innerHeight;
-var w = canvas.width; // here
+var w = canvas.width;
 var h = canvas.height;
 
 var isStart = false;
@@ -39,6 +37,6 @@ var isPlay = false;
 
 c.fillStyle = "white";
 c.fillRect(0, 0, canvas.width, canvas.height);
-document.getElementById("splash-text").innerHTML = "Dogs Come...";
+document.getElementById("splash-text").innerHTML = "Dogs Come... <br> ..READYYYYYYYY";
 
 

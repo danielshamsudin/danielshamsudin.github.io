@@ -11,7 +11,7 @@ html {
 body {
     box-sizing: border-box; /* border does not adds extra width or height */
     border: 10px solid transparent;
-    border-image: url(111.png) 90 round;
+    /*border-image: url(111.png) 90 round; */
     height: 100vh; /* minimum viewport 100%, can be adjusted */
     width: 100vmin;
     position: relative;
@@ -26,7 +26,7 @@ body {
     display: none;
 }
 
-#titleimgcontainer {
+#logoimgcontainer {
     width: 5%;
     height: 5%;
     border: 1px black solid;
@@ -41,7 +41,7 @@ body {
     align-items: center;
 }
 
-#titleimgcontainer > img{
+#logoimgcontainer > img{
     width: 90%;
     height: auto;
 }

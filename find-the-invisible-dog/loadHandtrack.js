@@ -65,14 +65,6 @@ var disx, disy, disx2, disy2, disx3, disy3, distx, disty;
 var statustrap = 0;
 var score = 0;
 
-
-var dog = new Audio("dog.mp3");
-var cat = new Audio("cat.mp3");
-var catchdog = new Audio("catch dog.mp3");
-var catchcat = new Audio("catch cat.mp3");
-var win = new Audio("win.mp3");
-var lose = new Audio("lose.mp3");
-
 var perfTime = [];
 var handLocations = [];
 
@@ -168,13 +160,13 @@ function runDetection() {
           {
             spawn[i].isTouch = true;
             console.log("touched dog");
-            catchdog.play();
-            catchdog.volume = 1.0;
+            catchAudio.play();
+            catchAudio.volume = 1.0;
             stopDetect();
             setTimeout(() => {
-                document.getElementById("dogcenter").style.display = "flex";
+                catchImg.style.display = "flex";
               setTimeout(() => {
-                  document.getElementById("dogcenter").style.display = "none";
+                  catchImg.style.display = "none";
               }, 300);
             }, 300);
             if (total == -1) total = 1; // touched target from trap
@@ -182,10 +174,17 @@ function runDetection() {
             
             checkWL();
             console.log('returned from checkWL');
+<<<<<<< HEAD
           }else if (spawn[i].distanceX > (spawn[i].radius + handRadius) && spawn[i].distanceX <= 1.1*(spawn[i].radius + handRadius) && spawn[i].distanceY > (spawn[i].radius + handRadius) && spawn[i].distanceY <= 1.1*(spawn[i].radius + handRadius)) {
             console.log("near dog");
             dog.play();
             dog.volume = 0.8;
+=======
+          }else if (spawn[i].distanceX > 50 && spawn[i].distanceX <= 100 && spawn[i].distanceY > 50 && spawn[i].distanceY <= 100) {
+            // console.log("near dog");
+            catchNearby.play();
+            catchNearby.volume = 0.8;
+>>>>>>> origin/mw_dev
           }
         }
         else if (spawn[i].type == 'trap')
@@ -193,15 +192,15 @@ function runDetection() {
           if (spawn[i].distanceX >= 0 && spawn[i].distanceX <= (spawn[i].radius + handRadius) && spawn[i].distanceY >= 0 && spawn[i].distanceY <= (spawn[i].radius + handRadius))
           {
             total = 0;
-            catchcat.play();
-            catchcat.volume = 1.0;
+            trapAudio.play();
+            trapAudio.volume = 1.0;
             stopDetect();
             dogImage = "";
             document.querySelector(".container-item2 span").innerHTML = "<i class='fas fa-cat'></i>!!!";
             setTimeout(() => {
-              document.getElementById("catcenter").style.display = "flex";
+              trapImg.style.display = "flex";
               setTimeout(() => {
-                  document.getElementById("catcenter").style.display = "none";
+                  trapImg.style.display = "none";
               }, 300);
             }, 300);
             spawn[i].isTouch = true; //cat isTouch
@@ -211,8 +210,8 @@ function runDetection() {
             });
           }else if (spawn[i].distanceX > (spawn[i].radius + handRadius) && spawn[i].distanceX <= 1.1*(spawn[i].radius + handRadius) && spawn[i].distanceY > (spawn[i].radius + handRadius) && spawn[i].distanceY <= 1.1*(spawn[i].radius + handRadius)) {
             console.log("near cat");
-            cat.play();
-            cat.volume = 0.8;
+            trapNearby.play();
+            trapNearby.volume = 0.8;
           }
         }
       }
@@ -297,9 +296,14 @@ function display_win() {
   // dlData();
   // score change to json
   score = (total / numOfTarget) * 100; // set score for dogs
+<<<<<<< HEAD
 
   win.play();
   win.volume = 1.0;
+=======
+  BGM.pause();
+  winAudio.play();
+>>>>>>> origin/mw_dev
   statustrap = 1;
   document.querySelector(".container-item2 span").innerHTML = "<i class='fas fa-dog'></i><i class='fas fa-dog'></i><i class='fas fa-dog'></i>";
   document.getElementById("display").style.display = "block";
@@ -455,6 +459,7 @@ function draw() {
   controlX = (controlX >= cwidth) ? cwidth : controlX;
   controlY = (controlY >= cheight) ? cheight : controlY;
 
+<<<<<<< HEAD
   if (canvas.width >= 0 && canvas.width <2000) {
       c.ellipse(controlX, controlY, 25, 50, 0, 0, Math.PI * 2);
       c.strokeStyle = 'black';
@@ -465,4 +470,22 @@ function draw() {
       c.strokeStyle = 'black';
       c.stroke();
   }
+=======
+    var handImgPosX = controlX - (handimgcontainer.clientWidth / 2);
+    var handImgPosY = controlY - (handimgcontainer.clientHeight / 2);
+
+    handimgcontainer.style.left = handImgPosX + "px";
+    handimgcontainer.style.top = handImgPosY + "px";
+
+    if (canvas.width >= 0 && canvas.width <2000) {
+        c.ellipse(controlX, controlY, 25, 50, 0, 0, Math.PI * 2);
+        c.strokeStyle = 'black';
+        c.stroke();
+    }
+    else if (canvas.width >= 2000) {
+        c.ellipse(controlX, controlY, 50, 100, 0, 0, Math.PI * 2);
+        c.strokeStyle = 'black';
+        c.stroke();
+    }
+>>>>>>> origin/mw_dev
 }
