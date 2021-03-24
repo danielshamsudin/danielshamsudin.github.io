@@ -87,18 +87,21 @@ var handLocations = [];
 
 // put in json file from server
 const modelParams = {
-  //flipHorizontal: true, // flip e.g for video
   imageScaleFactor: 0.2, //changed here
   maxNumBoxes: 1, // maximum number of boxes to detect
   iouThreshold: 0.5, // ioU threshold for non-max suppression
   scoreThreshold: 0.7, // confidence threshold for predictions.
 };
 
+handTrack.load(modelParams).then((lmodel) => {
+  model = lmodel;
+});
+
 navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
   
 handTrack.startVideo(video).then((status) => {
-  video.width = 1920;
-  video.height = 1080;
+  // video.width = 1920;
+  // video.height = 1080;
   var countdownToLobby; 
   if (status) {
     navigator.getUserMedia(
@@ -215,9 +218,6 @@ function runDetection() {
   
 }
 
-handTrack.load(modelParams).then((lmodel) => {
-  model = lmodel;
-});
 
 function stopDetect() {
   clearInterval(runDetection);
@@ -299,7 +299,6 @@ function checkWL() {
     }
   }
 
-  console.log(`Total: ${total}`);
   document.querySelector(".container-item2 span").innerHTML = dogImage;
   
   if (total == numOfTarget) {
@@ -415,21 +414,16 @@ function dlData() {
 function display_lose() {
   BGM.pause();
   loseAudio.play();
-  number1 = 1;
-  number2 = 1;
-  number3 = 1;
-  statustrap = 1;
   document.getElementById("display").style.display = "block";
 
-  if (total == 0) {
-    score = 0;
-    document.getElementById("score").innerHTML =
-      "No catch anything!Score is " + score;
-  } else if (total != 0) {
-    // console.log("hi lose");
-    score = total*300;
-    document.getElementById("score").innerHTML =
-      "You only catch " + total + ".Score is " + score;
+  // if (total == 0) {
+  //   score = 0;
+  //   document.getElementById("score").innerHTML =
+  //     "No catch anything!Score is " + score;
+  // } else if (total != 0) {
+  //   // console.log("hi lose");
+  score = (total / numOfTarget) * 100;
+  document.getElementById("score").innerHTML = "You only catch " + total + ". Score is " + score;
   }
 
   window.parent.wsCreateScore(score);
@@ -452,10 +446,11 @@ function display_lose() {
 }
 
 var bgcolor = localStorage.getItem("pass");
-function draw() {
+function draw() 
+{
   //c.fillStyle = bgcolor;
   //c.fillRect(0, 0, canvas.width, canvas.height);
-    document.getElementsByTagName('html')[0].style.background = bgcolor;
+  document.getElementsByTagName('html')[0].style.background = bgcolor;
   requestAnimationFrame(draw);
   c.lineWidth = 2;
   spawn.forEach(item =>{
@@ -463,11 +458,11 @@ function draw() {
     c.arc(item.x, item.y, 5, 0, Math.PI * 2);
     if (item.type == 'dog')
     {
-      c.strokeStyle = 'green';
+      c.strokeStyle = 'blue';
     }
     else
     {
-      c.strokeStyle = 'red';
+      c.strokeStyle = 'white';
     }
     c.stroke();
   });
