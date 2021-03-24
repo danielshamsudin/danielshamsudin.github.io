@@ -34,7 +34,6 @@ var spawn = [];
 // }
 
 
-
 var numOfTarget = 3; // get from JSON
 var numOfTrap = 1; // get from JSON
 var objRadius = 5; // get from JSON
@@ -98,7 +97,11 @@ handTrack.load(modelParams).then((lmodel) => {
 });
 
 navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
-  
+function renderVideo()
+{
+  vctx.drawImage(video,0,0,vcanvas.width,vcanvas.height);
+  requestAnimationFrame(renderVideo);
+}
 handTrack.startVideo(video).then((status) => {
   // video.width = 1920;
   // video.height = 1080;
@@ -111,6 +114,7 @@ handTrack.startVideo(video).then((status) => {
         //run
         console.log("status "+status)
         clearInterval(countdownToLobby);
+        renderVideo();
         setInterval(runDetection, 250);
         //runDetection();
       },
@@ -137,7 +141,8 @@ function runDetection() {
   if (model === undefined) return;
   var timeStart = performance.now();
   model.detect(video).then((predictions) => {
-    model.renderPredictions(predictions, vcanvas, vctx, video);
+    // model.renderPredictions(predictions, vcanvas, vctx, video);
+    // console.log(predictions);
     var tid = setInterval(perfTime.push(model.getFPS()),2000);
     var tid2 = setInterval(handLocations.push([handX,handY]),2000); //TODO: [X,Y,time,touchedItem] -> if touched dog/cat
 
@@ -424,8 +429,6 @@ function display_lose() {
   //   // console.log("hi lose");
   score = (total / numOfTarget) * 100;
   document.getElementById("score").innerHTML = "You only catch " + total + ". Score is " + score;
-  }
-
   window.parent.wsCreateScore(score);
 
   document.getElementById("button_h").onclick = function () {

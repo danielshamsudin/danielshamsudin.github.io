@@ -125,6 +125,10 @@ p {
 #vcanvas { /* video canvas */
     width: 100%;
     height: auto;
+    transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    -moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
 }
 
 #canvas { /* play region */
@@ -135,7 +139,7 @@ p {
 }
 
 video { /*video used by handtrack.js*/
-    display: none;
+
 }
 
 .splashT { /* loading interface, div that stores loading symbols img */
