@@ -74,7 +74,7 @@ var handLocations = [];
   {
     for (var j = i+1; j<spawn.length; j++)
     {
-      if((calcEuclDistance(spawn[i], spawn[j]) <= (0.2*cheight)))
+      if((calcEuclDistance(spawn[i], spawn[j]) <= (0.05*cheight)))
       {
         spawn[j].regenerateXY();
       }
@@ -159,8 +159,8 @@ function runDetection() {
     if (predictions.length !== 0) {
       midX = (predictions[0].bbox[0] + predictions[0].bbox[2] / 2);
       midY = (predictions[0].bbox[1] + predictions[0].bbox[3] / 2);
-      handX = (cwidth * (midX / video.width)) + ((midX >= video.width / 2)? (canvas.width * 0.1) : -(canvas.width*0.1));
-      handY = (cheight * (midY / video.height)) + ((midY >= video.height / 2)? (canvas.height * 0.1) : -(canvas.height*0.1));
+      handX = (cwidth * (midX / video.width)) + ((midX >= video.width / 2)? (canvas.width * 0.01) : -(canvas.width*0.01));
+      handY = (cheight * (midY / video.height)) + ((midY >= video.height / 2)? (canvas.height * 0.01) : -(canvas.height*0.01));
 
       begin = 1;
 
@@ -463,7 +463,6 @@ function draw()
   //c.fillStyle = bgcolor;
   //c.fillRect(0, 0, canvas.width, canvas.height);
   document.getElementsByTagName('html')[0].style.background = bgcolor;
-  requestAnimationFrame(draw);
   c.lineWidth = 2;
   spawn.forEach(item =>{
     c.beginPath();
@@ -486,23 +485,11 @@ function draw()
 
   c.lineWidth = 5;
   c.beginPath();
-  controlX = (controlX >= cwidth) ? cwidth : controlX;
-  controlY = (controlY >= cheight) ? cheight : controlY;
 
   var handImgPosX = controlX - (handimgcontainer.clientWidth / 2);
   var handImgPosY = controlY - (handimgcontainer.clientHeight / 2);
 
   handimgcontainer.style.left = handImgPosX + "px";
   handimgcontainer.style.top = handImgPosY + "px";
-
-    if (canvas.width >= 0 && canvas.width <2000) {
-        //c.ellipse(controlX, controlY, 25, 50, 0, 0, Math.PI * 2);
-        //c.strokeStyle = 'black';
-        //c.stroke();
-    }
-    else if (canvas.width >= 2000) {
-        //c.ellipse(controlX, controlY, 50, 100, 0, 0, Math.PI * 2);
-        //c.strokeStyle = 'black';
-        //c.stroke();
-    }
+  requestAnimationFrame(draw);
 }
