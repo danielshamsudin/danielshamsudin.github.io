@@ -17,8 +17,6 @@
     <div id="logoimgcontainer">
         <img id="logoimg">
     </div>
-
-    <video id="video"></video>
     <div id="gui-container">
         <div id="count" class="container-item1">
             <p id="timer">1</p>
@@ -29,7 +27,9 @@
         </div>
 
         <div class="container-item3">
-            <canvas id="vcanvas"></canvas> <!-- video canvas -->
+            <canvas id="vcanvas">
+                <video id="video"></video>  
+            </canvas> <!-- video canvas -->
         </div>
 
         <div class="container-item4">
