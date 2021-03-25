@@ -69,20 +69,28 @@ var handLocations = [];
 
 // distance checking for each objects so that they are not close to each other
 // enable this in final version of the game
-// (function(){
-//   for (var i=0;i<spawn.length;i++)
-//   {
-//     for (var j = i+1; j<spawn.length; j++)
-//     {
-//       if(calcEuclDistance(spawn[i], spawn[j]) <= (0.1*cheight))
-//       {
-//         spawn[j].regenerateXY();
-//       }
-//     }
-//   }
-// })();
+(function(){
+  for (var i=0;i<spawn.length;i++)
+  {
+    for (var j = i+1; j<spawn.length; j++)
+    {
+      if((calcEuclDistance(spawn[i], spawn[j]) <= (0.2*cheight)))
+      {
+        spawn[j].regenerateXY();
+      }
 
-// forEach 
+      // if (calcEuclDistance(spawn[i],{'x':video.width, 'y':video.height}) <= (video.width / 2))
+      // {
+      //   spawn[i].regenerateXY();
+      // }
+
+      // if (calcEuclDistance(spawn[j],{'x':video.width, 'y':video.height}) <= (video.height / 2))
+      // {
+      //   spawn[j].regenerateXY();
+      // }
+    }
+  }
+})();
 
 // put in json file from server
 const modelParams = {
@@ -102,6 +110,7 @@ function renderVideo()
   vctx.drawImage(video,0,0,vcanvas.width,vcanvas.height);
   requestAnimationFrame(renderVideo);
 }
+
 handTrack.startVideo(video).then((status) => {
   // video.width = 1920;
   // video.height = 1080;
@@ -141,7 +150,7 @@ function runDetection() {
   if (model === undefined) return;
   var timeStart = performance.now();
   model.detect(video).then((predictions) => {
-    // model.renderPredictions(predictions, vcanvas, vctx, video);
+    model.renderPredictions(predictions, vcanvas, vctx, video);
     // console.log(predictions);
     var tid = setInterval(perfTime.push(model.getFPS()),2000);
     var tid2 = setInterval(handLocations.push([handX,handY]),2000); //TODO: [X,Y,time,touchedItem] -> if touched dog/cat
@@ -152,7 +161,7 @@ function runDetection() {
       midY = (predictions[0].bbox[1] + predictions[0].bbox[3] / 2);
       handX = (cwidth * (midX / video.width)) + ((midX >= video.width / 2)? (canvas.width * 0.1) : -(canvas.width*0.1));
       handY = (cheight * (midY / video.height)) + ((midY >= video.height / 2)? (canvas.height * 0.1) : -(canvas.height*0.1));
-      
+
       begin = 1;
 
       for (var i=0;i<spawn.length;i++)
