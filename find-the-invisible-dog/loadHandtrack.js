@@ -207,6 +207,8 @@ function runDetection() {
             trapAudio.play();
             trapAudio.volume = 1.0;
             stopDetect();
+            spawn[i].regenerateXY(cwidth, cheight);
+            draw();
             dogImage = "";
             document.querySelector(".container-item2 span").innerHTML = "<i class='fas fa-cat'></i>!!!";
             setTimeout(() => {
@@ -462,6 +464,7 @@ function draw()
 {
   //c.fillStyle = bgcolor;
   //c.fillRect(0, 0, canvas.width, canvas.height);
+  c.clearRect(0, 0, canvas.width, canvas.height);
   document.getElementsByTagName('html')[0].style.background = bgcolor;
   requestAnimationFrame(draw);
   c.lineWidth = 2;
