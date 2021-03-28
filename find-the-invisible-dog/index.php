@@ -55,6 +55,7 @@ Click to play &#9836;
 		<div class="scroll-down" onclick="document.getElementById('btn').scrollIntoView();">
 			<img src="img/scroll-down.png">
 		</div>
+		<div class="imgplaceholder"><img id="handimg"></div>
 	</div>
 	<script src="loadItem.js"></script>
 </body>
