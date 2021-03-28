@@ -94,10 +94,11 @@ var handLocations = [];
 
 // put in json file from server
 const modelParams = {
-  imageScaleFactor: 0.2, //changed here
+  flipHorizontal: true,
+  imageScaleFactor: 0.5, //changed here
   maxNumBoxes: 1, // maximum number of boxes to detect
   iouThreshold: 0.5, // ioU threshold for non-max suppression
-  scoreThreshold: 0.7, // confidence threshold for predictions.
+  scoreThreshold: 0.6, // confidence threshold for predictions.
 };
 
 handTrack.load(modelParams).then((lmodel) => {
@@ -123,9 +124,8 @@ handTrack.startVideo(video).then((status) => {
         //run
         console.log("status "+status)
         clearInterval(countdownToLobby);
-        renderVideo();
-        setInterval(runDetection, 250);
-        //runDetection();
+        // renderVideo();
+        setInterval(runDetection, 100);
       },
       (err) =>{
         console.log("status "+status)
@@ -150,7 +150,7 @@ function runDetection() {
   if (model === undefined) return;
   var timeStart = performance.now();
   model.detect(video).then((predictions) => {
-    model.renderPredictions(predictions, vcanvas, vctx, video);
+    model.renderPredictions(predictions, vcanvas, vctx, video); //webgl
     // console.log(predictions);
     var tid = setInterval(perfTime.push(model.getFPS()),2000);
     var tid2 = setInterval(handLocations.push([handX,handY]),2000); //TODO: [X,Y,time,touchedItem] -> if touched dog/cat
@@ -161,6 +161,8 @@ function runDetection() {
       midY = (predictions[0].bbox[1] + predictions[0].bbox[3] / 2);
       handX = (cwidth * (midX / video.width)) + ((midX >= video.width / 2)? (canvas.width * 0.01) : -(canvas.width*0.01));
       handY = (cheight * (midY / video.height)) + ((midY >= video.height / 2)? (canvas.height * 0.01) : -(canvas.height*0.01));
+      // handX = cwidth *  (midX / video.width);
+      // handY = cheight * (midY / video.height);
 
       begin = 1;
 
@@ -316,9 +318,10 @@ function checkWL() {
   document.querySelector(".container-item2 span").innerHTML = dogImage;
   
   if (total == numOfTarget) {
-    clearInterval(countDown);
-    dogImage = "";
-    display_win();
+    total = 0;
+    // clearInterval(countDown);
+    // dogImage = "";
+    // display_win();
   }
 }
 
@@ -491,5 +494,6 @@ function draw()
 
   handimgcontainer.style.left = handImgPosX + "px";
   handimgcontainer.style.top = handImgPosY + "px";
+
   requestAnimationFrame(draw);
 }

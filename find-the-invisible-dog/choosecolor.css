@@ -46,6 +46,10 @@ body {
     height: auto;
 }
 
+.imgplaceholder{
+    visibility: hidden;
+}
+
 @font-face {
     font-family: font1;
     src: url(ft1.ttf);
