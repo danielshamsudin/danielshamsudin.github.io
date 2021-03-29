@@ -36,7 +36,7 @@ var spawn = [];
 
 var numOfTarget = 3; // get from JSON
 var numOfTrap = 1; // get from JSON
-var objRadius = 5; // get from JSON
+var objRadius = 10; // get from JSON
 var handRadius = 20; // get from JSON
 
 //create function to receive game data; ajax function
@@ -94,7 +94,7 @@ var handLocations = [];
 
 // put in json file from server
 const modelParams = {
-  flipHorizontal: true,
+  // flipHorizontal: false,
   imageScaleFactor: 0.5, //changed here
   maxNumBoxes: 1, // maximum number of boxes to detect
   iouThreshold: 0.5, // ioU threshold for non-max suppression
@@ -124,7 +124,7 @@ handTrack.startVideo(video).then((status) => {
         //run
         console.log("status "+status)
         clearInterval(countdownToLobby);
-        // renderVideo();
+        renderVideo();
         setInterval(runDetection, 100);
       },
       (err) =>{
@@ -434,13 +434,6 @@ function display_lose() {
   BGM.pause();
   loseAudio.play();
   document.getElementById("display").style.display = "block";
-
-  // if (total == 0) {
-  //   score = 0;
-  //   document.getElementById("score").innerHTML =
-  //     "No catch anything!Score is " + score;
-  // } else if (total != 0) {
-  //   // console.log("hi lose");
   score = (total / numOfTarget) * 100;
   document.getElementById("score").innerHTML = "You only catch " + total + ". Score is " + score;
   window.parent.wsCreateScore(score);
@@ -463,16 +456,40 @@ function display_lose() {
 }
 
 var bgcolor = localStorage.getItem("pass");
+
+var controlX = cwidth / 2;
+var controlY = cheight / 2;
+function handAnimation()
+{
+  let offset = 5;
+  if (handX > controlX)
+  {
+    controlX += offset;
+  }
+  else if (handX + offset < controlX)
+  {
+    controlX -= offset;
+  }
+
+  if (handY > controlY)
+  {
+    controlY += offset;
+  }
+  else if (handY + offset < controlY)
+  {
+    controlY -= offset;
+  }
+}
+
 function draw() 
 {
-  //c.fillStyle = bgcolor;
-  //c.fillRect(0, 0, canvas.width, canvas.height);
-  c.clearRect(0, 0, canvas.width, canvas.height);
+  c.clearRect(0,0, canvas.width, canvas.height);
   document.getElementsByTagName('html')[0].style.background = bgcolor;
+  requestAnimationFrame(draw);
   c.lineWidth = 2;
   spawn.forEach(item =>{
     c.beginPath();
-    c.arc(item.x, item.y, 5, 0, Math.PI * 2);
+    c.arc(item.x, item.y, objRadius, 0, Math.PI * 2);
     if (item.type == 'dog')
     {
       c.strokeStyle = 'blue';
@@ -484,19 +501,11 @@ function draw()
     c.stroke();
   });
 
-
-  let controlX = handX;
-  let controlY = handY;
-
-
-  c.lineWidth = 5;
-  c.beginPath();
-
+  handAnimation();
   var handImgPosX = controlX - (handimgcontainer.clientWidth / 2);
   var handImgPosY = controlY - (handimgcontainer.clientHeight / 2);
-
-  handimgcontainer.style.left = handImgPosX + "px";
-  handimgcontainer.style.top = handImgPosY + "px";
-
-  requestAnimationFrame(draw);
+  
+  // handimgcontainer.style.left = handImgPosX + "px";
+  // handimgcontainer.style.top = handImgPosY + "px";
+  c.drawImage(handImg, handImgPosX, handImgPosY, 80, 80);
 }

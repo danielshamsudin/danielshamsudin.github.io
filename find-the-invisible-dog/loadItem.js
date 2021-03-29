@@ -52,6 +52,5 @@ var loseAudio = new Audio(itemObj.loseAudio);
 winAudio.volume = 0.2;
 loseAudio.volume = 0.2;
 
-// var handImg = document.querySelector("#handimg"); //1:1 ratio recommended
-// handImg.src = itemObj.handImg;
-document.querySelector("#handimg").src = itemObj.handImg;
+var handImg = document.querySelector("#handimg"); //1:1 ratio recommended
+handImg.src = itemObj.handImg;
