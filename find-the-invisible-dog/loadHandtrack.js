@@ -98,7 +98,7 @@ const modelParams = {
   imageScaleFactor: 0.5, //changed here
   maxNumBoxes: 1, // maximum number of boxes to detect
   iouThreshold: 0.5, // ioU threshold for non-max suppression
-  scoreThreshold: 0.6, // confidence threshold for predictions.
+  scoreThreshold: 0.9, // confidence threshold for predictions.
 };
 
 handTrack.load(modelParams).then((lmodel) => {
