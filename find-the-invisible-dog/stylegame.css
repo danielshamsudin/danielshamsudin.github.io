@@ -101,17 +101,12 @@ p {
     z-index: 2;
     margin: auto;
     position: absolute;
-    width: 15%;
-    height: 15%;
     /*
     border: 2px solid red;
     border-radius: 50% 50%; //ellipse shape
     */
 }
 
-.imgplaceholder{
-    visibility: hidden;
-}
 
 #handimg {
     visibility: hidden;

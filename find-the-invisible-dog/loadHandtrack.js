@@ -508,8 +508,8 @@ function draw()
   handAnimation();
   var handImgPosX = controlX - (handimgcontainer.clientWidth / 2);
   var handImgPosY = controlY - (handimgcontainer.clientHeight / 2);
-  
-  // handimgcontainer.style.left = handImgPosX + "px";
-  // handimgcontainer.style.top = handImgPosY + "px";
-  c.drawImage(handImg, handImgPosX, handImgPosY, 80, 80);
+
+  //handimgcontainer.style.left = handImgPosX + "px";
+  //handimgcontainer.style.top = handImgPosY + "px";
+  c.drawImage(handImg, handImgPosX, handImgPosY, handImg.width, handImg.height);
 }
