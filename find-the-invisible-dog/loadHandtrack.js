@@ -33,12 +33,6 @@ var spawn = [];
 //   });
 // }
 
-
-var numOfTarget = 3; // get from JSON
-var numOfTrap = 1; // get from JSON
-var objRadius = 10; // get from JSON
-var handRadius = 20; // get from JSON
-
 //create function to receive game data; ajax function
 // target creation
 for (var i =1; i <= numOfTarget; i++)
@@ -210,6 +204,7 @@ function runDetection() {
             trapAudio.volume = 1.0;
             stopDetect();
             spawn[i].regenerateXY(cwidth, cheight);
+            c.clearRect(0, 0, canvas.width, canvas.height);
             draw();
             dogImage = "";
             document.querySelector(".container-item2 span").innerHTML = "<i class='fas fa-cat'></i>!!!";
@@ -483,7 +478,6 @@ function handAnimation()
 
 function draw() 
 {
-  c.clearRect(0,0, canvas.width, canvas.height);
   document.getElementsByTagName('html')[0].style.background = bgcolor;
   requestAnimationFrame(draw);
   c.lineWidth = 2;

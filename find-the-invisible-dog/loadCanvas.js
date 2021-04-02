@@ -1,3 +1,8 @@
+var numOfTarget = 3; // get from JSON
+var numOfTrap = 1; // get from JSON
+var objRadius = 10; // get from JSON
+var handRadius = 20; // get from JSON
+
 const video = document.querySelector("#video");
 var ccontainer = document.querySelector(".container-item4"); //play region container
 var vcontainer = document.querySelector(".container-item3"); //video canvas container
@@ -5,6 +10,8 @@ video.width = window.innerWidth;
 video.height = window.innerHeight;
 
 var handimgcontainer = document.getElementById("handimgcontainer");
+handimgcontainer.style.width = handRadius * 2 + "px";
+handimgcontainer.style.height = handRadius * 2 + "px";
 //window.scrollY + document.querySelector('#elementId'). // Y
 //window.scrollX + document.querySelector('#elementId'). // X
 
@@ -12,11 +19,6 @@ var canvas = document.querySelector("#canvas");
 canvas.setAttribute('width', ccontainer.scrollWidth);
 canvas.setAttribute('height', ccontainer.scrollHeight);
 var c = canvas.getContext("2d");
-
-//canvas.width = window.innerWidth;
-//canvas.height = window.innerHeight;
-//canvas.width = document.body.scrollWidth;
-//canvas.height = document.body.scrollHeight;
 
 var vcanvas = document.querySelector("#vcanvas");
 vcanvas.setAttribute('width', vcontainer.scrollWidth);
