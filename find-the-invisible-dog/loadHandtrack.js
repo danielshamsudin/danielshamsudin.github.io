@@ -203,8 +203,17 @@ function runDetection() {
             trapAudio.play();
             trapAudio.volume = 1.0;
             stopDetect();
-            spawn[i].regenerateXY(cwidth, cheight);
-            c.clearRect(0, 0, canvas.width, canvas.height);
+
+            if (dogReset === true) {
+                for (var j = 0; j < spawn.length; j++) {
+                    if (spawn.type != 'trap') {
+                        spawn[j].regenerateXY(cwidth, cheight);
+                    }
+                }
+            }
+            if (catReset === true) {
+                spawn[i].regenerateXY(cwidth, cheight);
+            }
             draw();
             dogImage = "";
             document.querySelector(".container-item2 span").innerHTML = "<i class='fas fa-cat'></i>!!!";
@@ -478,6 +487,7 @@ function handAnimation()
 
 function draw() 
 {
+  c.clearRect(0, 0, canvas.width, canvas.height);
   document.getElementsByTagName('html')[0].style.background = bgcolor;
   requestAnimationFrame(draw);
   c.lineWidth = 2;

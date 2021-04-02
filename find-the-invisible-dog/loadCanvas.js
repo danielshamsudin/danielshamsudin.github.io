@@ -2,6 +2,8 @@ var numOfTarget = 3; // get from JSON
 var numOfTrap = 1; // get from JSON
 var objRadius = 10; // get from JSON
 var handRadius = 20; // get from JSON
+var catReset = true;
+var dogReset = true;
 
 const video = document.querySelector("#video");
 var ccontainer = document.querySelector(".container-item4"); //play region container
