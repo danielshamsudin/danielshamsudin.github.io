@@ -62,39 +62,24 @@ draw();
 const modal = document.querySelector(".modal");
 modal.style.height = window.innerHeight;
 modal.style.width = window.innerWidth;
-var number1 = 0,
-  number2 = 0,
-  number3 = 0,
-  total = 0;
+var total = 0;
 var x, y, x2, y2, x3, y3, trapx, trapy;
 var disx, disy, disx2, disy2, disx3, disy3, distx, disty;
 var statustrap = 0;
 var score = 0;
+var end = false;
 
 var perfTime = [];
 var handLocations = [];
 
 // distance checking for each objects so that they are not close to each other
-// enable this in final version of the game
-(function () {
-  for (var i = 0; i < spawn.length; i++) {
-    for (var j = i + 1; j < spawn.length; j++) {
-      if (calcEuclDistance(spawn[i], spawn[j]) <= 0.05 * cheight) {
-        spawn[j].regenerateXY();
-      }
-
-      // if (calcEuclDistance(spawn[i],{'x':video.width, 'y':video.height}) <= (video.width / 2))
-      // {
-      //   spawn[i].regenerateXY();
-      // }
-
-      // if (calcEuclDistance(spawn[j],{'x':video.width, 'y':video.height}) <= (video.height / 2))
-      // {
-      //   spawn[j].regenerateXY();
-      // }
+for (var i = 0; i < spawn.length; i++) {
+  for (var j = i + 1; j < spawn.length; j++) {
+    if (calcEuclDistance(spawn[i], spawn[j]) <= 0.15 * cheight) {
+      spawn[j].regenerateXY();
     }
   }
-})();
+}
 
 // put in json file from server
 const modelParams = {
@@ -109,23 +94,25 @@ handTrack.load(modelParams).then((lmodel) => {
   model = lmodel;
 });
 
+// getUserMedia deprecated for ios 11-12 safari, if can then have to use chrome
 navigator.getUserMedia =
   navigator.getUserMedia ||
   navigator.webkitGetUserMedia ||
   navigator.mozGetUserMedia ||
   navigator.msGetUserMedia;
+
+// replacement video display instead of renderPrediction video
 function renderVideo() {
   vctx.drawImage(video, 0, 0, vcanvas.width, vcanvas.height);
   requestAnimationFrame(renderVideo);
 }
 
+// handTrack built in method to start video stream
 handTrack.startVideo(video).then((status) => {
-  // video.width = 1920;
-  // video.height = 1080;
   var countdownToLobby;
   if (status) {
     navigator.getUserMedia(
-      { video: {} },
+      { video: true },
       (stream) => {
         video.srcObject = stream;
         //run
@@ -153,31 +140,19 @@ function runRedirectToLobby() {
 }
 
 function runDetection() {
-  //requestAnimationFrame(runDetection);
   if (model === undefined) return;
   var timeStart = performance.now();
   model.detect(video).then((predictions) => {
     model.renderPredictions(predictions, vcanvas, vctx, video); //webgl
-    // console.log(predictions);
     var tid = setInterval(perfTime.push(model.getFPS()), 2000);
-    var tid2 = setInterval(handLocations.push([handX, handY]), 2000); //TODO: [X,Y,time,touchedItem] -> if touched dog/cat
+    var tid2 = setInterval(handLocations.push([handX, handY, null, null]), 2000);
 
     isStart = true;
     if (predictions.length !== 0) {
       midX = predictions[0].bbox[0] + predictions[0].bbox[2] / 2;
       midY = predictions[0].bbox[1] + predictions[0].bbox[3] / 2;
-      handX =
-        cwidth * (midX / video.width) +
-        (midX >= video.width / 2
-          ? canvas.width * 0.01
-          : -(canvas.width * 0.01));
-      handY =
-        cheight * (midY / video.height) +
-        (midY >= video.height / 2
-          ? canvas.height * 0.01
-          : -(canvas.height * 0.01));
-      // handX = cwidth *  (midX / video.width);
-      // handY = cheight * (midY / video.height);
+      handX = cwidth * (midX / video.width) + (midX >= video.width / 2 ? canvas.width * 0.01: -(canvas.width * 0.01));
+      handY = cheight * (midY / video.height) + (midY >= video.height / 2 ? canvas.height * 0.01: -(canvas.height * 0.01));
 
       begin = 1;
 
@@ -185,11 +160,7 @@ function runDetection() {
         spawn[i].calculateDistanceHandToObject(handX, handY);
       }
 
-      for (
-        var i = 0;
-        i < spawn.length;
-        i++ // repeatedly redetect one target as many
-      ) {
+      for (var i = 0; i < spawn.length; i++) {
         if (spawn[i].type == "dog" && spawn[i].isTouch == false) {
           //target
           if (
@@ -198,7 +169,8 @@ function runDetection() {
             spawn[i].distanceY >= 0 &&
             spawn[i].distanceY <= spawn[i].radius + handRadius
           ) {
-            recordTimeTouch.push(calcTouchTime("target")); //calc touch time
+            handLocations.push([handX,handY, calcTouchTime("target")[0], calcTouchTime("target")[1]]);
+            // recordTimeTouch.push(calcTouchTime("target")); //calc touch time
             spawn[i].isTouch = true;
             console.log("touched dog");
             catchAudio.play();
@@ -234,7 +206,8 @@ function runDetection() {
             spawn[i].distanceY <= spawn[i].radius + handRadius
           ) {
             total = 0;
-            recordTimeTouch.push(calcTouchTime("trap")); //calc touch time
+            handLocations.push([handX,handY, calcTouchTime("trap")[0], calcTouchTime("trap")[1]]);
+            // recordTimeTouch.push(calcTouchTime("trap")); //calc touch time
             trapAudio.play();
             trapAudio.volume = 1.0;
             stopDetect();
@@ -294,15 +267,17 @@ function calcTouchTime(touchType) {
       touchSec = "0" + touchSec;
     }
 
-    console.log(recordTimeTouch);
-    return { time: touchMinute + ":" + touchSec, touchtype: touchType };
+    console.log(recordTimeTouch); 
+    return [touchMinute +":"+ touchSec, touchType] ; //plus handX, handY, time, touchtypearr
+  }
+  else
+  {
+    return [touchMinute +":"+ touchSec, null];
   }
 }
 
-var sec = 3600,
-  countDiv = document.getElementById("timer"),
-  secpass,
-  countDown = setInterval(function () {
+var sec = 3600, countDiv = document.getElementById("timer"),secpass,
+countDown = setInterval(function () {
     "use strict";
 
     //start countdown for 1 min
@@ -360,9 +335,9 @@ function checkWL() {
 var name;
 
 function display_win() {
-  dlData();
-  // score change to json
+  end = true;
   score = (total / numOfTarget) * 100; // set score for dogs
+  dlData();
   BGM.pause();
   winAudio.play();
   statustrap = 1;
@@ -427,16 +402,19 @@ function dlData() {
     return Math.round(numerator * 1000) / 1000;
   })();
   data.starttime = stDate.toFormattedString();
+  
   data.performance = {
     avgFPS: avgfps,
     medianFPS: median,
     stddevFPS: stddev,
     loadingTime: loadingTimeTaken,
   };
+
   data.handDetection = {
     handLocation: handLocations, 
     recordTimeTouch: recordTimeTouch
-  };
+  }; // append with time obj
+
   data.handSize = {
     handImgWidth: handImg.width,
     handImgHeight: handImg.height
@@ -479,6 +457,7 @@ function dlData() {
 }
 
 function display_lose() {
+  end = true;
   BGM.pause();
   loseAudio.play();
   document.getElementById("display").style.display = "block";
