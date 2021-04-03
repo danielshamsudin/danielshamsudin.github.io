@@ -16,8 +16,13 @@ body {
     width: 100vmin;
     position: relative;
     background-color: #FCE5B0;
+    overflow: scroll;
 }
 
+::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+}
 #catchimg{
     display: none;
 }
@@ -47,7 +52,7 @@ body {
 }
 
 .imgplaceholder{
-    visibility: hidden;
+    display: none;
 }
 
 @font-face {
@@ -60,46 +65,69 @@ body {
 }
 
 .title1 {
-    font-size: 200%;
+    width: 100%;
+    height: 20%;
+    top: 0;
     text-decoration: underline;
-    height:10%;
+    font-size: 300%;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
 }
 
 #selection {
+    height: 60%;
     display: flex;
     flex-wrap: wrap;
     text-align: center;
-    height: 60%;
 }
 
 label {
+    position: relative;
     display: block;
     justify-content: center;
     align-items: center;
     width: 50%;
-    /* height: 100%; */
+    height: auto;
+    /*height: 100%; */
     margin-top: 5%;
     margin-bottom: 5%;
-    font-size: 350%;
+    font-size: 200%;
+    object-fit: scale-down;
+}
+
+.color-div {
+    object-fit: scale-down;
+    margin: auto;
+    width: 35%;
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.color-box {
+    object-fit: scale-down;
+    width: 100%;
+    height: 100%;
 }
 
 .div-btn {
-    height: 40%;
     display:flex;
     justify-content: center;
     align-items: center;
-    position:absolute;
     bottom: 0;
     width: 100%;
-    height: 25%;
+    height: 15%;
     margin: auto;
+    margin-top: 5%;
 }
 
 .btn {
     width: 100%;
-    height: 25%;
+    height: 10%;
     color: white;
-    font-size: 200%;
+    font-size: 150%;
     background-color: #FF9E67;
     border-radius: 10px;
 }
@@ -113,25 +141,6 @@ label {
 img {
     width: 30%;
     height: 30%;
-}
-
-.color-div {
-    margin: auto;
-    width: 35%;
-    height: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.color-box {
-    width: 100%;
-    height: 100%;
-}
-
-::-webkit-scrollbar {
-    width: 0px;
-    background: transparent;
 }
 
 @media screen and (min-width: 3820px) {
@@ -158,12 +167,5 @@ img {
 
     .btn {
         font-size: 600%;
-    }
-}
-
-@media screen and (orientation: portrait) {
-    img {
-        width: 30%;
-        height: 10%;
     }
 }

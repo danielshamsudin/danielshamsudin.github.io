@@ -42,8 +42,8 @@ var spawn = [];
 
 var numOfTarget = 3; // get from JSON
 var numOfTrap = 1; // get from JSON
-var objRadius = 10; // get from JSON
-var handRadius = 20; // get from JSON
+var objRadius = 10; // get from JSON, based on %screen shortest
+var handRadius = 20; // get from JSON, based on %screen shortest
 
 //create function to receive game data; ajax function
 // target creation
@@ -71,11 +71,11 @@ var end = false;
 
 var perfTime = [];
 var handLocations = [];
-
+// TODO: mode for admin to select, easy medium hard, change objnum, objradius, handradius
 // distance checking for each objects so that they are not close to each other
 for (var i = 0; i < spawn.length; i++) {
   for (var j = i + 1; j < spawn.length; j++) {
-    if (calcEuclDistance(spawn[i], spawn[j]) <= 0.15 * cheight) {
+    if (calcEuclDistance(spawn[i], spawn[j]) <= 0.15 * cheight) { // change to admin can change
       spawn[j].regenerateXY();
     }
   }
@@ -87,7 +87,7 @@ const modelParams = {
   imageScaleFactor: 0.5, //changed here
   maxNumBoxes: 1, // maximum number of boxes to detect
   iouThreshold: 0.5, // ioU threshold for non-max suppression
-  scoreThreshold: 0.6, // confidence threshold for predictions.
+  scoreThreshold: 0.9, // confidence threshold for predictions.
 };
 
 handTrack.load(modelParams).then((lmodel) => {
@@ -129,7 +129,7 @@ handTrack.startVideo(video).then((status) => {
   } else if (!status) {
     window.parent.wsRequireHardwareMessage("camera");
     // location.href = "https://fuyoh-ads.com/campaign_web/#/game";
-    countdownToLobby = setInterval(runRedirectToLobby, 60000);
+    // countdownToLobby = setInterval(runRedirectToLobby, 60000); // temp closedown for ngrok
   }
 });
 
@@ -211,6 +211,18 @@ function runDetection() {
             trapAudio.play();
             trapAudio.volume = 1.0;
             stopDetect();
+
+            if (dogReset === true) {
+                for (var j = 0; j < spawn.length; j++) {
+                    if (spawn.type != 'trap') {
+                        spawn[j].regenerateXY(cwidth, cheight);
+                    }
+                }
+            }
+            if (catReset === true) {
+                spawn[i].regenerateXY(cwidth, cheight);
+            }
+            draw();
             dogImage = "";
             document.querySelector(".container-item2 span").innerHTML =
               "<i class='fas fa-cat'></i>!!!";

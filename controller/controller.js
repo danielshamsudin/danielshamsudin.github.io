@@ -1,5 +1,6 @@
 const { sequelize } = require("../models");
 const db = require("../models");
+
 /*
 const Ads = db.Ads;
 const AdsPackage = db.AdsPackage;
@@ -11,6 +12,7 @@ const CustomPrice = db.CustomPrice;
 const States = db.States;
 const Schedule = db.Schedule;
 */
+
 const path = require('path');
 const invisibleDog_game = db.invisibledog_game;
 const Op = db.Sequelize.Op;
