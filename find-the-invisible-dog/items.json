@@ -9,5 +9,7 @@
     "trapImg": "Items/Image/default/cat.png",
     "trapAudio": "Items/Audio/default/catch cat.mp3",
     "trapNearby": "Items/Audio/default/cat.mp3",
-    "handImg": "Items/Image/handimage/hand.png"
+    "handImg": "Items/Image/handimage/hand.png",
+    "giftImg": "Items/gifts/gift.png",
+    "giftAudio":  "Items/doorbell.mp3"
 }

@@ -18,6 +18,7 @@ Date.prototype.toFormattedString = function () {
 var cwidth = document.getElementsByClassName("container-item4")[0].clientWidth;
 var cheight = document.getElementsByClassName("container-item4")[0].clientHeight;
 var spawn = [];
+var giftTouched = false;
 
 // function retrieveJSON()
 // {
@@ -143,100 +144,154 @@ function runDetection() {
   //requestAnimationFrame(runDetection);
   if (model === undefined) return;
   var timeStart = performance.now();
-  model.detect(video).then((predictions) => {
-    model.renderPredictions(predictions, vcanvas, vctx, video); //webgl
-    // console.log(predictions);
-    var tid = setInterval(perfTime.push(model.getFPS()),2000);
-    var tid2 = setInterval(handLocations.push([handX,handY]),2000); //TODO: [X,Y,time,touchedItem] -> if touched dog/cat
+    model.detect(video).then((predictions) => {
+        model.renderPredictions(predictions, vcanvas, vctx, video); //webgl
+        // console.log(predictions);
+        var tid = setInterval(perfTime.push(model.getFPS()), 2000);
+        var tid2 = setInterval(handLocations.push([handX, handY]), 2000); //TODO: [X,Y,time,touchedItem] -> if touched dog/cat
 
-    isStart = true;
-    if (predictions.length !== 0) {
-      midX = (predictions[0].bbox[0] + predictions[0].bbox[2] / 2);
-      midY = (predictions[0].bbox[1] + predictions[0].bbox[3] / 2);
-      handX = (cwidth * (midX / video.width)) + ((midX >= video.width / 2)? (canvas.width * 0.01) : -(canvas.width*0.01));
-      handY = (cheight * (midY / video.height)) + ((midY >= video.height / 2)? (canvas.height * 0.01) : -(canvas.height*0.01));
-      // handX = cwidth *  (midX / video.width);
-      // handY = cheight * (midY / video.height);
+        isStart = true;
+        if (predictions.length !== 0) {
+            midX = (predictions[0].bbox[0] + predictions[0].bbox[2] / 2);
+            midY = (predictions[0].bbox[1] + predictions[0].bbox[3] / 2);
+            handX = (cwidth * (midX / video.width)) + ((midX >= video.width / 2) ? (canvas.width * 0.01) : -(canvas.width * 0.01));
+            handY = (cheight * (midY / video.height)) + ((midY >= video.height / 2) ? (canvas.height * 0.01) : -(canvas.height * 0.01));
+            // handX = cwidth *  (midX / video.width);
+            // handY = cheight * (midY / video.height);
 
-      begin = 1;
+            begin = 1;
 
-      for (var i=0;i<spawn.length;i++)
-      {
-        spawn[i].calculateDistanceHandToObject(handX,handY);
-      }
+            for (var i = 0; i < spawn.length; i++) {
+                spawn[i].calculateDistanceHandToObject(handX, handY);
+            }
 
-      for (var i=0;i<spawn.length;i++) // repeatedly redetect one target as many
-      {
-        if (spawn[i].type == 'dog' && spawn[i].isTouch == false) //target
-        {
-          if (spawn[i].distanceX >= 0 && spawn[i].distanceX <= (spawn[i].radius + handRadius) && spawn[i].distanceY >= 0 && spawn[i].distanceY <= (spawn[i].radius + handRadius))
-          {
-            recordTimeTouch.push(calcTouchTime("target")); //calc touch time
-            spawn[i].isTouch = true;
-            console.log("touched dog");
-            catchAudio.play();
-            catchAudio.volume = 1.0;
-            stopDetect();
-            setTimeout(() => {
-                catchImg.style.display = "flex";
-              setTimeout(() => {
-                  catchImg.style.display = "none";
-              }, 300);
-            }, 300);
-            if (total == -1) total = 1; // touched target from trap
-            else total++; // touched target
-            
-            checkWL();
-            console.log('returned from checkWL');
-          }else if (spawn[i].distanceX > (spawn[i].radius + handRadius) && spawn[i].distanceX <= 1.1*(spawn[i].radius + handRadius) && spawn[i].distanceY > (spawn[i].radius + handRadius) && spawn[i].distanceY <= 1.1*(spawn[i].radius + handRadius)) {
-            // console.log("near dog");
-            catchNearby.play();
-            catchNearby.volume = 0.8;
-          }
-        }
-        else if (spawn[i].type == 'trap')
-        {
-          if (spawn[i].distanceX >= 0 && spawn[i].distanceX <= (spawn[i].radius + handRadius) && spawn[i].distanceY >= 0 && spawn[i].distanceY <= (spawn[i].radius + handRadius))
-          {
-            total = 0;
-            recordTimeTouch.push(calcTouchTime("trap")); //calc touch time
-            trapAudio.play();
-            trapAudio.volume = 1.0;
-            stopDetect();
+            for (var i = 0; i < spawn.length; i++) // repeatedly redetect one target as many
+            {
+                if (spawn[i].type == 'dog' && spawn[i].isTouch == false) //target
+                {
+                    if (spawn[i].distanceX >= 0 && spawn[i].distanceX <= (spawn[i].radius + handRadius) && spawn[i].distanceY >= 0 && spawn[i].distanceY <= (spawn[i].radius + handRadius)) {
+                        score += 200;
+                        recordTimeTouch.push(calcTouchTime("target")); //calc touch time
+                        spawn[i].isTouch = true;
+                        console.log("touched dog");
+                        catchAudio.play();
+                        catchAudio.volume = 1.0;
+                        stopDetect();
+                        setTimeout(() => {
+                            catchImg.style.display = "flex";
+                            setTimeout(() => {
+                                catchImg.style.display = "none";
+                            }, 300);
+                        }, 300);
+                        if (total == -1) total = 1; // touched target from trap
+                        else total++; // touched target
 
-            if (dogReset === true) {
-                for (var j = 0; j < spawn.length; j++) {
-                    if (spawn.type != 'trap') {
-                        spawn[j].regenerateXY(cwidth, cheight);
+                        checkWL();
+                        console.log('returned from checkWL');
+                    } else if (spawn[i].distanceX > (spawn[i].radius + handRadius) && spawn[i].distanceX <= 1.1 * (spawn[i].radius + handRadius) && spawn[i].distanceY > (spawn[i].radius + handRadius) && spawn[i].distanceY <= 1.1 * (spawn[i].radius + handRadius)) {
+                        // console.log("near dog");
+                        catchNearby.play();
+                        catchNearby.volume = 0.8;
                     }
                 }
+                else if (spawn[i].type == 'trap') {
+                    if (spawn[i].distanceX >= 0 && spawn[i].distanceX <= (spawn[i].radius + handRadius) && spawn[i].distanceY >= 0 && spawn[i].distanceY <= (spawn[i].radius + handRadius)) {
+
+                        score = 0;
+                        total = 0;
+                        recordTimeTouch.push(calcTouchTime("trap")); //calc touch time
+                        trapAudio.play();
+                        trapAudio.volume = 1.0;
+                        stopDetect();
+
+                        if (dogReset === true) {
+                            for (var j = 0; j < spawn.length; j++) {
+                                if (spawn.type != 'trap') {
+                                    spawn[j].regenerateXY(cwidth, cheight);
+                                }
+                            }
+                        }
+                        if (catReset === true) {
+                            spawn[i].regenerateXY(cwidth, cheight);
+                        }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                                                                                              //
+                        if (giftTouched === false) {                                                          //
+                                                                                                              //
+                            giftTouched = true;                                                               //
+                            spawn.push(new spawnableItem('gift', cwidth, cheight, objRadius));                //
+                        }                                                                                     //
+                                                                                                              //
+                                                                                                              //
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                        draw();
+                        dogImage = "";
+                        document.querySelector(".container-item2 span").innerHTML = "<i class='fas fa-cat'></i>!!!";
+                        setTimeout(() => {
+                            trapImg.style.display = "flex";
+                            setTimeout(() => {
+                                trapImg.style.display = "none";
+                            }, 300);
+                        }, 300);
+                        spawn[i].isTouch = true; //cat isTouch
+                        total = -1; // touched trap, differentiate trap from target
+                        spawn.forEach(index => {
+                            if (index.type != 'gift') {
+                                index.isTouch = false;
+                            }
+                        });
+                    } else if (spawn[i].distanceX > (spawn[i].radius + handRadius) && spawn[i].distanceX <= 1.1 * (spawn[i].radius + handRadius) && spawn[i].distanceY > (spawn[i].radius + handRadius) && spawn[i].distanceY <= 1.1 * (spawn[i].radius + handRadius)) {
+                        console.log("near cat");
+                        trapNearby.play();
+                        trapNearby.volume = 0.8;
+                    }
+                }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                else if (spawn[i].type == 'gift' && spawn[i].isTouch == false) {                                                                                                              //
+                                                                                                                                                                                              //
+                    if (spawn[i].distanceX >= 0 && spawn[i].distanceX <= (spawn[i].radius + handRadius) && spawn[i].distanceY >= 0 && spawn[i].distanceY <= (spawn[i].radius + handRadius)) { //
+                                                                                                                                                                                              //
+                        recordTimeTouch.push(calcTouchTime("gift")); //calc touch time                                                                                                        //
+                        spawn[i].isTouch = true;                                                                                                                                              //
+                        console.log("touched gift");                                                                                                                                          //
+                        giftAudio.play();                                                                                                                                                     //
+                        giftImg.style.display = "none";                                                                                                                                       //
+                                                                                                                                                                                              //
+                        //insert perks here                                                                                                                                                   //
+                                                                                                                                                                                              //
+                        //var gift = Math.round(Math.random() * 3);                                                                                                                           //
+                        var gift = 2;                                                                                                                                                         //
+                        switch (gift) {                                                                                                                                                       //
+                            case 0:                                                                                                                                                           //
+                                break;                                                                                                                                                        //
+                            case 1:                                                                                                                                                           //
+                                break;                                                                                                                                                        //
+                            case 2:                                                                                                                                                           //
+                                sec += 20;                                                                                                                                                    //
+                                break;                                                                                                                                                        //
+                            case 3:                                                                                                                                                           //
+                                score += 200;                                                                                                                                                 //
+                                break;                                                                                                                                                        //
+                        }                                                                                                                                                                     //
+                                                                                                                                                                                              //
+                                                                                                                                                                                              //
+                        //setTimeout(() => {                                                                                                                                                  //
+                        //    catchImg.style.display = "flex";                                                                                                                                //
+                        //    setTimeout(() => {                                                                                                                                              //
+                        //        catchImg.style.display = "none";                                                                                                                            //
+                        //    }, 300);                                                                                                                                                        //
+                        //}, 300);                                                                                                                                                            //
+                        //if (total == -1) total = 1; // touched target from trap                                                                                                             //
+                        //else total++; // touched target                                                                                                                                     //
+                        //                                                                                                                                                                    //
+                        //checkWL();                                                                                                                                                          //
+                        //console.log('returned from checkWL');                                                                                                                               //
+                    }                                                                                                                                                                         //
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                }
             }
-            if (catReset === true) {
-                spawn[i].regenerateXY(cwidth, cheight);
-            }
-            draw();
-            dogImage = "";
-            document.querySelector(".container-item2 span").innerHTML = "<i class='fas fa-cat'></i>!!!";
-            setTimeout(() => {
-              trapImg.style.display = "flex";
-              setTimeout(() => {
-                  trapImg.style.display = "none";
-              }, 300);
-            }, 300);
-            spawn[i].isTouch = true; //cat isTouch
-            total = -1; // touched trap, differentiate trap from target
-            spawn.forEach(index => {
-              index.isTouch = false;
-            });
-          }else if (spawn[i].distanceX > (spawn[i].radius + handRadius) && spawn[i].distanceX <= 1.1*(spawn[i].radius + handRadius) && spawn[i].distanceY > (spawn[i].radius + handRadius) && spawn[i].distanceY <= 1.1*(spawn[i].radius + handRadius)) {
-            console.log("near cat");
-            trapNearby.play();
-            trapNearby.volume = 0.8;
-          }
         }
-      }
-    }
-  });
+    });
   
 }
 
@@ -321,8 +376,9 @@ function checkWL() {
     }
   }
 
-  document.querySelector(".container-item2 span").innerHTML = dogImage;
-  
+  document.querySelector(".container-item2 .span1").innerHTML = dogImage;
+  //document.querySelector(".container-item2 .span2").innerHTML = score;
+
   if (total == numOfTarget) {
     total = 0;
     // clearInterval(countDown);
@@ -337,7 +393,7 @@ function display_win() {
 
   dlData();
   // score change to json
-  score = (total / numOfTarget) * 100; // set score for dogs
+  // score = (total / numOfTarget) * 100; // set score for dogs
   BGM.pause();
   winAudio.play();
   statustrap = 1;
@@ -438,7 +494,7 @@ function display_lose() {
   BGM.pause();
   loseAudio.play();
   document.getElementById("display").style.display = "block";
-  score = (total / numOfTarget) * 100;
+  //score = (total / numOfTarget) * 100;
   document.getElementById("score").innerHTML = "You only catch " + total + ". Score is " + score;
   window.parent.wsCreateScore(score);
 
@@ -491,18 +547,30 @@ function draw()
   document.getElementsByTagName('html')[0].style.background = bgcolor;
   requestAnimationFrame(draw);
   c.lineWidth = 2;
-  spawn.forEach(item =>{
-    c.beginPath();
-    c.arc(item.x, item.y, objRadius, 0, Math.PI * 2);
-    if (item.type == 'dog')
-    {
-      c.strokeStyle = 'blue';
-    }
-    else
-    {
-      c.strokeStyle = 'white';
-    }
-    c.stroke();
+    spawn.forEach(item => {
+        if (item.type != 'gift') {
+
+            c.beginPath();
+            c.arc(item.x, item.y, objRadius, 0, Math.PI * 2);
+            if (item.type == 'dog') {
+                c.strokeStyle = 'blue';
+            }
+            else if (item.type == 'trap') {
+                c.strokeStyle = 'white';
+            }
+
+            c.stroke();
+        }
+    
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      if (item.type == 'gift' && item.isTouch === false) {                                                                                                               //
+                                                                                                                                                                         //
+          // c.strokeStyle = "yellow";                                                                                                                                   //
+          giftImg.style.display = "flex";                                                                                                                                //
+          giftimgcontainer.style.left = item.x + "px";                                                                                                                   //
+          giftimgcontainer.style.top = item.y + "px";                                                                                                                    //
+      }                                                                                                                                                                  //
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   });
 
   handAnimation();

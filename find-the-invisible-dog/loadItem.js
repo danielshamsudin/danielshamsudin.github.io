@@ -21,7 +21,9 @@ function getItem() {
                 "trapImg": "Items/Image/default/cat.png",
                 "trapAudio": "Items/Audio/default/catch cat.mp3",
                 "trapNearby": "Items/Audio/default/cat.mp3",
-                "handImg": "Items/Image/handimage/hand.png"
+                "handImg": "Items/Image/handimage/hand.png",
+                "giftImg": "Items/gifts/gift.png",
+                "giftAudio": "Items/doorbell.mp3"
             };
         }
     });
@@ -54,3 +56,9 @@ loseAudio.volume = 0.2;
 
 var handImg = document.querySelector("#handimg"); //1:1 ratio recommended
 handImg.src = itemObj.handImg;
+
+var giftImg = document.querySelector("#giftimg"); // 1:1 ratio recommended
+giftImg.src = itemObj.giftImg;
+
+var giftAudio = new Audio(itemObj.giftAudio);
+giftAudio.volume = 0.2;
