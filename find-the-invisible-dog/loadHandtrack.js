@@ -35,15 +35,49 @@ var spawn = [];
 //     {
 //       numOfTarget: numOfTarget,
 //       numOfTrap: numOfTrap,
+//       gameMode: gameMode,
 //     },
 //     //do something on success
 //   });
 // }
 
-var numOfTarget = 3; // get from JSON
-var numOfTrap = 1; // get from JSON
-var objRadius = 10; // get from JSON, based on %screen shortest
-var handRadius = 20; // get from JSON, based on %screen shortest
+// game mode selection from admin page
+
+var gameMode = 1; // 1 - easy , 2 - medium , 3 - hard, 4 - custom
+var numOfTarget, numOfTrap, objRadius, handRadius;
+
+if ( gameMode == 1 ) // easy
+{
+  numOfTarget = 3;
+  numOfTrap = 1;
+  objRadius = 10;
+  handRadius = 20;
+}
+if ( gameMode == 2 ) // medium
+{
+  numOfTarget = 5;
+  numOfTrap = 2;
+  objRadius = 10;
+  handRadius = 10;
+}
+if ( gameMode == 3 ) // hard
+{
+  numOfTarget = 6;
+  numOfTrap = 3;
+  objRadius = 5;
+  handRadius = 10;
+}
+if ( gameMode == 4) // custom
+{
+  // fetch from admin page
+}
+if (gameMode === undefined) // default if file not loaded
+{
+  numOfTarget = 3;
+  numOfTrap = 1;
+  objRadius = 20;
+  handRadius = 20;
+}
 
 //create function to receive game data; ajax function
 // target creation
@@ -55,6 +89,7 @@ for (var i = 1; i <= numOfTarget; i++) {
 for (var i = 1; i <= numOfTrap; i++) {
   spawn.push(new spawnableItem("trap", cwidth, cheight, objRadius));
 }
+
 
 var dogImage = "";
 var stDate = new Date(Date.now());

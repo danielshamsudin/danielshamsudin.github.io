@@ -1,13 +1,25 @@
 {
-    "BGM": "Items/bgm/If I Had A Chicken.mp3",
-    "winAudio": "Items/bgm/default/win.mp3",
-    "loseAudio": "Items/bgm/default/lose.mp3",
-    "logoImg": "Items/Image/logoimage/MCD.png",
-    "catchImg": "Items/Image/default/dog.png",
-    "catchAudio": "Items/Audio/default/catch dog.mp3",
-    "catchNearby": "Items/Audio/default/dog.mp3",
-    "trapImg": "Items/Image/default/cat.png",
-    "trapAudio": "Items/Audio/default/catch cat.mp3",
-    "trapNearby": "Items/Audio/default/cat.mp3",
-    "handImg": "Items/Image/handimage/hand.png"
+  "BGM": "Items/bgm/If I Had A Chicken.mp3",
+  "winAudio": "Items/bgm/default/win.mp3",
+  "loseAudio": "Items/bgm/default/lose.mp3",
+  "logoImg": "Items/Image/logoimage/MCD.png",
+  "catchImg": "Items/Image/default/dog.png",
+  "catchAudio": "Items/Audio/default/catch dog.mp3",
+  "catchNearby": "Items/Audio/default/dog.mp3",
+  "trapImg": "Items/Image/default/cat.png",
+  "trapAudio": "Items/Audio/default/catch cat.mp3",
+  "trapNearby": "Items/Audio/default/cat.mp3",
+  "handImg": "Items/Image/handimage/hand.png",
+  "giftImg": [
+    "Items/Gift/a1.png",
+    "Items/Gift/a2.png",
+    "Items/Gift/a3.png",
+    "Items/Gift/a4.png",
+    "Items/Gift/a5.png",
+    "Items/Gift/s1.png",
+    "Items/Gift/s2.png",
+    "Items/Gift/s3.png",
+    "Items/Gift/s4.png",
+    "Items/Gift/s5.png"
+  ]
 }

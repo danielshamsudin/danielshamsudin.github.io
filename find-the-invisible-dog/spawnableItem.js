@@ -20,6 +20,40 @@ class spawnableItem {
     this.distanceX = Math.abs(this.x - handX);
     this.distanceY = Math.abs(this.y - handY);
   }
+
+  // function for "gifts"
+  // randomise between 4 of the available perks
+  // 1. show area of a single target (random)
+  // 2. show area of trap (randomised if multiple trap)
+  // 3. increment time of game
+  // 4. display coins for extra points added to score
+  giftPerks()
+  {
+    if(this.type === "gift")
+    {
+      let choice = Math.floor(Math.random()*4)+1;
+      switch(choice)
+      {
+        case 1:
+          // show area of one of the target 
+          // where isTouch is false
+          break;
+        case 2:
+          // show area of trap where isTouch
+          // is false
+          break;
+        case 3:
+          // show a message that timer 
+          // has been increased
+          break;
+        case 4:
+          // display coins on screen
+          // 5-10 coins worth 2 points each
+          // for a limited time
+          break;
+      }
+    }
+  }
 }
 
 // function to compare distance of targets/trap to handX,handY
