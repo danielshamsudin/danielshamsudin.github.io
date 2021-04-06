@@ -23,7 +23,7 @@
         </div>
 
         <div class="container-item2">
-            <p class="info">You find <span>0</span></p>
+            <p class="info">You find <span class="span1">0</span></p>  <!-- <br />current score : <span class="span2"></span> -->
         </div>
 
         <div class="container-item3">
@@ -35,6 +35,7 @@
         <div class="container-item4">
             <canvas id="canvas"></canvas>
             <div id="handimgcontainer"><img id="handimg"></div>
+            <div id="giftimgcontainer"><img id="giftimg"></div>
             <img id="backgroundimg" src="grass.jpg">
         </div>
     </div>
@@ -56,7 +57,7 @@
     <div id="display" class="modal">
         <div class="modal-content animate">
             <!-- <img src="<?php echo " images /".$row['image']; ?>" class="tmLogo"></img> -->
-            <img src="img/tmlogo.png" class="tmlogo"></img>
+            <img src="img/tmlogo.png" class="tmlogo">
             <p id="score"></p>
             <!-- <button id="button_tg" class="button">Try Again</button> -->
             <button id="button_h" class="button">Scoreboard</button>

@@ -21,5 +21,6 @@
     "Items/Gift/s3.png",
     "Items/Gift/s4.png",
     "Items/Gift/s5.png"
-  ]
+  ],
+  "giftAudio":  "Items/doorbell.mp3"
 }
