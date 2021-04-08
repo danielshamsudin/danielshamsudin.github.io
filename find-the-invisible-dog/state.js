@@ -1,4 +1,4 @@
-var check = setInterval(() => {
+var isLoaded = false, check = setInterval(() => {
   if (isStart) {
     isSplash = true;
     state();
@@ -24,7 +24,8 @@ function state() {
       getLoadingTimeEllapse(); //record time taken to load the game
 
       setTimeout(() => {
-        splash.style.display = "none";
+          splash.style.display = "none";
+          isLoaded = true; //ensures game starts after loading page ends
       }, 500);
        isSplash = false;
 	   state();

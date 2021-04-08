@@ -183,6 +183,7 @@ video { /*video used by handtrack.js*/
 }
 
 #doggy { /* div that stores the #dogcenter img */
+    z-index: 5;
     margin: auto;
     position: absolute;
     display: flex;
@@ -196,6 +197,7 @@ video { /*video used by handtrack.js*/
 }
 
 #catty { /* div that stores the #catcenter img */
+    z-index: 5;
     margin: auto;
     position: absolute;
     display: flex;
@@ -206,6 +208,52 @@ video { /*video used by handtrack.js*/
     top: 0;
     width: 100%;
     height: 100%;
+}
+
+#hintad { /* div that stores the #catcenter img */
+    z-index: 5;
+    margin: auto;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#catty span {
+    background-color: azure;
+    opacity: 80%;
+    font-family: 'Comic Sans MS';
+    font-size: 500%;
+    display: none;
+}
+
+#doggy span {
+    background-color: azure;
+    opacity: 80%;
+    font-family: 'Comic Sans MS';
+    font-size: 500%;
+    display: none;
+}
+
+#hintad span {
+    background-color: azure;
+    opacity: 80%;
+    font-family: 'Comic Sans MS';
+    font-size: 500%;
+    display: none;
+}
+
+#adimg {
+    background-color: azure;
+    opacity: 80%;
+    display: none;
+    height: 30%;
+    width: 30%;
 }
 
 #catchimg { /* dog img */

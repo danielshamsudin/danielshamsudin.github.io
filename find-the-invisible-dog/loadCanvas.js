@@ -14,13 +14,14 @@ vcanvas.setAttribute('width', vcontainer.scrollWidth);
 vcanvas.setAttribute('height', vcontainer.scrollHeight);
 var vctx = vcanvas.getContext("2d");
 
+var numOfGift = 5;
 var numOfTarget;
 var numOfTrap;
 var objRadius;
 var handRadius;
 var catReset;
 var dogReset;
-var difficulty = "hard"; // get from JSON
+var difficulty = "custom"; // get from JSON
 
 if (difficulty == "easy") {
 
@@ -32,7 +33,7 @@ if (difficulty == "easy") {
     dogReset = false;
 } else if (difficulty == "normal") {
 
-    numOfTarget = 3;
+    numOfTarget = 5;
     numOfTrap = 1;
     objRadius = ccontainer.scrollHeight * 0.03;
     handRadius = ccontainer.scrollHeight * 0.1;
@@ -40,14 +41,20 @@ if (difficulty == "easy") {
     dogReset = false;
 } else if (difficulty == "hard") {
 
-    numOfTarget = 20;
-    numOfTrap = 1;
+    numOfTarget = 8;
+    numOfTrap = 2;
     objRadius = ccontainer.scrollHeight * 0.01;
     handRadius = ccontainer.scrollHeight * 0.08;
     catReset = true;
     dogReset = true;
 } else if (difficulty == "custom") {
 
+    numOfTarget = 10;
+    numOfTrap = 0;
+    objRadius = ccontainer.scrollHeight * 0.02;
+    handRadius = ccontainer.scrollHeight * 0.2;
+    catReset = true;
+    dogReset = false;
 }
 
 var giftimgcontainer = document.getElementById("giftimgcontainer");
@@ -75,5 +82,9 @@ var isPlay = false;
 //c.fillStyle = "white";
 //c.fillRect(0, 0, canvas.width, canvas.height);
 document.getElementById("splash-text").innerHTML = "Dogs Come... <br> ..READYYYYYYYY";
+
+var bgcolor = localStorage.getItem("pass");
+document.getElementsByTagName('html')[0].style.background = bgcolor;
+
 
 

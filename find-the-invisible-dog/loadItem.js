@@ -62,3 +62,6 @@ giftImg.src = itemObj.giftImg;
 
 var giftAudio = new Audio(itemObj.giftAudio);
 giftAudio.volume = 0.2;
+
+var adImg = document.querySelector("#adimg");
+//adImg.src = itemObj.adImg;

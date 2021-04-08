@@ -7,6 +7,11 @@ class spawnableItem {
     this.x = Math.random() * containerWidth;
     this.y = Math.random() * containerHeight;
     this.radius = radius;
+
+      if (type == 'gift') {
+          this.isSpawn = false;
+          this.isDespawn = true;
+      }
   }
 
   regenerateXY(containerWidth, containerHeight)
