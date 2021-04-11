@@ -9,8 +9,8 @@ class spawnableItem {
     this.radius = radius;
 
       if (type == 'gift') {
-          this.isSpawn = false;
-          this.isDespawn = true;
+          this.isSpawn = false;  //if hint is spawned once, it wont spawn again
+          this.isDespawn = true; //if hint is despawned then player cannot touch it
       }
   }
 

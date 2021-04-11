@@ -14,7 +14,7 @@ vcanvas.setAttribute('width', vcontainer.scrollWidth);
 vcanvas.setAttribute('height', vcontainer.scrollHeight);
 var vctx = vcanvas.getContext("2d");
 
-var numOfGift = 5;
+var numOfGift = 2;
 var numOfTarget;
 var numOfTrap;
 var objRadius;
@@ -49,8 +49,8 @@ if (difficulty == "easy") {
     dogReset = true;
 } else if (difficulty == "custom") {
 
-    numOfTarget = 10;
-    numOfTrap = 0;
+    numOfTarget = 0;
+    numOfTrap = 2;
     objRadius = ccontainer.scrollHeight * 0.02;
     handRadius = ccontainer.scrollHeight * 0.2;
     catReset = true;
@@ -85,6 +85,8 @@ document.getElementById("splash-text").innerHTML = "Dogs Come... <br> ..READYYYY
 
 var bgcolor = localStorage.getItem("pass");
 document.getElementsByTagName('html')[0].style.background = bgcolor;
+
+var freezeGUI = document.getElementById("freeze");
 
 
 

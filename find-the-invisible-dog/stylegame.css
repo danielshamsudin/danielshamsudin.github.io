@@ -97,6 +97,16 @@ p {
     height: calc(100% - 10px);
 }
 
+#freeze {
+    position: absolute;
+    display: none;
+    z-index: 4;
+    background-color: aquamarine;
+    opacity: 80%;
+    width: 100%;
+    height: 100%;
+}
+
 #handimgcontainer {
     z-index: 2;
     margin: auto;
@@ -194,6 +204,7 @@ video { /*video used by handtrack.js*/
     top: 0;
     width: 100%;
     height: 100%;
+    text-align: center;
 }
 
 #catty { /* div that stores the #catcenter img */
@@ -208,9 +219,10 @@ video { /*video used by handtrack.js*/
     top: 0;
     width: 100%;
     height: 100%;
+    text-align: center;
 }
 
-#hintad { /* div that stores the #catcenter img */
+#hintad { /* div that stores the #adimg img */
     z-index: 5;
     margin: auto;
     position: absolute;
@@ -222,25 +234,29 @@ video { /*video used by handtrack.js*/
     top: 0;
     width: 100%;
     height: 100%;
+    text-align: center;
 }
 
 #catty span {
+    margin-top: 2%;
     background-color: azure;
     opacity: 80%;
     font-family: 'Comic Sans MS';
-    font-size: 500%;
+    font-size: 300%;
     display: none;
 }
 
 #doggy span {
+    margin-top: 2%;
     background-color: azure;
     opacity: 80%;
     font-family: 'Comic Sans MS';
-    font-size: 500%;
+    font-size: 300%;
     display: none;
 }
 
 #hintad span {
+    margin-top: 2%;
     background-color: azure;
     opacity: 80%;
     font-family: 'Comic Sans MS';

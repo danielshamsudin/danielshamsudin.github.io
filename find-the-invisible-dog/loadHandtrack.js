@@ -33,6 +33,20 @@ var giftSpawn = false; //gift can be start being touched
 var giftEnd = false;   //a cycle of a gift spawn ends
 var giftStart = false; //starts only when detect hand
 
+var sec = 300;
+var totalSec = sec; //used for gift spawning calculation;
+var giftAvailableSec = totalSec - ((totalSec * 0.15) + (totalSec - (totalSec * 0.8)) + (numOfGift * 3));
+console.log("spawn " + numOfGift + " in " + giftAvailableSec);
+console.log("max sec of each spawn: " + giftAvailableSec / numOfGift);
+console.log("min sec : " + (giftAvailableSec / numOfGift) / 3);
+//gift spawning calculation
+//if (sec >= totalSec * 0.15 && sec <= totalSec * 0.8) {
+//    if (sec <= totalSec * 0.8) {
+//        
+//    }
+//    giftRandomTime(2, giftAvailableSec / numOfGift);
+//}
+
 // function retrieveJSON()
 // {
 //   $.ajax({
@@ -228,15 +242,16 @@ function runDetection() {
                         catchNearby.volume = 0.8;
                     }
                 }
+
                 else if (spawn[i].type == 'trap' && touchAvailable == true) {
                     if (spawn[i].distanceX >= 0 && spawn[i].distanceX <= (spawn[i].radius + handRadius) && spawn[i].distanceY >= 0 && spawn[i].distanceY <= (spawn[i].radius + handRadius)) {
 
-                        if (score == 0) score = 0;
-                        else if (score > 0 && score <= 1000) score -= 100;
-                        else score -= 200;
-                        console.log(score);
+                        //if (score == 0) score = 0;
+                        //else if (score > 0 && score <= 1000) score -= 100;
+                        //else score -= 200;
+                        //console.log(score);
 
-                        total = -1; // touched trap, differentiate trap from target
+                        //total = -1; // touched trap, differentiate trap from target
                         touchAvailable = false;
                         recordTimeTouch.push(calcTouchTime("trap")); //calc touch time
                         trapAudio.play();
@@ -254,15 +269,19 @@ function runDetection() {
                             spawn[i].regenerateXY(cwidth, cheight);
                         }
                         draw();
-                        checkWL();
+                        document.querySelector(".container-item2 .span1").innerHTML = "<i class='fas fa-cat'></i>!!!";
                         setTimeout(() => {
                             trapImg.style.display = "flex";
                             document.querySelector("#catty span").style.display = 'flex';
+                            freezeGUI.style.display = 'flex';
+                            isLoaded = false;
 
                             setTimeout(() => {
+                                isLoaded = true;
+                                freezeGUI.style.display = 'none';
                                 trapImg.style.display = "none";
                                 document.querySelector("#catty span").style.display = 'none';
-                            }, 300);
+                            }, 3000);
                         }, 300);
 
                         setTimeout(() => { //users are unable to other spawns withint 1.5 secs
@@ -271,7 +290,7 @@ function runDetection() {
 
                         spawn[i].isTouch = true; //cat isTouch
                         spawn.forEach(index => {
-                            if (index.type != 'gift') {
+                            if (index.type == 'trap') {
                                 index.isTouch = false;
                             }
                         });
@@ -380,7 +399,7 @@ function calcTouchTime (touchType) { //For data collection
     }
 } 
 
-var sec = 3600, countDiv = document.getElementById("timer"), secpass,
+var countDiv = document.getElementById("timer"), secpass,
 countDown = setInterval(function () {
     "use strict";
 
@@ -428,7 +447,6 @@ function checkWL() {
     dogImage = ""; // picture
 
     if (total == -1) {
-        dogImage = "<i class='fas fa-cat'></i>!!!";
         document.querySelector(".container-item2 .span1").innerHTML = dogImage;
         document.querySelector(".container-item2 .span2").innerHTML = "resetted";
     } else {
@@ -664,27 +682,30 @@ function draw()
 
             c.stroke();
         } else {
-            if (item.isSpawn == false && giftEnd == false && giftStart == true) {
+            if (item.isSpawn == false && giftEnd == false && giftStart == true && sec >= totalSec * 0.1 && sec <= totalSec * 0.9) {
                 giftEnd = true;
+                console.log("enter gift");
 
                 setTimeout(function () {
-                    giftImg.style.display = "flex";                    
-                    giftimgcontainer.style.left = item.x + "px";       
-                    giftimgcontainer.style.top = item.y + "px";
-                    giftSpawn = true;
-                    item.isSpawn = true;
-                    item.isDespawn = false;
+                    if (sec >= totalSec * 0.1) {
+                        giftImg.style.display = "flex";
+                        giftimgcontainer.style.left = item.x + "px";
+                        giftimgcontainer.style.top = item.y + "px";
+                        giftSpawn = true;
+                        item.isSpawn = true;
+                        item.isDespawn = false;
 
-                    setTimeout(function () {
-                        giftImg.style.display = "none";
-                        item.isDespawn = true;
-                        if (item.isTouch == false) {
-                            giftEnd = false;
-                            giftSpawn = false;
-                        }
+                        setTimeout(function () {
+                            giftImg.style.display = "none";
+                            item.isDespawn = true;
+                            if (item.isTouch == false) {
+                                giftEnd = false;
+                                giftSpawn = false;
+                            }
 
-                    }, 3000);
-                }, giftRandomTime(8, 20) * 1000);
+                        }, 3000);
+                    }
+                }, giftRandomTime(((giftAvailableSec / numOfGift) / 3) * 1000, (giftAvailableSec / numOfGift) * 1000));
             }
         }
   });
