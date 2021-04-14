@@ -9,6 +9,11 @@ canvas.setAttribute('width', ccontainer.scrollWidth);
 canvas.setAttribute('height', ccontainer.scrollHeight);
 var c = canvas.getContext("2d");
 
+var giftcanvas = document.querySelector("#giftCanvas");
+giftcanvas.setAttribute('width', ccontainer.scrollWidth);
+giftcanvas.setAttribute('height', ccontainer.scrollHeight);
+var gc = giftcanvas.getContext("2d");
+
 var vcanvas = document.querySelector("#vcanvas");
 vcanvas.setAttribute('width', vcontainer.scrollWidth);
 vcanvas.setAttribute('height', vcontainer.scrollHeight);

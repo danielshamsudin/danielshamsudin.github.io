@@ -97,6 +97,11 @@ p {
     height: calc(100% - 10px);
 }
 
+.container-item4 canvas{
+    position: absolute;
+    width: calc(100% - 20px);
+    height: calc(100% - 10px);
+}
 #handimgcontainer {
     z-index: 2;
     margin: auto;
