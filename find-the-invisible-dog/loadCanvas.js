@@ -1,20 +1,23 @@
-const video = document.querySelector("#video");
-var ccontainer = document.querySelector(".container-item4"); //play region container
+var ccontainer = document.querySelector("#canvascontainer"); //play region container
 var vcontainer = document.querySelector(".container-item3"); //video canvas container
-video.width = window.innerWidth;
-video.height = window.innerHeight;
+//video.width = window.innerWidth;
+//video.height = window.innerHeight;
 
 var canvas = document.querySelector("#canvas");
-canvas.setAttribute('width', ccontainer.scrollWidth);
-canvas.setAttribute('height', ccontainer.scrollHeight);
+canvas.setAttribute('width', ccontainer.clientWidth);
+canvas.setAttribute('height', ccontainer.clientHeight);
 var c = canvas.getContext("2d");
 
 var vcanvas = document.querySelector("#vcanvas");
-vcanvas.setAttribute('width', vcontainer.scrollWidth);
-vcanvas.setAttribute('height', vcontainer.scrollHeight);
+vcanvas.setAttribute('width', vcontainer.clientWidth);
+vcanvas.setAttribute('height', vcontainer.clientHeight);
 var vctx = vcanvas.getContext("2d");
 
-var numOfGift = 2;
+const video = document.querySelector("#video");
+video.width = vcontainer.clientWidth;
+video.height = vcontainer.clientHeight;
+
+var numOfGift = 5;
 var numOfTarget;
 var numOfTrap;
 var objRadius;
@@ -49,17 +52,17 @@ if (difficulty == "easy") {
     dogReset = true;
 } else if (difficulty == "custom") {
 
-    numOfTarget = 0;
-    numOfTrap = 2;
+    numOfTarget = 5;
+    numOfTrap = 0;
     objRadius = ccontainer.scrollHeight * 0.02;
     handRadius = ccontainer.scrollHeight * 0.2;
     catReset = true;
     dogReset = false;
 }
 
-var giftimgcontainer = document.getElementById("giftimgcontainer");
-giftimgcontainer.style.width = (ccontainer.scrollHeight * 0.05) + "px";
-giftimgcontainer.style.height = (ccontainer.scrollHeight * 0.05) + "px";
+var hintimgcontainer = document.getElementById("hintimgcontainer");
+hintimgcontainer.style.width = (ccontainer.scrollHeight * 0.05) + "px";
+hintimgcontainer.style.height = (ccontainer.scrollHeight * 0.05) + "px";
 
 var handimgcontainer = document.getElementById("handimgcontainer");
 handimgcontainer.style.width = handRadius * 2 + "px";
@@ -79,12 +82,10 @@ var isStart = false;
 var isSplash = false;
 var isPlay = false;
 
-//c.fillStyle = "white";
-//c.fillRect(0, 0, canvas.width, canvas.height);
 document.getElementById("splash-text").innerHTML = "Dogs Come... <br> ..READYYYYYYYY";
 
-var bgcolor = localStorage.getItem("pass");
-document.getElementsByTagName('html')[0].style.background = bgcolor;
+//var bgcolor = localStorage.getItem("pass");
+//document.getElementsByTagName('html')[0].style.background = bgcolor;
 
 var freezeGUI = document.getElementById("freeze");
 

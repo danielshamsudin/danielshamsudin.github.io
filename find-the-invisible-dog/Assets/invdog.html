@@ -1,0 +1,105 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Find The Invisible Dog</title>
+    <link rel="stylesheet" href="invdog.css" />
+</head>
+<body>
+    <div id="gui-container">
+        <div id="count" class="container-item1">
+            <p id="timer">00:00</p>
+            <img id="timergui" src="img-01.png"/>
+        </div>
+
+        <div class="container-item2">
+            <img id="basketgui" src="img-02.png"/>
+        </div>
+
+        <div class="container-item3">
+            <canvas id="vcanvas">
+                <!-- <video id="video"></video> -->
+            </canvas> <!-- video canvas -->
+            <img id="vcanvasgui" src="img-03.png"/>
+        </div>
+
+        <div class="container-item4">
+            <div id="fence"><img id="fencegui" src="bg-041.png"/></div>
+            <div id="infocontainer">
+                <img id="infoboard" src="img-04.png"/>
+                <p id="info">catch 5 dogs</p>
+            </div>
+            <div id="canvascontainer">
+                <canvas id="canvas"></canvas>
+                <div id="freeze"></div>
+                <div id="handimgcontainer"><img id="handimg"></div>
+                <div id="giftimgcontainer"><img id="giftimg"></div>
+
+                <div id="doggy"><img id="catchimg"><span>Catched dog!!!</span></div>
+                <div id="catty"><img id="trapimg"><span>Catched cat!!<br />freeze!!!</span></div>
+                <div id="hintad"><img id="adimg"><span></span></div>
+
+                <img id="canvasbg" src="bg-051.png" />
+            </div>
+        </div>
+    </div>
+    <script>
+        var ccontainer = document.querySelector("#canvascontainer"); //play region container
+        var vcontainer = document.querySelector(".container-item3"); //video canvas container
+
+        console.log(ccontainer.getBoundingClientRect().height);
+        var canvas = document.querySelector("#canvas");
+        canvas.setAttribute('width', ccontainer.clientWidth);
+        canvas.setAttribute('height', ccontainer.clientHeight);
+        var c = canvas.getContext("2d");
+
+        var vcanvas = document.querySelector("#vcanvas");
+        vcanvas.setAttribute('width', vcontainer.clientWidth);
+        vcanvas.setAttribute('height', vcontainer.clientHeight);
+        var vctx = vcanvas.getContext("2d");
+
+        //create dog
+        var dogGif = document.createElement("img");
+        dogGif.src = "img-05.png";
+
+        window.onload = function () {
+            for (i = 0; i < 5; i++) {
+                var img = document.createElement("img");
+                img.className = "basketdoggy";
+                img.src = "img-09.png";
+                var basketdoggy = document.querySelector(".container-item2");
+                basketdoggy.appendChild(img);
+
+                setTimeout(function () {
+                    c.drawImage(dogGif, 50, 50, 100, 100);
+
+                    setTimeout(function () {
+                        c.drawImage(dogGif, 375, 100, 100, 100);
+
+                        setTimeout(function () {
+                            c.drawImage(dogGif, 180, 400, 100, 100);
+
+                            setTimeout(function () {
+                                c.clearRect(0, 0, ccontainer.clientWidth, ccontainer.clientHeight);
+                            },300);
+                        }, 3000);
+                    }, 3000);
+                }, 300);
+            }
+        }
+
+
+        var giftimgcontainer = document.getElementById("giftimgcontainer");
+        giftimgcontainer.style.width = (ccontainer.scrollHeight * 0.05) + "px";
+        giftimgcontainer.style.height = (ccontainer.scrollHeight * 0.05) + "px";
+
+        var handimgcontainer = document.getElementById("handimgcontainer");
+        handimgcontainer.style.width = "50px";
+        handimgcontainer.style.height = "50px";
+        document.querySelector("#handimg").src = "img-08.png";
+    </script>
+    
+</body>
+</html>

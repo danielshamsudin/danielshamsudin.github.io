@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Find The Invisible Dog</title>
     <link rel="stylesheet" href="stylegame.css" />
+    <script src="https://cdn.jsdelivr.net/npm/handtrackjs@0.0.13/dist/handtrack.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
@@ -14,33 +15,42 @@
         Your browser does not support the audio tag.
     </audio>
 
-    <div id="logoimgcontainer">
-        <img id="logoimg">
-    </div>
     <div id="gui-container">
         <div id="count" class="container-item1">
-            <p id="timer">1</p>
+            <p id="timer">00:00</p>
+            <img id="timergui" />
         </div>
 
         <div class="container-item2">
-            <p class="info">
-                You find <span class="span1">0</span>
-                <br />Dogs left : <span class="span2"></span>
-            </p>
+            <img id="basketgui" />
         </div>
 
         <div class="container-item3">
             <canvas id="vcanvas">
                 <video id="video"></video>
             </canvas> <!-- video canvas -->
+            <img id="vcanvasgui" />
         </div>
 
         <div class="container-item4">
-            <canvas id="canvas"></canvas>
-            <div id="freeze"></div>
-            <div id="handimgcontainer"><img id="handimg"></div>
-            <div id="giftimgcontainer"><img id="giftimg"></div>
-            <img id="backgroundimg" src="grass.jpg">
+            <div id="fence"><img id="fencegui"/></div>
+            <div id="infocontainer">
+                <img id="infoboard" />
+                <p id="info">catch 5 dogs</p>
+            </div>
+            <div id="canvascontainer">
+                <canvas id="canvas"></canvas>
+                <div id="freeze"></div>
+                <div id="handimgcontainer"><img id="handimg"></div>
+                <div id="hintimgcontainer"><img id="hintimg"></div>
+                <img id="canvasbg" />
+
+                <!--
+                    <div id="doggy"><img id="targetimg"><span>Catched dog!!!</span></div>
+                    <div id="catty"><img id="trapimg"><span>Catched cat!!<br />freeze!!!</span></div>
+                    <div id="hintad"><img id="adimg"><span></span></div>
+                -->
+            </div>
         </div>
     </div>
 
@@ -48,20 +58,6 @@
         <p id="splash-text"></p>
         <img src="3.gif" id="loading" class="cat-loading">
         <img src="img/loading2.gif" id="loading">
-    </div>
-
-    <div id="doggy">
-        <img id="catchimg">
-        <span>Catched dog!!!</span>
-    </div>
-
-    <div id="catty">
-        <img id="trapimg">
-        <span>Catched cat!!<br />freeze!!!</span>
-    </div>
-    <div id="hintad">
-        <img id="adimg" src="img/tmlogo.png">
-        <span></span>
     </div>
 
     <div id="display" class="modal">
@@ -75,12 +71,11 @@
     </div>
 
     <script src="loadItem.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/handtrackjs/dist/handtrack.min.js"></script>
     <script src="loadCanvas.js"></script>
     <script src="state.js"></script>
     <script src="spawnableItem.js"></script>
     <script src="choose.js"></script>
-    <script src="loadHandtrack.js"></script>
+    <script type="module" src="loadHandtrack.js"></script>
     <script src='https://kit.fontawesome.com/a076d05399.js'></script>
 </body>
 </html>

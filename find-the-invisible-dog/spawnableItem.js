@@ -8,7 +8,7 @@ class spawnableItem {
     this.y = Math.random() * containerHeight;
     this.radius = radius;
 
-      if (type == 'gift') {
+      if (type == 'hint') {
           this.isSpawn = false;  //if hint is spawned once, it wont spawn again
           this.isDespawn = true; //if hint is despawned then player cannot touch it
       }

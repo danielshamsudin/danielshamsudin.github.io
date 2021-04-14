@@ -11,19 +11,23 @@ function getItem() {
         error: function (xhr, textStatus, errorMessage) { //If error, everything is default
             console.log("Error: " + xhr.status + " " + errorMessage);
             result = {
-                "BGM": "Items/bgm/default/backgroundsound.mp3",
+                "BGM": "Items/bgm/If I Had A Chicken.mp3",
                 "winAudio": "Items/bgm/default/win.mp3",
                 "loseAudio": "Items/bgm/default/lose.mp3",
-                "logoImg": "Items/Image/default/dog.png",
-                "catchImg": "Items/Image/default/dog.png",
-                "catchAudio": "Items/Audio/default/catch dog.mp3",
-                "catchNearby": "Items/Audio/default/dog.mp3",
-                "trapImg": "Items/Image/default/cat.png",
+                "targetAudio": "Items/Audio/default/catch dog.mp3",
+                "targetNearby": "Items/Audio/default/dog.mp3",
                 "trapAudio": "Items/Audio/default/catch cat.mp3",
                 "trapNearby": "Items/Audio/default/cat.mp3",
-                "handImg": "Items/Image/handimage/hand.png",
-                "giftImg": "Items/gifts/gift.png",
-                "giftAudio": "Items/doorbell.mp3"
+                "hintAudio": "Items/doorbell.mp3",
+                "handImg": "Assets/img-08.png",
+                "timerGUI": "Assets/img-01.png",
+                "basketGUI": "Assets/img-02.png",
+                "vcanvasGUI": "Assets/img-03.png",
+                "fenceGUI": "Assets/bg-041.png",
+                "infoBoard": "Assets/img-04.png",
+                "hintImg": "Items/gifts/gift.png",
+                "canvasBG": "Assets/bg-051.png",
+                "backgroundIMG": "Assets/bg-01.png"
             };
         }
     });
@@ -32,36 +36,36 @@ function getItem() {
 
 console.log(itemObj);
 
-var BGM = document.getElementById("BGM");
-BGM.src = itemObj.BGM;
+//Audios
+var BGM    = document.getElementById("BGM");
+BGM.src    = itemObj.BGM;
 BGM.volume = 0.2;
+var targetAudio   = new Audio(itemObj.targetAudio); //aka dog audio
+var targetNearby  = new Audio(itemObj.tragetNearby); //aka dog nearby audio
+var trapAudio     = new Audio(itemObj.trapAudio);
+var trapNearby    = new Audio(itemObj.trapNearby);
+var winAudio      = new Audio(itemObj.winAudio);
+var loseAudio     = new Audio(itemObj.loseAudio);
+var hintAudio     = new Audio(itemObj.hintAudio);
+hintAudio.volume  = 0.2;
+winAudio.volume   = 0.2;
+loseAudio.volume  = 0.2;
 
-var logoImg = document.querySelector("#logoimg"); // 1:1 ratio recommendedW
-logoImg.src = itemObj.logoImg;
-
-var catchImg = document.querySelector("#catchimg"); //aka dog img, 1:1 ratio recommended
-catchImg.src = itemObj.catchImg;
-var catchAudio = new Audio(itemObj.catchAudio); //aka dog audio
-var catchNearby = new Audio(itemObj.catchNearby); //aka dog nearby audio
-
-var trapImg = document.querySelector("#trapimg"); // 1:1 ratio recommended
-trapImg.src = itemObj.trapImg;
-var trapAudio = new Audio(itemObj.trapAudio);
-var trapNearby = new Audio(itemObj.trapNearby);
-
-var winAudio = new Audio(itemObj.winAudio);
-var loseAudio = new Audio(itemObj.loseAudio);
-winAudio.volume = 0.2;
-loseAudio.volume = 0.2;
-
-var handImg = document.querySelector("#handimg"); //1:1 ratio recommended
-handImg.src = itemObj.handImg;
-
-var giftImg = document.querySelector("#giftimg"); // 1:1 ratio recommended
-giftImg.src = itemObj.giftImg;
-
-var giftAudio = new Audio(itemObj.giftAudio);
-giftAudio.volume = 0.2;
-
-var adImg = document.querySelector("#adimg");
-//adImg.src = itemObj.adImg;
+//GUIs
+var handImg       = document.querySelector("#handimg"); //1:1 ratio recommended
+handImg.src       = itemObj.handImg;
+var timerGUI      = document.querySelector("#timergui");
+timerGUI.src      = itemObj.timerGUI;
+var basketGUI     = document.querySelector("#basketgui");
+basketGUI.src     = itemObj.basketGUI;
+var vcanvasGUI    = document.querySelector("#vcanvasgui");
+vcanvasGUI.src    = itemObj.vcanvasGUI;
+var fenceGUI      = document.querySelector("#fencegui");
+fenceGUI.src      = itemObj.fenceGUI;
+var infoBoard     = document.querySelector("#infoboard");
+infoBoard.src     = itemObj.infoBoard;
+var hintImg       = document.querySelector("#hintimg");
+hintImg.src       = itemObj.hintImg;
+var canvasBG      = document.querySelector("#canvasbg");
+canvasBG.src      = itemObj.canvasBG;
+var backgroundImg = document.getElementsByTagName("html")[0].style.backgroundImage = "url('" + itemObj.backgroundImg + "')";

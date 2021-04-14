@@ -15,37 +15,26 @@ Date.prototype.toFormattedString = function () {
 };
 
 // give admin control over how many dogs and cat
-var cwidth = document.getElementsByClassName("container-item4")[0].clientWidth;
-var cheight = document.getElementsByClassName("container-item4")[0].clientHeight;
+var cwidth = document.querySelector("#canvascontainer").clientWidth;
+var cheight = document.querySelector("#canvascontainer").clientHeight;
+var midX, midY, handX, handY, model;
 var spawn = [];
 var extraScore = 0;
 var highestScore = 0;
 var score = 0;
-var touchAvailable = true; //to freeze time after touching spawns
-
 
 // variables for gift spawning
-const giftRandomTime = (min, max) => { //gift will randomly spawn between 8 and 20
+const hintRandomTime = (min, max) => { //gift will randomly spawn between 8 and 20
     return Math.floor(Math.random() * (max - min) + min);
 };
 
-var giftSpawn = false; //gift can be start being touched
-var giftEnd = false;   //a cycle of a gift spawn ends
-var giftStart = false; //starts only when detect hand
+var hintSpawn = false; //gift can be start being touched
+var hintEnd = false;   //a cycle of a gift spawn ends
+var hintStart = false; //starts only when detect hand
 
-var sec = 300;
+var sec = 60;
 var totalSec = sec; //used for gift spawning calculation;
-var giftAvailableSec = totalSec - ((totalSec * 0.15) + (totalSec - (totalSec * 0.8)) + (numOfGift * 3));
-console.log("spawn " + numOfGift + " in " + giftAvailableSec);
-console.log("max sec of each spawn: " + giftAvailableSec / numOfGift);
-console.log("min sec : " + (giftAvailableSec / numOfGift) / 3);
-//gift spawning calculation
-//if (sec >= totalSec * 0.15 && sec <= totalSec * 0.8) {
-//    if (sec <= totalSec * 0.8) {
-//        
-//    }
-//    giftRandomTime(2, giftAvailableSec / numOfGift);
-//}
+var hintAvailableSec = totalSec - ((totalSec * 0.1) + (totalSec - (totalSec * 0.9)) + (numOfGift * 3));
 
 // function retrieveJSON()
 // {
@@ -77,7 +66,7 @@ for (var i=1; i <= numOfTrap; i++)
 //gift creation
 for (var i = 1; i <= numOfGift; i++) {
 
-    spawn.push(new spawnableItem('gift', cwidth, cheight, objRadius));
+    spawn.push(new spawnableItem('hint', cwidth, cheight, objRadius));
 }
 
 var stDate = new Date(Date.now());
@@ -121,11 +110,11 @@ var handLocations = [];
 
 // put in json file from server
 const modelParams = {
-  // flipHorizontal: false,
+  flipHorizontal: true,
   imageScaleFactor: 0.5, //changed here
   maxNumBoxes: 1, // maximum number of boxes to detect
   iouThreshold: 0.5, // ioU threshold for non-max suppression
-  scoreThreshold: 0.9, // confidence threshold for predictions.
+  scoreThreshold: 0.7, // confidence threshold for predictions.
 };
 
 handTrack.load(modelParams).then((lmodel) => {
@@ -185,7 +174,7 @@ function runDetection() {
         isStart = true;
         if (predictions.length !== 0 && isLoaded == true) { //isLoaded ensures the game won't start at loading page and is set to false when game ends
 
-            giftStart = true;
+            hintStart = true;
 
             midX = (predictions[0].bbox[0] + predictions[0].bbox[2] / 2);
             midY = (predictions[0].bbox[1] + predictions[0].bbox[3] / 2);
@@ -202,7 +191,7 @@ function runDetection() {
 
             for (var i = 0; i < spawn.length; i++) // repeatedly redetect one target as many
             {
-                if (spawn[i].type == 'dog' && spawn[i].isTouch == false && touchAvailable == true) //target
+                if (spawn[i].type == 'dog' && spawn[i].isTouch == false) //target
                 {
                     if (spawn[i].distanceX >= 0 && spawn[i].distanceX <= (spawn[i].radius + handRadius) && spawn[i].distanceY >= 0 && spawn[i].distanceY <= (spawn[i].radius + handRadius)) {
                         if ((total * 100) >= highestScore) {
@@ -214,36 +203,41 @@ function runDetection() {
                         if (total == -1) total = 1; // touched target from trap
                         else total++; // touched target
 
-                        touchAvailable = false;
                         recordTimeTouch.push(calcTouchTime("target")); //calc touch time
                         spawn[i].isTouch = true;
                         console.log("touched dog");
-                        catchAudio.play();
-                        catchAudio.volume = 1.0;
+                        targetAudio.play();
+                        targetAudio.volume = 1.0;
+
+                        //dog appear
+                        var img = document.createElement("img");
+                        img.className = "basketdoggy";
+                        img.src = "Assets/img-09.png";
+                        var basketdoggy = document.querySelector(".container-item2");
+                        basketdoggy.appendChild(img);
+
+                        var dogImg = document.createElement("img");
+                        dogImg.src = "Assets/img-05.png";
+
+                        setTimeout(function () {
+                            c.drawImage(dogImg, spawn[i].x, spawn[i].y, 200, 200);
+
+                            setTimeout(function () {
+                                c.clearRect(0, 0, ccontainer.clientWidth, ccontainer.clientHeight);
+                            }, 3000);
+                        },300);
+
                         stopDetect();
-                        setTimeout(() => { //users are unable to other spawns withint 1.5 secs
-                            touchAvailable = true;
-                        }, 1500);
-
-                        setTimeout(() => {
-                            catchImg.style.display = "flex";
-                            document.querySelector("#doggy span").style.display = 'flex';
-                            setTimeout(() => {
-                                catchImg.style.display = "none";
-                                document.querySelector("#doggy span").style.display = 'none';
-                            }, 300);
-                        }, 300);
-
                         checkWL();
                         console.log('returned from checkWL');
                     } else if (spawn[i].distanceX > (spawn[i].radius + handRadius) && spawn[i].distanceX <= 1.1 * (spawn[i].radius + handRadius) && spawn[i].distanceY > (spawn[i].radius + handRadius) && spawn[i].distanceY <= 1.1 * (spawn[i].radius + handRadius)) {
                         // console.log("near dog");
-                        catchNearby.play();
-                        catchNearby.volume = 0.8;
+                        targetNearby.play();
+                        targetNearby.volume = 0.8;
                     }
                 }
 
-                else if (spawn[i].type == 'trap' && touchAvailable == true) {
+                else if (spawn[i].type == 'trap') {
                     if (spawn[i].distanceX >= 0 && spawn[i].distanceX <= (spawn[i].radius + handRadius) && spawn[i].distanceY >= 0 && spawn[i].distanceY <= (spawn[i].radius + handRadius)) {
 
                         //if (score == 0) score = 0;
@@ -252,7 +246,6 @@ function runDetection() {
                         //console.log(score);
 
                         //total = -1; // touched trap, differentiate trap from target
-                        touchAvailable = false;
                         recordTimeTouch.push(calcTouchTime("trap")); //calc touch time
                         trapAudio.play();
                         trapAudio.volume = 1.0;
@@ -269,25 +262,6 @@ function runDetection() {
                             spawn[i].regenerateXY(cwidth, cheight);
                         }
                         draw();
-                        document.querySelector(".container-item2 .span1").innerHTML = "<i class='fas fa-cat'></i>!!!";
-                        setTimeout(() => {
-                            trapImg.style.display = "flex";
-                            document.querySelector("#catty span").style.display = 'flex';
-                            freezeGUI.style.display = 'flex';
-                            isLoaded = false;
-
-                            setTimeout(() => {
-                                isLoaded = true;
-                                freezeGUI.style.display = 'none';
-                                trapImg.style.display = "none";
-                                document.querySelector("#catty span").style.display = 'none';
-                            }, 3000);
-                        }, 300);
-
-                        setTimeout(() => { //users are unable to other spawns withint 1.5 secs
-                            touchAvailable = true;
-                        }, 1500);
-
                         spawn[i].isTouch = true; //cat isTouch
                         spawn.forEach(index => {
                             if (index.type == 'trap') {
@@ -301,26 +275,21 @@ function runDetection() {
                     }
                 }
 
-                else if (spawn[i].type == 'gift' && spawn[i].isTouch == false && giftSpawn == true && spawn[i].isDespawn == false && touchAvailable == true) {   // && spawn[i].isTouch == false                      
+                else if (spawn[i].type == 'hint' && spawn[i].isTouch == false && hintSpawn == true && spawn[i].isDespawn == false) {                   
                                                                                                                                                                                              
                     if (spawn[i].distanceX >= 0 && spawn[i].distanceX <= (spawn[i].radius + handRadius) && spawn[i].distanceY >= 0 && spawn[i].distanceY <= (spawn[i].radius + handRadius)) {
                         
-                        recordTimeTouch.push(calcTouchTime("gift"));//calc touch time
+                        recordTimeTouch.push(calcTouchTime("hint"));//calc touch time
                         spawn[i].isTouch = true;
-                        console.log("touched gift");
-                        giftAudio.play();
-                        giftImg.style.display = "none";
-                        giftSpawn = false;
-                        giftEnd = false;
+                        console.log("touched hint");
+                        hintAudio.play();
+                        hintImg.style.display = "none";
+                        hintSpawn = false;
+                        hintEnd = false;
                         //insert perks here
-
-                        touchAvailable = false;
-                        setTimeout(() => { //users are unable to other spawns withint 1.5 secs
-                            touchAvailable = true;
-                        }, 1500);
                         
-                        var gift = Math.round(Math.random() * 2); 
-                        switch (gift) {
+                        var hint = Math.round(Math.random() * 2); 
+                        switch (hint) {
                             case 0: //region of dogs
                                 break;
                             case 1: //region of cats
@@ -333,32 +302,7 @@ function runDetection() {
                             //    break;
                         }
 
-                        //Enables user to know which gift they get
-                        setTimeout(() => {
-                            adImg.style.display = "flex";
-                            document.querySelector("#hintad span").style.display = "flex";
-
-                            if (gift == 0) document.querySelector("#hintad span").innerHTML = "Dog is here";
-                            else if (gift == 1) document.querySelector("#hintad span").innerHTML = "Cat is here";
-                            else document.querySelector("#hintad span").innerHTML = "Extra 20 secs";
-                            
-                            setTimeout(() => {
-                                adImg.style.display = "none";
-                                document.querySelector("#hintad span").style.display = "none";
-                            }, 1000);
-                        }, 300);
-                        
-                        //setTimeout(() => {                                              
-                        //    catchImg.style.display = "flex";                            
-                        //    setTimeout(() => {                                          
-                        //        catchImg.style.display = "none";                        
-                        //    }, 300);                                                    
-                        //}, 300);                                                        
-                        //if (total == -1) total = 1; // touched target from trap         
-                        //else total++; // touched target                                 
-                        //                                                                
-                        //checkWL();                                                      
-                        //console.log('returned from checkWL');                           
+                        //Enables user to know which gift they ge                    
                     }    
                 }
             }
@@ -399,7 +343,32 @@ function calcTouchTime (touchType) { //For data collection
     }
 } 
 
-var countDiv = document.getElementById("timer"), secpass,
+var countDiv = document.getElementById("timer"), secpass = (function () {
+    "use strict";
+
+    var min = Math.floor(sec / 60), //remaining minutes
+        remSec = sec % 60; //remaining seconds
+
+    if (remSec < 10) {
+        remSec = "0" + remSec;
+    }
+    if (min < 10) {
+        min = "0" + min;
+    }
+    countDiv.innerHTML = min + ":" + remSec;
+
+    if (sec > 0) {
+        sec = sec - 1;
+        //checkWL();
+    } else {
+        if (sec == 0) {
+            isLoaded = false; //ensures the game(hand) wont continue to move
+            clearInterval(countDown);
+            total = number1 + number2 + number3;
+            display_lose();
+        }
+    }
+}),
 countDown = setInterval(function () {
     "use strict";
 
@@ -409,32 +378,7 @@ countDown = setInterval(function () {
     }
   }, 1000);
 
-function secpass() {
-  "use strict";
 
-  var min = Math.floor(sec / 60), //remaining minutes
-    remSec = sec % 60; //remaining seconds
-
-  if (remSec < 10) {
-    remSec = "0" + remSec;
-  }
-  if (min < 10) {
-    min = "0" + min;
-  }
-  countDiv.innerHTML = min + ":" + remSec;
-
-  if (sec > 0) {
-    sec = sec - 1;
-    //checkWL();
-  } else {
-    if (sec == 0) {
-      isLoaded = false; //ensures the game(hand) wont continue to move
-      clearInterval(countDown);
-      total = number1 + number2 + number3;
-      display_lose();
-    }
-  }
-}
 
 var fifthCounter = 0;
 var tenthCounter = 0;
@@ -444,49 +388,49 @@ var dogImage = "";
 
 function checkWL() {
 
-    dogImage = ""; // picture
-
-    if (total == -1) {
-        document.querySelector(".container-item2 .span1").innerHTML = dogImage;
-        document.querySelector(".container-item2 .span2").innerHTML = "resetted";
-    } else {
-
-        dogImage = "";
-        for (i = 0; i < total; i++) {
-            dogSize += 7;
-            dogImage += "<i class='fas fa-dog' style='font-size:" + dogSize + "%;'></i>";
-            dogCounter++;
-
-            if (dogCounter == 5) {
-                fifthCounter += 1;
-                dogCounter = 0;
-                dogImage = "";
-                if (tenthCounter != 0) {
-                    for (k = 0; k < tenthCounter; k++) {
-                        dogImage += "<i class='fas fa-dog' style='color:red'></i>";
-                    }
-                }
-                dogImage += "<i class='fas fa-dog' style='color:yellow; font-size:" + dogSize + "%;'></i>";
-                dogSize = 80;
-                if (fifthCounter == 2) {
-                    tenthCounter += 1;
-                    fifthCounter = 0;
-                    dogImage = "";
-
-                    for (k = 0; k < tenthCounter; k++) {
-
-                        dogImage += "<i class='fas fa-dog' style='color:red'></i>";
-                    }
-                }
-            }
-        }
-        dogCounter = 0;
-        fifthCounter = 0;
-        tenthCounter = 0;
-
-        document.querySelector(".container-item2 .span1").innerHTML = dogImage;
-        document.querySelector(".container-item2 .span2").innerHTML = (numOfTarget - total);
-    }
+    //dogImage = ""; // picture
+    //
+    //if (total == -1) {
+    //    document.querySelector(".container-item2 .span1").innerHTML = dogImage;
+    //    document.querySelector(".container-item2 .span2").innerHTML = "resetted";
+    //} else {
+    //
+    //    dogImage = "";
+    //    for (i = 0; i < total; i++) {
+    //        dogSize += 7;
+    //        dogImage += "<i class='fas fa-dog' style='font-size:" + dogSize + "%;'></i>";
+    //        dogCounter++;
+    //
+    //        if (dogCounter == 5) {
+    //            fifthCounter += 1;
+    //            dogCounter = 0;
+    //            dogImage = "";
+    //            if (tenthCounter != 0) {
+    //                for (k = 0; k < tenthCounter; k++) {
+    //                    dogImage += "<i class='fas fa-dog' style='color:red'></i>";
+    //                }
+    //            }
+    //            dogImage += "<i class='fas fa-dog' style='color:yellow; font-size:" + dogSize + "%;'></i>";
+    //            dogSize = 80;
+    //            if (fifthCounter == 2) {
+    //                tenthCounter += 1;
+    //                fifthCounter = 0;
+    //                dogImage = "";
+    //
+    //                for (k = 0; k < tenthCounter; k++) {
+    //
+    //                    dogImage += "<i class='fas fa-dog' style='color:red'></i>";
+    //                }
+    //            }
+    //        }
+    //    }
+    //    dogCounter = 0;
+    //    fifthCounter = 0;
+    //    tenthCounter = 0;
+    //
+    //    document.querySelector(".container-item2 .span1").innerHTML = dogImage;
+    //    document.querySelector(".container-item2 .span2").innerHTML = (numOfTarget - total);
+    //}
 
   //dogImage = ""; // picture
   //if (total == -1)
@@ -669,7 +613,7 @@ function draw()
   requestAnimationFrame(draw);
   c.lineWidth = 2;
     spawn.forEach(item => {
-        if (item.type != 'gift') {
+        if (item.type != 'hint') {
 
             c.beginPath();
             c.arc(item.x, item.y, objRadius, 0, Math.PI * 2);
@@ -682,30 +626,30 @@ function draw()
 
             c.stroke();
         } else {
-            if (item.isSpawn == false && giftEnd == false && giftStart == true && sec >= totalSec * 0.1 && sec <= totalSec * 0.9) {
-                giftEnd = true;
-                console.log("enter gift");
+            if (item.isSpawn == false && hintEnd == false && hintStart == true && sec >= totalSec * 0.1 && sec <= totalSec * 0.9) {
+                hintEnd = true;
+                console.log("enter hint");
 
                 setTimeout(function () {
                     if (sec >= totalSec * 0.1) {
-                        giftImg.style.display = "flex";
-                        giftimgcontainer.style.left = item.x + "px";
-                        giftimgcontainer.style.top = item.y + "px";
-                        giftSpawn = true;
+                        hintImg.style.display = "flex";
+                        hintimgcontainer.style.left = item.x + "px";
+                        hintimgcontainer.style.top = item.y + "px";
+                        hintSpawn = true;
                         item.isSpawn = true;
                         item.isDespawn = false;
 
                         setTimeout(function () {
-                            giftImg.style.display = "none";
+                            hintImg.style.display = "none";
                             item.isDespawn = true;
                             if (item.isTouch == false) {
-                                giftEnd = false;
-                                giftSpawn = false;
+                                hintEnd = false;
+                                hintSpawn = false;
                             }
 
                         }, 3000);
                     }
-                }, giftRandomTime(((giftAvailableSec / numOfGift) / 3) * 1000, (giftAvailableSec / numOfGift) * 1000));
+                }, hintRandomTime(((hintAvailableSec / numOfGift) / 3) * 1000, (hintAvailableSec / numOfGift) * 1000));
             }
         }
   });
