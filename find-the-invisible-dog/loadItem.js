@@ -27,7 +27,10 @@ function getItem() {
                 "infoBoard": "Assets/img-04.png",
                 "hintImg": "Items/gifts/gift.png",
                 "canvasBG": "Assets/bg-051.png",
-                "backgroundIMG": "Assets/bg-01.png"
+                "backgroundImg": "Assets/bg-01.png",
+                "targetImg": "Assets/img-05.png",
+                "trapImg": "Assets/img-06.png",
+                "basketDog": "Assets/img-09.png"
             };
         }
     });
@@ -60,8 +63,7 @@ var basketGUI     = document.querySelector("#basketgui");
 basketGUI.src     = itemObj.basketGUI;
 var vcanvasGUI    = document.querySelector("#vcanvasgui");
 vcanvasGUI.src    = itemObj.vcanvasGUI;
-var fenceGUI      = document.querySelector("#fencegui");
-fenceGUI.src      = itemObj.fenceGUI;
+var fenceGUI      = document.querySelector(".container-item4").style.backgroundImage = "url('" + itemObj.fenceGUI + "')";
 var infoBoard     = document.querySelector("#infoboard");
 infoBoard.src     = itemObj.infoBoard;
 var hintImg       = document.querySelector("#hintimg");
@@ -69,3 +71,7 @@ hintImg.src       = itemObj.hintImg;
 var canvasBG      = document.querySelector("#canvasbg");
 canvasBG.src      = itemObj.canvasBG;
 var backgroundImg = document.getElementsByTagName("html")[0].style.backgroundImage = "url('" + itemObj.backgroundImg + "')";
+var targetImg     = document.querySelector("#targetimg");
+targetImg.src     = itemObj.targetImg;
+var trapImg       = document.querySelector("#trapimg");
+trapImg.src       = itemObj.trapImg;

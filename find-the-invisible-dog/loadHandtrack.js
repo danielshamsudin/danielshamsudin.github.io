@@ -17,7 +17,6 @@ Date.prototype.toFormattedString = function () {
 // give admin control over how many dogs and cat
 var cwidth = document.querySelector("#canvascontainer").clientWidth;
 var cheight = document.querySelector("#canvascontainer").clientHeight;
-var midX, midY, handX, handY, model;
 var spawn = [];
 var extraScore = 0;
 var highestScore = 0;
@@ -194,12 +193,7 @@ function runDetection() {
                 if (spawn[i].type == 'dog' && spawn[i].isTouch == false) //target
                 {
                     if (spawn[i].distanceX >= 0 && spawn[i].distanceX <= (spawn[i].radius + handRadius) && spawn[i].distanceY >= 0 && spawn[i].distanceY <= (spawn[i].radius + handRadius)) {
-                        if ((total * 100) >= highestScore) {
-                            score += 100;
-                            highestScore = score;
-                        }
-                        //console.log(score);
-
+                        
                         if (total == -1) total = 1; // touched target from trap
                         else total++; // touched target
 
@@ -209,23 +203,7 @@ function runDetection() {
                         targetAudio.play();
                         targetAudio.volume = 1.0;
 
-                        //dog appear
-                        var img = document.createElement("img");
-                        img.className = "basketdoggy";
-                        img.src = "Assets/img-09.png";
-                        var basketdoggy = document.querySelector(".container-item2");
-                        basketdoggy.appendChild(img);
-
-                        var dogImg = document.createElement("img");
-                        dogImg.src = "Assets/img-05.png";
-
-                        setTimeout(function () {
-                            c.drawImage(dogImg, spawn[i].x, spawn[i].y, 200, 200);
-
-                            setTimeout(function () {
-                                c.clearRect(0, 0, ccontainer.clientWidth, ccontainer.clientHeight);
-                            }, 3000);
-                        },300);
+                        updateGUI(spawn[i].type, i);
 
                         stopDetect();
                         checkWL();
@@ -249,7 +227,20 @@ function runDetection() {
                         recordTimeTouch.push(calcTouchTime("trap")); //calc touch time
                         trapAudio.play();
                         trapAudio.volume = 1.0;
+
+                        updateGUI(spawn[i].type, i);
+
                         stopDetect();
+
+                        setTimeout(function () { //Freeze GUI
+                            isLoaded = false;
+                            freezeGUI.style.display = "flex";
+
+                            setTimeout(function () {
+                                isLoaded = true;
+                                freezeGUI.style.display = "none";
+                            }, 3000);
+                        }, 300);
 
                         if (dogReset === true) {
                             for (var j = 0; j < spawn.length; j++) {
@@ -376,79 +367,16 @@ countDown = setInterval(function () {
     if (begin == 1) {
       secpass();
     }
-  }, 1000);
-
-
-
-var fifthCounter = 0;
-var tenthCounter = 0;
-var dogCounter = 0;
-var dogSize = 70;
-var dogImage = "";
+}, 1000);
 
 function checkWL() {
 
-    //dogImage = ""; // picture
-    //
-    //if (total == -1) {
-    //    document.querySelector(".container-item2 .span1").innerHTML = dogImage;
-    //    document.querySelector(".container-item2 .span2").innerHTML = "resetted";
-    //} else {
-    //
-    //    dogImage = "";
-    //    for (i = 0; i < total; i++) {
-    //        dogSize += 7;
-    //        dogImage += "<i class='fas fa-dog' style='font-size:" + dogSize + "%;'></i>";
-    //        dogCounter++;
-    //
-    //        if (dogCounter == 5) {
-    //            fifthCounter += 1;
-    //            dogCounter = 0;
-    //            dogImage = "";
-    //            if (tenthCounter != 0) {
-    //                for (k = 0; k < tenthCounter; k++) {
-    //                    dogImage += "<i class='fas fa-dog' style='color:red'></i>";
-    //                }
-    //            }
-    //            dogImage += "<i class='fas fa-dog' style='color:yellow; font-size:" + dogSize + "%;'></i>";
-    //            dogSize = 80;
-    //            if (fifthCounter == 2) {
-    //                tenthCounter += 1;
-    //                fifthCounter = 0;
-    //                dogImage = "";
-    //
-    //                for (k = 0; k < tenthCounter; k++) {
-    //
-    //                    dogImage += "<i class='fas fa-dog' style='color:red'></i>";
-    //                }
-    //            }
-    //        }
-    //    }
-    //    dogCounter = 0;
-    //    fifthCounter = 0;
-    //    tenthCounter = 0;
-    //
-    //    document.querySelector(".container-item2 .span1").innerHTML = dogImage;
-    //    document.querySelector(".container-item2 .span2").innerHTML = (numOfTarget - total);
-    //}
-
-  //dogImage = ""; // picture
-  //if (total == -1)
-  //{
-  //  dogImage = "<i class='fas fa-cat'></i>!!!";
-  //}
-  //else{
-  //  for (i=0;i<total;i++)
-  //  {
-  //    dogImage += "<i class='fas fa-dog'></i>";
-  //  }
-  //}
-  
   if (total == numOfTarget) {
     total = 0;
-    isLoaded = false; //ensures the game(hand) wont continue to move
+    isLoaded = false;
+      document.querySelector("#info").innerHTML = "YOU WIN !!";
+    //ensures the game(hand) wont continue to move
     // clearInterval(countDown);
-    // dogImage = "";
     // display_win();
   }
 }
@@ -661,4 +589,54 @@ function draw()
   //handimgcontainer.style.left = handImgPosX + "px";
   //handimgcontainer.style.top = handImgPosY + "px";
   c.drawImage(handImg, handImgPosX, handImgPosY, handImg.width, handImg.height);
+}
+
+function updateGUI(type, i) {
+
+    if (type === 'dog') {
+
+        //basket doggy
+        let basketDoggyContainer = document.querySelector("#basketdoggycontainer");
+        let img = document.createElement("img");
+        let dogSize;
+
+        if (numOfTarget <= 6) dogSize = 0.5
+        else if (numOfTarget <= 8) dogSize = 0.4;
+        else dogSize = 0.3;
+
+        img.className = "basketdoggy";
+        img.src = "Assets/img-09.png";
+        img.style.height = basketDoggyContainer.clientHeight * dogSize + "px";
+        img.style.width = basketDoggyContainer.clientHeight * dogSize + "px";
+        basketDoggyContainer.appendChild(img);
+
+        //dog appear
+        let locX = spawn[i].x - ((ccontainer.clientHeight * 0.2) / 2);
+        let locY = spawn[i].y - ((ccontainer.clientHeight * 0.2) / 2);
+
+        setTimeout(function () {
+            gctx.drawImage(targetImg, locX, locY, ccontainer.clientHeight * 0.2, ccontainer.clientHeight * 0.2);
+
+            console.log("enter drawing");
+
+            setTimeout(function () {
+                console.log("exit");
+                gctx.clearRect(0, 0, ccontainer.clientWidth, ccontainer.clientHeight);
+            }, 3000);
+        }, 100);
+    }
+
+    if (type === "trap") {
+        //cat appear
+        let locX = spawn[i].x - ((ccontainer.clientHeight * 0.2) / 2);
+        let locY = spawn[i].y - ((ccontainer.clientHeight * 0.2) / 2);
+
+        setTimeout(function () {
+            gctx.drawImage(trapImg, locX, locY, ccontainer.clientHeight * 0.2, ccontainer.clientHeight * 0.2);
+
+            setTimeout(function () {
+                gctx.clearRect(0, 0, ccontainer.clientWidth, ccontainer.clientHeight);
+            }, 3000);
+        }, 100);
+    }
 }

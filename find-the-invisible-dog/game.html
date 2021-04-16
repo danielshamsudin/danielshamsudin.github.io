@@ -22,13 +22,16 @@
         </div>
 
         <div class="container-item2">
+            <div id="basketdoggycontainer"></div>
             <img id="basketgui" />
         </div>
 
         <div class="container-item3">
-            <canvas id="vcanvas">
-                <video id="video"></video>
-            </canvas> <!-- video canvas -->
+            <div id="vcanvascontainer">
+                <canvas id="vcanvas">
+                    <video id="video"></video>
+                </canvas> <!-- video canvas -->
+            </div>
             <img id="vcanvasgui" />
         </div>
 
@@ -39,17 +42,14 @@
                 <p id="info">catch 5 dogs</p>
             </div>
             <div id="canvascontainer">
+                <canvas id="guicanvas"></canvas>
                 <canvas id="canvas"></canvas>
-                <div id="freeze"></div>
+                <div id="freeze"><p>freeze!!</p></div>
                 <div id="handimgcontainer"><img id="handimg"></div>
                 <div id="hintimgcontainer"><img id="hintimg"></div>
+                <div id="targetimgcontainer"><img id="targetimg" /></div>
+                <div id="trapimgcontainer"><img id="trapimg" /></div>
                 <img id="canvasbg" />
-
-                <!--
-                    <div id="doggy"><img id="targetimg"><span>Catched dog!!!</span></div>
-                    <div id="catty"><img id="trapimg"><span>Catched cat!!<br />freeze!!!</span></div>
-                    <div id="hintad"><img id="adimg"><span></span></div>
-                -->
             </div>
         </div>
     </div>
@@ -75,7 +75,7 @@
     <script src="state.js"></script>
     <script src="spawnableItem.js"></script>
     <script src="choose.js"></script>
-    <script type="module" src="loadHandtrack.js"></script>
+    <script src="loadHandtrack.js"></script>
     <script src='https://kit.fontawesome.com/a076d05399.js'></script>
 </body>
 </html>

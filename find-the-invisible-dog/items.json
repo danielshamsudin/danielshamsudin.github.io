@@ -15,5 +15,8 @@
     "infoBoard": "Assets/img-04.png",
     "hintImg": "Items/gifts/gift.png",
     "canvasBG": "Assets/bg-051.png",
-    "backgroundImg": "Assets/bg-01.png"
+    "backgroundImg": "Assets/bg-01.png",
+    "targetImg": "Assets/img-05.png",
+    "trapImg": "Assets/img-06.png",
+    "basketDog": "Assets/img-09.png"
 }
