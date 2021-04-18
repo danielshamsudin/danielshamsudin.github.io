@@ -22,7 +22,7 @@ const video = document.querySelector("#video");
 video.width = vcontainer.clientWidth;
 video.height = vcontainer.clientHeight;
 
-var numOfGift = 2;
+var numOfGift = 4;
 var numOfTarget;
 var numOfTrap;
 var objRadius;
@@ -58,7 +58,7 @@ if (difficulty == "easy") {
 } else if (difficulty == "custom") {
 
     numOfTarget = 5;
-    numOfTrap = 1;
+    numOfTrap = 0;
     objRadius = ccontainer.scrollHeight * 0.04;
     handRadius = ccontainer.scrollHeight * 0.2;
     catReset = true;
@@ -66,8 +66,8 @@ if (difficulty == "easy") {
 }
 
 var hintimgcontainer = document.getElementById("hintimgcontainer");
-hintimgcontainer.style.width = (ccontainer.scrollHeight * 0.05) + "px";
-hintimgcontainer.style.height = (ccontainer.scrollHeight * 0.05) + "px";
+hintimgcontainer.style.width = (ccontainer.scrollHeight * 0.2) + "px";
+hintimgcontainer.style.height = (ccontainer.scrollHeight * 0.2) + "px";
 
 var handimgcontainer = document.getElementById("handimgcontainer");
 handimgcontainer.style.width = handRadius * 2 + "px";

@@ -109,11 +109,11 @@ var handLocations = [];
 
 // put in json file from server
 const modelParams = {
-  flipHorizontal: true,
+  //flipHorizontal: true,
   imageScaleFactor: 0.5, //changed here
   maxNumBoxes: 1, // maximum number of boxes to detect
   iouThreshold: 0.5, // ioU threshold for non-max suppression
-  scoreThreshold: 0.7, // confidence threshold for predictions.
+  scoreThreshold: 0.9, // confidence threshold for predictions.
 };
 
 handTrack.load(modelParams).then((lmodel) => {
@@ -171,7 +171,7 @@ function runDetection() {
         var tid2 = setInterval(handLocations.push([handX, handY]), 2000); //TODO: [X,Y,time,touchedItem] -> if touched dog/cat
 
         isStart = true;
-        if (predictions.length !== 0 && isLoaded == true) { //isLoaded ensures the game won't start at loading page and is set to false when game ends
+        if (predictions.length !== 0 && isLoaded == true) { //isLoaded ensures the game won't start at loading page and can be set as a condition to disable the tracking
 
             hintStart = true;
 
@@ -194,17 +194,13 @@ function runDetection() {
                 {
                     if (spawn[i].distanceX >= 0 && spawn[i].distanceX <= (spawn[i].radius + handRadius) && spawn[i].distanceY >= 0 && spawn[i].distanceY <= (spawn[i].radius + handRadius)) {
                         
-                        if (total == -1) total = 1; // touched target from trap
-                        else total++; // touched target
-
+                        total++;
                         recordTimeTouch.push(calcTouchTime("target")); //calc touch time
                         spawn[i].isTouch = true;
                         console.log("touched dog");
                         targetAudio.play();
                         targetAudio.volume = 1.0;
-
                         updateGUI(spawn[i].type, i);
-
                         stopDetect();
                         checkWL();
                         console.log('returned from checkWL');
@@ -215,32 +211,14 @@ function runDetection() {
                     }
                 }
 
-                else if (spawn[i].type == 'trap') {
+                else if (spawn[i].type == 'trap' && spawn[i].isTouch == false) {
                     if (spawn[i].distanceX >= 0 && spawn[i].distanceX <= (spawn[i].radius + handRadius) && spawn[i].distanceY >= 0 && spawn[i].distanceY <= (spawn[i].radius + handRadius)) {
 
-                        //if (score == 0) score = 0;
-                        //else if (score > 0 && score <= 1000) score -= 100;
-                        //else score -= 200;
-                        //console.log(score);
-
-                        //total = -1; // touched trap, differentiate trap from target
                         recordTimeTouch.push(calcTouchTime("trap")); //calc touch time
                         trapAudio.play();
                         trapAudio.volume = 1.0;
-
                         updateGUI(spawn[i].type, i);
-
                         stopDetect();
-
-                        setTimeout(function () { //Freeze GUI
-                            isLoaded = false;
-                            freezeGUI.style.display = "flex";
-
-                            setTimeout(function () {
-                                isLoaded = true;
-                                freezeGUI.style.display = "none";
-                            }, 3000);
-                        }, 300);
 
                         if (dogReset === true) {
                             for (var j = 0; j < spawn.length; j++) {
@@ -254,11 +232,7 @@ function runDetection() {
                         }
                         draw();
                         spawn[i].isTouch = true; //cat isTouch
-                        spawn.forEach(index => {
-                            if (index.type == 'trap') {
-                                index.isTouch = false;
-                            }
-                        });
+                        
                     } else if (spawn[i].distanceX > (spawn[i].radius + handRadius) && spawn[i].distanceX <= 1.1 * (spawn[i].radius + handRadius) && spawn[i].distanceY > (spawn[i].radius + handRadius) && spawn[i].distanceY <= 1.1 * (spawn[i].radius + handRadius)) {
                         console.log("near cat");
                         trapNearby.play();
@@ -277,8 +251,9 @@ function runDetection() {
                         hintImg.style.display = "none";
                         hintSpawn = false;
                         hintEnd = false;
+                        updateGUI(spawn[i].type, i);
+                        isLoaded = false;
                         //insert perks here
-                        
                         var hint = Math.round(Math.random() * 2); 
                         switch (hint) {
                             case 0: //region of dogs
@@ -372,7 +347,6 @@ countDown = setInterval(function () {
 function checkWL() {
 
   if (total == numOfTarget) {
-    total = 0;
     isLoaded = false;
       document.querySelector("#info").innerHTML = "YOU WIN !!";
     //ensures the game(hand) wont continue to move
@@ -387,8 +361,6 @@ function display_win() {
 
   dlData();
   // score change to json
-  // score = (total / numOfTarget) * 100; // set score for dogs
-  if(extraScore != 0) score += extraScore;
   BGM.pause();
   winAudio.play();
   statustrap = 1;
@@ -489,8 +461,6 @@ function display_lose() {
   BGM.pause();
   loseAudio.play();
   document.getElementById("display").style.display = "block";
-  //score = (total / numOfTarget) * 100;
-  if(extraScore != 0) score += extraScore;
   document.getElementById("score").innerHTML = "You only catch " + total + ". Score is " + score;
   window.parent.wsCreateScore(score);
 
@@ -540,47 +510,51 @@ function draw()
   c.clearRect(0, 0, canvas.width, canvas.height);
   requestAnimationFrame(draw);
   c.lineWidth = 2;
-    spawn.forEach(item => {
-        if (item.type != 'hint') {
-
-            c.beginPath();
-            c.arc(item.x, item.y, objRadius, 0, Math.PI * 2);
-            if (item.type == 'dog') {
-                c.strokeStyle = 'blue';
-            }
-            else if (item.type == 'trap') {
-                c.strokeStyle = 'white';
-            }
-
-            c.stroke();
-        } else {
-            if (item.isSpawn == false && hintEnd == false && hintStart == true && sec >= totalSec * 0.1 && sec <= totalSec * 0.9) {
-                hintEnd = true;
-                console.log("enter hint");
-
-                setTimeout(function () {
-                    if (sec >= totalSec * 0.1) {
-                        hintImg.style.display = "flex";
-                        hintimgcontainer.style.left = item.x + "px";
-                        hintimgcontainer.style.top = item.y + "px";
-                        hintSpawn = true;
-                        item.isSpawn = true;
-                        item.isDespawn = false;
-
-                        setTimeout(function () {
-                            hintImg.style.display = "none";
-                            item.isDespawn = true;
-                            if (item.isTouch == false) {
-                                hintEnd = false;
-                                hintSpawn = false;
-                            }
-
-                        }, 3000);
-                    }
-                }, hintRandomTime(((hintAvailableSec / numOfGift) / 3) * 1000, (hintAvailableSec / numOfGift) * 1000));
-            }
-        }
-  });
+   spawn.forEach(item => {
+       if (item.type != 'hint') {
+   
+           // c.beginPath();
+           // c.arc(item.x, item.y, objRadius, 0, Math.PI * 2);
+           // if (item.type == 'dog') {
+           //     c.strokeStyle = 'blue';
+           // }
+           // else if (item.type == 'trap') {
+           //     c.strokeStyle = 'white';
+           // }
+           // else if (item.type == 'hint') {
+           //     c.strokeStyle = 'yellow';
+           // }
+           // c.stroke();
+       } else {
+           if (item.isSpawn == false && hintEnd == false && hintStart == true && sec >= totalSec * 0.1 && sec <= totalSec * 0.9 && isLoaded == true) {
+               hintEnd = true;
+               console.log("enter hint");
+   
+               setTimeout(function () {
+                   if (sec >= totalSec * 0.1) {
+                       hintImg.style.display = "flex";
+                       hintimgcontainer.style.left = (item.x - (hintimgcontainer.clientHeight / 2)) + "px";
+                       hintimgcontainer.style.top = (item.y - (hintimgcontainer.clientHeight / 2)) + "px";
+                       hintimgcontainer.style.display = "flex";
+                       hintSpawn = true;
+                       item.isSpawn = true;
+                       item.isDespawn = false;
+   
+                       setTimeout(function () {
+                           item.isDespawn = true;
+                           if (item.isTouch == false) {
+                               hintImg.style.display = "none";
+                               hintimgcontainer.style.display = "none";
+                               hintEnd = false;
+                               hintSpawn = false;
+                           }
+   
+                       }, 3000);
+                   }
+               }, hintRandomTime(((hintAvailableSec / numOfGift) / 3) * 1000, (hintAvailableSec / numOfGift) * 1000));
+           }
+       }
+   });
 
   handAnimation();
   var handImgPosX = controlX - (handimgcontainer.clientWidth / 2);
@@ -617,26 +591,49 @@ function updateGUI(type, i) {
         setTimeout(function () {
             gctx.drawImage(targetImg, locX, locY, ccontainer.clientHeight * 0.2, ccontainer.clientHeight * 0.2);
 
-            console.log("enter drawing");
-
             setTimeout(function () {
-                console.log("exit");
                 gctx.clearRect(0, 0, ccontainer.clientWidth, ccontainer.clientHeight);
             }, 3000);
         }, 100);
     }
 
-    if (type === "trap") {
+    else if (type === "trap") {
         //cat appear
         let locX = spawn[i].x - ((ccontainer.clientHeight * 0.2) / 2);
         let locY = spawn[i].y - ((ccontainer.clientHeight * 0.2) / 2);
 
         setTimeout(function () {
             gctx.drawImage(trapImg, locX, locY, ccontainer.clientHeight * 0.2, ccontainer.clientHeight * 0.2);
+            isLoaded = false;
+            document.querySelector("#gui-container").style.filter = "grayscale(100%)";
 
             setTimeout(function () {
                 gctx.clearRect(0, 0, ccontainer.clientWidth, ccontainer.clientHeight);
+                document.querySelector("#gui-container").style.filter = "grayscale(0)"
+                if (total != numOfTarget && sec != 0) isLoaded = true;
+
+                spawn.forEach(index => {
+                    if (index.type == 'trap') {
+                        index.isTouch = false;
+                    }
+                });
             }, 3000);
         }, 100);
+    }
+
+    else {
+        hintImg.style.display = "none";
+        openingHint.style.display = "flex";
+
+        setTimeout(function () {
+            openingHint.style.display = "none";
+            openedHint.style.display = "flex";
+            document.querySelector("#openedhintcontainer p").style.display = "flex";
+            setTimeout(function () {
+                document.querySelector("#openedhintcontainer p").style.display = "none";
+                openedHint.style.display = "none";
+                isLoaded = true;
+            }, 3000);
+        }, 1000);
     }
 }

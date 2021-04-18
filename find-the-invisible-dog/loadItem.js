@@ -25,7 +25,7 @@ function getItem() {
                 "vcanvasGUI": "Assets/img-03.png",
                 "fenceGUI": "Assets/bg-041.png",
                 "infoBoard": "Assets/img-04.png",
-                "hintImg": "Items/gifts/gift.png",
+                "hintImg": "Assets/GIF/present.gif",
                 "canvasBG": "Assets/bg-051.png",
                 "backgroundImg": "Assets/bg-01.png",
                 "targetImg": "Assets/img-05.png",
@@ -55,23 +55,29 @@ winAudio.volume   = 0.2;
 loseAudio.volume  = 0.2;
 
 //GUIs
-var handImg       = document.querySelector("#handimg"); //1:1 ratio recommended
-handImg.src       = itemObj.handImg;
-var timerGUI      = document.querySelector("#timergui");
-timerGUI.src      = itemObj.timerGUI;
-var basketGUI     = document.querySelector("#basketgui");
-basketGUI.src     = itemObj.basketGUI;
-var vcanvasGUI    = document.querySelector("#vcanvasgui");
-vcanvasGUI.src    = itemObj.vcanvasGUI;
-var fenceGUI      = document.querySelector(".container-item4").style.backgroundImage = "url('" + itemObj.fenceGUI + "')";
-var infoBoard     = document.querySelector("#infoboard");
-infoBoard.src     = itemObj.infoBoard;
-var hintImg       = document.querySelector("#hintimg");
-hintImg.src       = itemObj.hintImg;
-var canvasBG      = document.querySelector("#canvasbg");
-canvasBG.src      = itemObj.canvasBG;
-var backgroundImg = document.getElementsByTagName("html")[0].style.backgroundImage = "url('" + itemObj.backgroundImg + "')";
-var targetImg     = document.querySelector("#targetimg");
-targetImg.src     = itemObj.targetImg;
-var trapImg       = document.querySelector("#trapimg");
-trapImg.src       = itemObj.trapImg;
+var handImg                      = document.querySelector("#handimg"); //1:1 ratio recommended
+if(handImg) handImg.src          = itemObj.handImg;
+var timerGUI                     = document.querySelector("#timergui");
+if(timerGUI) timerGUI.src        = itemObj.timerGUI;
+var basketGUI                    = document.querySelector("#basketgui");
+if(basketGUI) basketGUI.src      = itemObj.basketGUI;
+var vcanvasGUI                   = document.querySelector("#vcanvasgui");
+if(vcanvasGUI) vcanvasGUI.src    = itemObj.vcanvasGUI;
+var fenceGUI                     = document.querySelector(".container-item4");
+if(fenceGUI) fenceGUI.style.backgroundImage = "url('" + itemObj.fenceGUI + "')";
+var infoBoard                    = document.querySelector("#infoboard");
+if(infoBoard) infoBoard.src      = itemObj.infoBoard;
+var hintImg                      = document.querySelector("#hintimg");
+if(hintImg) hintImg.src          = itemObj.hintImg;
+var openingHint                  = document.querySelector("#openinghint");
+if (openingHint) openingHint.src = itemObj.openingHint;
+var openedHint                   = document.querySelector("#openedhint");
+if (openedHint) openedHint.src   = itemObj.openedHint;
+var canvasBG                     = document.querySelector("#canvasbg");
+if(canvasBG) canvasBG.src        = itemObj.canvasBG;
+var backgroundImg                = document.getElementsByTagName("html")[0];
+if (backgroundImg) backgroundImg.style.backgroundImage = "url('" + itemObj.backgroundImg + "')";
+var targetImg                    = document.querySelector("#targetimg");
+if(targetImg) targetImg.src      = itemObj.targetImg;
+var trapImg                      = document.querySelector("#trapimg");
+if(trapImg) trapImg.src          = itemObj.trapImg;

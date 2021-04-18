@@ -23,13 +23,6 @@ body {
     width: 0px;
     background: transparent;
 }
-#catchimg{
-    display: none;
-}
-
-#trapimg {
-    display: none;
-}
 
 #logoimgcontainer {
     width: 5%;
@@ -49,10 +42,6 @@ body {
 #logoimgcontainer > img{
     width: 90%;
     height: auto;
-}
-
-.imgplaceholder{
-    display: none;
 }
 
 @font-face {

@@ -4,8 +4,8 @@ class spawnableItem {
   {
     this.type = type;
     this.isTouch = false; 
-    this.x = Math.random() * containerWidth;
-    this.y = Math.random() * containerHeight;
+    this.x = Math.random() * ((containerWidth * 0.9) - (containerWidth * 0.1)) + (containerWidth * 0.1);
+    this.y = Math.random() * ((containerHeight * 0.9) - (containerHeight * 0.1)) + (containerHeight * 0.1);
     this.radius = radius;
 
       if (type == 'hint') {
@@ -16,8 +16,8 @@ class spawnableItem {
 
   regenerateXY(containerWidth, containerHeight)
   {
-    this.x = Math.random() * containerWidth;
-    this.y = Math.random() * containerHeight;
+      this.x = Math.random() * ((containerWidth * 0.9) - (containerWidth * 0.1)) + (containerWidth * 0.1);
+      this.y = Math.random() * ((containerHeight * 0.9) - (containerHeight * 0.1)) + (containerHeight * 0.1);
   } 
 
   calculateDistanceHandToObject(handX,handY)
