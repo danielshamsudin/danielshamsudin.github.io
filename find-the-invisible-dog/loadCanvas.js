@@ -57,8 +57,8 @@ if (difficulty == "easy") {
     dogReset = true;
 } else if (difficulty == "custom") {
 
-    numOfTarget = 5;
-    numOfTrap = 0;
+    numOfTarget = 1;
+    numOfTrap = 2;
     objRadius = ccontainer.scrollHeight * 0.04;
     handRadius = ccontainer.scrollHeight * 0.2;
     catReset = true;
@@ -99,10 +99,5 @@ document.getElementById("splash-text").innerHTML = "Dogs Come... <br> ..READYYYY
 
 //var bgcolor = localStorage.getItem("pass");
 //document.getElementsByTagName('html')[0].style.background = bgcolor;
-
-var freezeGUI = document.getElementById("freeze");
-freezeGUI.style.width = ccontainer.clientWidth + "px";
-freezeGUI.style.height = ccontainer.clientHeight + "px";
-
 
 

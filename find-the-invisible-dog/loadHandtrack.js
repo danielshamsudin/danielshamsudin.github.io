@@ -513,18 +513,15 @@ function draw()
    spawn.forEach(item => {
        if (item.type != 'hint') {
    
-           // c.beginPath();
-           // c.arc(item.x, item.y, objRadius, 0, Math.PI * 2);
-           // if (item.type == 'dog') {
-           //     c.strokeStyle = 'blue';
-           // }
-           // else if (item.type == 'trap') {
-           //     c.strokeStyle = 'white';
-           // }
-           // else if (item.type == 'hint') {
-           //     c.strokeStyle = 'yellow';
-           // }
-           // c.stroke();
+           c.beginPath();
+           c.arc(item.x, item.y, objRadius, 0, Math.PI * 2);
+           if (item.type == 'dog') {
+               c.strokeStyle = 'blue';
+           }
+           else if (item.type == 'trap') {
+               c.strokeStyle = 'white';
+           }
+           c.stroke();
        } else {
            if (item.isSpawn == false && hintEnd == false && hintStart == true && sec >= totalSec * 0.1 && sec <= totalSec * 0.9 && isLoaded == true) {
                hintEnd = true;
@@ -606,10 +603,16 @@ function updateGUI(type, i) {
             gctx.drawImage(trapImg, locX, locY, ccontainer.clientHeight * 0.2, ccontainer.clientHeight * 0.2);
             isLoaded = false;
             document.querySelector("#gui-container").style.filter = "grayscale(100%)";
+            document.querySelector("#message").innerHTML = "freeze!!";
+            document.querySelector("#message").style.backgroundColor = "white";
+            document.querySelector("#message").style.display = "block";
 
             setTimeout(function () {
                 gctx.clearRect(0, 0, ccontainer.clientWidth, ccontainer.clientHeight);
-                document.querySelector("#gui-container").style.filter = "grayscale(0)"
+                document.querySelector("#gui-container").style.filter = "grayscale(0)";
+                document.querySelector("#message").style.backgroundColor = "transparent";
+                document.querySelector("#message").style.display = "none";
+
                 if (total != numOfTarget && sec != 0) isLoaded = true;
 
                 spawn.forEach(index => {
@@ -628,9 +631,13 @@ function updateGUI(type, i) {
         setTimeout(function () {
             openingHint.style.display = "none";
             openedHint.style.display = "flex";
-            document.querySelector("#openedhintcontainer p").style.display = "flex";
+            document.querySelector("#message").innerHTML = "+ 20 secs";
+            document.querySelector("#message").style.display = "block";
+            document.querySelector("#hintad").style.display = "flex";
+
             setTimeout(function () {
-                document.querySelector("#openedhintcontainer p").style.display = "none";
+                document.querySelector("#hintad").style.display = "none";
+                document.querySelector("#message").style.display = "none";
                 openedHint.style.display = "none";
                 isLoaded = true;
             }, 3000);

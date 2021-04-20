@@ -30,7 +30,9 @@ function getItem() {
                 "backgroundImg": "Assets/bg-01.png",
                 "targetImg": "Assets/img-05.png",
                 "trapImg": "Assets/img-06.png",
-                "basketDog": "Assets/img-09.png"
+                "basketDog": "Assets/img-09.png",
+                "infoAds": "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_160x56dp.png",
+                "hintAds": "img/tmlogo.png"
             };
         }
     });
@@ -80,4 +82,8 @@ if (backgroundImg) backgroundImg.style.backgroundImage = "url('" + itemObj.backg
 var targetImg                    = document.querySelector("#targetimg");
 if(targetImg) targetImg.src      = itemObj.targetImg;
 var trapImg                      = document.querySelector("#trapimg");
-if(trapImg) trapImg.src          = itemObj.trapImg;
+if (trapImg) trapImg.src         = itemObj.trapImg;
+var infoAds                      = document.querySelector("#infoads");
+if (infoAds) infoAds.src         = itemObj.infoAds;
+var hintAds                      = document.querySelector("#hintad");
+if (hintAds) hintAds.src         = itemObj.hintAds;
