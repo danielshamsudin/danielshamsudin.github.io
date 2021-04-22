@@ -113,7 +113,7 @@ const modelParams = {
   imageScaleFactor: 0.5, //changed here
   maxNumBoxes: 1, // maximum number of boxes to detect
   iouThreshold: 0.5, // ioU threshold for non-max suppression
-  scoreThreshold: 0.9, // confidence threshold for predictions.
+  scoreThreshold: 0.7, // confidence threshold for predictions.
 };
 
 handTrack.load(modelParams).then((lmodel) => {
@@ -254,7 +254,8 @@ function runDetection() {
                         updateGUI(spawn[i].type, i);
                         isLoaded = false;
                         //insert perks here
-                        var hint = Math.round(Math.random() * 2); 
+                        //var hint = Math.round(Math.random() * 2); 
+                        var hint = 2;
                         switch (hint) {
                             case 0: //region of dogs
                                 break;
@@ -603,15 +604,16 @@ function updateGUI(type, i) {
             gctx.drawImage(trapImg, locX, locY, ccontainer.clientHeight * 0.2, ccontainer.clientHeight * 0.2);
             isLoaded = false;
             document.querySelector("#gui-container").style.filter = "grayscale(100%)";
-            document.querySelector("#message").innerHTML = "freeze!!";
-            document.querySelector("#message").style.backgroundColor = "white";
-            document.querySelector("#message").style.display = "block";
+            document.querySelector("#gui-container").style.filter = "brightness(20%)";
+            //document.querySelector("#blackscreen").style.display = "block";
+            document.querySelector("#freezemessage").style.display = "flex";
 
             setTimeout(function () {
                 gctx.clearRect(0, 0, ccontainer.clientWidth, ccontainer.clientHeight);
                 document.querySelector("#gui-container").style.filter = "grayscale(0)";
-                document.querySelector("#message").style.backgroundColor = "transparent";
-                document.querySelector("#message").style.display = "none";
+                document.querySelector("#gui-container").style.filter = "brightness(100%)";
+                //document.querySelector("#blackscreen").style.display = "none";
+                document.querySelector("#freezemessage").style.display = "none";
 
                 if (total != numOfTarget && sec != 0) isLoaded = true;
 
@@ -631,13 +633,13 @@ function updateGUI(type, i) {
         setTimeout(function () {
             openingHint.style.display = "none";
             openedHint.style.display = "flex";
-            document.querySelector("#message").innerHTML = "+ 20 secs";
-            document.querySelector("#message").style.display = "block";
-            document.querySelector("#hintad").style.display = "flex";
+            document.querySelector("#hintmessage").innerHTML = "+ 20 secs";
+            document.querySelector("#hintmessage").style.display = "block";
+            document.querySelector("#hintad").style.display = "block";
 
             setTimeout(function () {
                 document.querySelector("#hintad").style.display = "none";
-                document.querySelector("#message").style.display = "none";
+                document.querySelector("#hintmessage").style.display = "none";
                 openedHint.style.display = "none";
                 isLoaded = true;
             }, 3000);
