@@ -33,10 +33,10 @@ db.Schedule = require("./Schedule.js")(sequelize, Sequelize);
 db.DefaultPrice = require("./DefaultPrice.js")(sequelize, Sequelize);
 */
 
-Object.keys(db).forEach(modelName => {
-    if (db[modelName].associate) {
-        db[modelName].associate(db);
-    }
-});
+// Object.keys(db).forEach(modelName => {
+//     if (db[modelName].associate) {
+//         db[modelName].associate(db);
+//     }
+// });
 
 module.exports = db;

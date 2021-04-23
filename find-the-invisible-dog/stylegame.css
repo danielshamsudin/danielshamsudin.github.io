@@ -234,9 +234,6 @@ p {
     background-color: transparent;
 }
 
-video { /*video used by handtrack.js*/
-}
-
 .splashT { /* loading interface, div that stores loading symbols img */
     z-index: 6;
     background-color: white;

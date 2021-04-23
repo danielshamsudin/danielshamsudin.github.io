@@ -13,10 +13,28 @@ app.use(express.urlencoded({ extended: true }));
 const db = require("./models");
 db.sequelize.sync();
 
+<<<<<<< HEAD
+// hit endpoint root
+=======
+>>>>>>> origin/mw_dev
 app.get("/", (req, res) => {
     res.json({ message: "Welcome to my application. " });
 });
 
+<<<<<<< HEAD
+//find the invisible dog game page
+app.get("/find-the-invisible-dog", (req, res) => {
+    res.sendFile(__dirname + '/find-the-invisible-dog/index.html');
+    app.use(express.static(__dirname + '/find-the-invisible-dog/'));
+});
+
+// app.post("/insert-invisibledog", (req,res)=>{
+//     res.sendFile(_dirname + '/invisibledog_insert.js');
+//     res.sendStatus(200);
+// });
+
+//e-motion game page
+=======
 //game page
 app.get("/find-the-invisible-dog", (req, res) => {
     res.sendFile(__dirname + '/find-the-invisible-dog/index.html');
@@ -24,12 +42,17 @@ app.get("/find-the-invisible-dog", (req, res) => {
     app.use(express.static(__dirname + '/find-the-invisible-dog/'));
 });
 
+>>>>>>> origin/mw_dev
 app.get("/e-motion", (req, res) => {
     res.sendFile(__dirname + '/e-motion/index.html');
 
     app.use(express.static(__dirname + '/e-motion/'));
 });
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> origin/mw_dev
 require("./router/router")(app);
 
 const PORT = process.env.PORT || 50; // change the port number

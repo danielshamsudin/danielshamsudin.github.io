@@ -1,5 +1,4 @@
 var itemObj = getItem();
-
 function getItem() {
     var result = {};
     $.ajax({

@@ -61,10 +61,55 @@ var hintAvailableSec =
 //     {
 //       numOfTarget: numOfTarget,
 //       numOfTrap: numOfTrap,
+//       gameMode: gameMode,
 //     },
 //     //do something on success
 //   });
 // }
+
+// game mode selection from admin page
+
+var gameMode = 1; // 1 - easy , 2 - medium , 3 - hard, 4 - custom
+
+// TODO:
+// target maintain
+// trap add
+// choose optimized time for each difficulties
+
+var numOfTarget, numOfTrap, objRadius, handRadius;
+
+if (gameMode == 1) {
+  // easy
+  numOfTarget = 3;
+  numOfTrap = 2;
+  objRadius = 15;
+  handRadius = 30;
+}
+if (gameMode == 2) {
+  // medium
+  numOfTarget = 5;
+  numOfTrap = 2;
+  objRadius = 10;
+  handRadius = 10;
+}
+if (gameMode == 3) {
+  // hard
+  numOfTarget = 6;
+  numOfTrap = 3;
+  objRadius = 5;
+  handRadius = 10;
+}
+if (gameMode == 4) {
+  // custom
+  // fetch from admin page
+}
+if (gameMode === undefined) {
+  // default if file not loaded
+  numOfTarget = 3;
+  numOfTrap = 1;
+  objRadius = 20;
+  handRadius = 20;
+}
 
 //create function to receive game data; ajax function
 // target creation
@@ -88,7 +133,7 @@ draw();
 
 var perfTime = [];
 var handLocations = [];
-
+// TODO: mode for admin to select, easy medium hard, change objnum, objradius, handradius
 // distance checking for each objects so that they are not close to each other
 // enable this in final version of the game
 (function () {
@@ -107,12 +152,12 @@ const modelParams = {
   imageScaleFactor: 0.5, //changed here
   maxNumBoxes: 1, // maximum number of boxes to detect
   iouThreshold: 0.5, // ioU threshold for non-max suppression
-  scoreThreshold: 0.9, // confidence threshold for predictions.
+  scoreThreshold: 0.7, // confidence threshold for predictions.
 };
 
-handTrack.load(modelParams).then((lmodel) => {
-  model = lmodel;
-});
+// handTrack.load(modelParams).then((lmodel) => {
+//   model = lmodel;
+// });
 
 navigator.getUserMedia =
   navigator.getUserMedia ||
@@ -125,6 +170,7 @@ function renderVideo() {
   requestAnimationFrame(renderVideo);
 }
 
+// handTrack built in method to start video stream
 handTrack.startVideo(video).then((status) => {
   var countdownToLobby;
   if (status) {
@@ -457,28 +503,38 @@ function dlData() {
     numerator = Math.sqrt(numerator);
     return Math.round(numerator * 1000) / 1000;
   })();
+  data.starttime = stDate.toFormattedString();
 
-  data.gameObj = spawn;
+  data.performance = {
+    avgFPS: avgfps,
+    medianFPS: median,
+    stddevFPS: stddev,
+    loadingTime: loadingTimeTaken,
+  };
 
-  data.handLocation = handLocations;
+  data.handDetection = {
+    handLocation: handLocations,
+    recordTimeTouch: recordTimeTouch,
+  }; // append with time obj
 
+  data.handSize = {
+    handImgWidth: handImg.width,
+    handImgHeight: handImg.height,
+  };
+  data.gameObj = { spawn };
+  data.GUIs = {
+    canvasSize: playcanvassize,
+    windowSize: windowsize,
+  };
   data.score = score;
-
-  // TODO: add object radius
 
   $.ajax({
     type: "POST",
     url: "gamedata.php",
     data: {
       startTime: data.starttime,
-      avgFPS: data.avgfps,
-      medianFPS: data.median,
-      stddevFPS: data.stddev,
-      handLocation: data.handLocation,
-      gameObj: data.gameObj,
-      touchTime: data.touchtime,
-      playableCanvasSize: data.playcanvassize,
-      windowSize: data.windowsize,
+      performance: data.performance,
+      handDetection: data.handDetection,
       handSize: data.handSize,
       loadingTimeTaken: data.loadingTimeTaken,
     },
@@ -499,6 +555,7 @@ function dlData() {
 }
 
 function display_lose() {
+  end = true;
   BGM.pause();
   loseAudio.play();
   document.getElementById("display").style.display = "block";
@@ -738,5 +795,5 @@ function animateDog() {
   {
     dctx.clearRect(0,0,fullSize.clientWidth, fullSize.clientHeight);
   }
-  // TODO: 
+  // TODO: dog animation fadeout when y -= 1 && y == 0 
 }
