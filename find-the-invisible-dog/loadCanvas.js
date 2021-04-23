@@ -112,7 +112,9 @@ var isStart = false;
 var isSplash = false;
 var isPlay = false;
 
-document.getElementById("splash-text").innerHTML = "Dogs Come... <br> ..READYYYYYYYY";
+//document.getElementById("splash-text").innerHTML = "Dogs Come... <br> ..READYYYYYYYY";
+
+var splashScreen = document.querySelector("#splashscreen");
 
 //var bgcolor = localStorage.getItem("pass");
 //document.getElementsByTagName('html')[0].style.background = bgcolor;
