@@ -1,6 +1,5 @@
 // TODO: fade out for dogs
 
-
 // String utility function to use with toFormattedString()
 String.prototype.padLeft = function (length, character) {
   return new Array(length - this.length + 1).join(character || " ") + this;
@@ -30,12 +29,6 @@ var spawn = [];
 var extraScore = 0;
 var highestScore = 0;
 var score = 0;
-
-// RNG for target selection
-const randomIndex = Math.floor(Math.random() * (spawn.length-1));
-// 3 target + 1 trap
-// random * 3 = 0<= x <= 3
-
 
 // variables for gift spawning
 const hintRandomTime = (min, max) => {
@@ -67,50 +60,6 @@ var hintAvailableSec =
 //   });
 // }
 
-// game mode selection from admin page
-
-var gameMode = 1; // 1 - easy , 2 - medium , 3 - hard, 4 - custom
-
-// TODO:
-// target maintain
-// trap add
-// choose optimized time for each difficulties
-
-var numOfTarget, numOfTrap, objRadius, handRadius;
-
-if (gameMode == 1) {
-  // easy
-  numOfTarget = 3;
-  numOfTrap = 2;
-  objRadius = 15;
-  handRadius = 30;
-}
-if (gameMode == 2) {
-  // medium
-  numOfTarget = 5;
-  numOfTrap = 2;
-  objRadius = 10;
-  handRadius = 10;
-}
-if (gameMode == 3) {
-  // hard
-  numOfTarget = 6;
-  numOfTrap = 3;
-  objRadius = 5;
-  handRadius = 10;
-}
-if (gameMode == 4) {
-  // custom
-  // fetch from admin page
-}
-if (gameMode === undefined) {
-  // default if file not loaded
-  numOfTarget = 3;
-  numOfTrap = 1;
-  objRadius = 20;
-  handRadius = 20;
-}
-
 //create function to receive game data; ajax function
 // target creation
 for (var i = 1; i <= numOfTarget; i++) {
@@ -125,6 +74,19 @@ for (var i = 1; i <= numOfTrap; i++) {
 //gift creation
 for (var i = 1; i <= numOfGift; i++) {
   spawn.push(new spawnableItem("hint", cwidth, cheight, objRadius));
+}
+
+// RNG for target and trap selection
+const randomIndex = Math.floor(Math.random() * numOfTarget);
+// 3 target + 1 trap
+// random * 3 = 0<= x <= 3
+var trapIndex;
+if (numOfTrap == 1) {
+  trapIndex = numOfTarget;
+}
+else
+{
+  trapIndex = (Math.floor(Math.random() * numOfTrap)) + numOfTarget;
 }
 
 var stDate = new Date(Date.now());
@@ -152,12 +114,12 @@ const modelParams = {
   imageScaleFactor: 0.5, //changed here
   maxNumBoxes: 1, // maximum number of boxes to detect
   iouThreshold: 0.5, // ioU threshold for non-max suppression
-  scoreThreshold: 0.7, // confidence threshold for predictions.
+  scoreThreshold: 0.8, // confidence threshold for predictions.
 };
 
-// handTrack.load(modelParams).then((lmodel) => {
-//   model = lmodel;
-// });
+handTrack.load(modelParams).then((lmodel) => {
+  model = lmodel;
+});
 
 navigator.getUserMedia =
   navigator.getUserMedia ||
@@ -305,10 +267,11 @@ function runDetection() {
           spawn[i].isDespawn == false
         ) {
           if (
-            spawn[i].distanceX >= 0 &&
-            spawn[i].distanceX <= spawn[i].radius + handRadius &&
-            spawn[i].distanceY >= 0 &&
-            spawn[i].distanceY <= spawn[i].radius + handRadius
+            // spawn[i].distanceX >= 0 &&
+            // spawn[i].distanceX <= spawn[i].radius + handRadius &&
+            // spawn[i].distanceY >= 0 &&
+            // spawn[i].distanceY <= spawn[i].radius + handRadius
+            true
           ) {
             recordTimeTouch.push(calcTouchTime("hint")); //calc touch time
             spawn[i].isTouch = true;
@@ -318,34 +281,29 @@ function runDetection() {
             hintSpawn = false;
             hintEnd = false;
             //TODO: gift perks
-            var hint = Math.round(Math.random() * 2);
+            // var hint = Math.round(Math.random() * 2);
+            updateGUI(spawn[i].type, i);
+            var hint = 2;
             switch (hint) {
               case 0: //region of dogs
                 hintMessage = "SHOW DOGS!";
                 let randomX = spawn[randomIndex].x;
                 let randomY = spawn[randomIndex].y;
-                gctx.strokeStyle = 'red';
-                gctx.strokeRect(randomX-50, randomY-50, 200, 200);                
+                gctx.strokeStyle = "red";
+                gctx.lineWidth = 5;
+                gctx.roundRect(randomX - 50, randomY - 50, 200, 200, 20).stroke();
                 break;
               case 1: //region of cats
                 hintMessage = "SHOW CATS!";
-                var trapIndex;
-                for (let i=0, len = spawn.length; i< len; i++)
-                {
-                  if (spawn[i].type == 'strap' && spawn[i].isTouch === false)
-                  {
-                    gctx.strokeStyle = 'red';
-                    gctx.strokeRect(spawn[i].x - 50, spawn[i].y - 50, 200, 200);
-                    break;
-                  }
-                }
+                gctx.strokeStyle = "red";
+                gctx.lineWidth = 5;
+                gctx.roundRect(spawn[trapIndex].x - 50, spawn[trapIndex].y - 50, 200, 200, 20).stroke();
                 break;
               case 2: //extra time
-                hintMessage = "ADDED TIME!";
+                hintMessage = "ADDED 20SEC!";
                 sec += 20;
                 break;
             }
-            updateGUI(spawn[i].type, i);
             isLoaded = false;
           }
         }
@@ -671,17 +629,15 @@ function updateGUI(type, i) {
     else if (numOfTarget <= 8) dogSize = 0.4;
     else dogSize = 0.3;
 
-
     //dog appear
     let locX = spawn[i].x - (ccontainer.clientHeight * 0.2) / 2;
     let locY = spawn[i].y - (ccontainer.clientHeight * 0.2) / 2;
     // tX = (fullSize.clientHeight / ccontainer.clientHeight*0.2) + locX;
     // tY = (fullSize.clientHeight / ccontainer.clientHeight*0.2) + locY;
 
-  
     tX = locX;
     tY = locY + (fullSize.clientHeight - ccontainer.clientHeight);
-    
+
     var animateID;
     setTimeout(function () {
       animateDog();
@@ -689,7 +645,7 @@ function updateGUI(type, i) {
         dctx.clearRect(0, 0, fullSize.clientWidth, fullSize.clientHeight);
         cancelAnimationFrame(animateID);
         animateID = undefined;
-        setTimeout(function(){
+        setTimeout(function () {
           img.className = "basketdoggy";
           img.src = "Assets/img-09.png";
           img.style.height = basketDoggyContainer.clientHeight * dogSize + "px";
@@ -714,16 +670,17 @@ function updateGUI(type, i) {
       );
       isLoaded = false;
       document.querySelector("#gui-container").style.filter = "grayscale(100%)";
-      document.querySelector("#message").innerHTML = "freeze!!";
-      document.querySelector("#message").style.backgroundColor = "white";
-      document.querySelector("#message").style.display = "block";
+      document.querySelector("#gui-container").style.filter = "brightness(20%)";
+      //document.querySelector("#blackscreen").style.display = "block";
+      document.querySelector("#freezemessage").style.display = "flex";
 
       setTimeout(function () {
         gctx.clearRect(0, 0, ccontainer.clientWidth, ccontainer.clientHeight);
         document.querySelector("#gui-container").style.filter = "grayscale(0)";
-        document.querySelector("#message").style.backgroundColor =
-          "transparent";
-        document.querySelector("#message").style.display = "none";
+        document.querySelector("#gui-container").style.filter =
+          "brightness(100%)";
+        //document.querySelector("#blackscreen").style.display = "none";
+        document.querySelector("#freezemessage").style.display = "none";
 
         if (total != numOfTarget && sec != 0) isLoaded = true;
 
@@ -741,13 +698,13 @@ function updateGUI(type, i) {
     setTimeout(function () {
       openingHint.style.display = "none";
       openedHint.style.display = "flex";
-      document.querySelector("#message").innerHTML = hintMessage;
-      document.querySelector("#message").style.display = "block";
+      document.querySelector("#hintmessage").innerHTML = hintMessage;
+      document.querySelector("#hintmessage").style.display = "block";
       document.querySelector("#hintad").style.display = "flex";
 
       setTimeout(function () {
         document.querySelector("#hintad").style.display = "none";
-        document.querySelector("#message").style.display = "none";
+        document.querySelector("#hintmessage").style.display = "none";
         openedHint.style.display = "none";
         isLoaded = true;
       }, 3000);
@@ -757,43 +714,32 @@ function updateGUI(type, i) {
 
 function animateDog() {
   var imgX = ccontainer.clientHeight * 0.2;
-  var imgY = ccontainer.clientHeight* 0.2;
-  
+  var imgY = ccontainer.clientHeight * 0.2;
+
   dctx.clearRect(0, 0, fullSize.clientHeight, fullSize.clientWidth);
-  dctx.drawImage(
-    targetImg,
-    tX,
-    tY,
-    imgX,
-    imgY
-  );
+  dctx.drawImage(targetImg, tX, tY, imgX, imgY);
 
   if (tX > ccontainer.clientWidth / 2) {
     tX -= 5;
-    if (tX < ccontainer.clientWidth / 2)
-    {
-      tX = ccontainer.clientWidth / 2; 
+    if (tX < ccontainer.clientWidth / 2) {
+      tX = ccontainer.clientWidth / 2;
     }
-  } 
-  else
-  {
+  } else {
     tX += 5;
-    if (tX > ccontainer.clientWidth / 2)
-    {
-      tX = ccontainer.clientWidth / 2; 
+    if (tX > ccontainer.clientWidth / 2) {
+      tX = ccontainer.clientWidth / 2;
     }
   }
 
   if (tY > 0) tY -= 5;
-  
+
   imgX--;
   imgY--;
 
-  if ((tX != ccontainer.clientWidth / 2) || !(tY >= -4 && tY <= 0)) {
+  if (tX != ccontainer.clientWidth / 2 || !(tY >= -4 && tY <= 0)) {
     animateID = requestAnimationFrame(animateDog);
-  }else
-  {
-    dctx.clearRect(0,0,fullSize.clientWidth, fullSize.clientHeight);
+  } else {
+    dctx.clearRect(0, 0, fullSize.clientWidth, fullSize.clientHeight);
   }
-  // TODO: dog animation fadeout when y -= 1 && y == 0 
+  // TODO: dog animation fadeout when y -= 1 && y == 0
 }

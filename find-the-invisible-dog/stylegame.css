@@ -303,16 +303,16 @@ p {
     height: 20%;
 }
 
-    .button:hover {
-        background: linear-gradient(to bottom, #fffde3 5%, #fffde3 100%);
-        background-color: #fffde3;
-        color: black;
-    }
+.button:hover {
+    background: linear-gradient(to bottom, #fffde3 5%, #fffde3 100%);
+    background-color: #fffde3;
+    color: black;
+}
 
-    .button:active {
-        position: relative;
-        top: 1px;
-    }
+.button:active {
+    position: relative;
+    top: 1px;
+}
 
 .modal { /* summary interface */
     z-index: 6;

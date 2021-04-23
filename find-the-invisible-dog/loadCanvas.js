@@ -74,8 +74,8 @@ if (difficulty == "easy") {
     dogReset = true;
 } else if (difficulty == "custom") {
 
-    numOfTarget = 1;
-    numOfTrap = 2;
+    numOfTarget = 3;
+    numOfTrap = 1;
     objRadius = ccontainer.scrollHeight * 0.04;
     handRadius = ccontainer.scrollHeight * 0.2;
     catReset = true;
@@ -120,3 +120,17 @@ var splashScreen = document.querySelector("#splashscreen");
 //document.getElementsByTagName('html')[0].style.background = bgcolor;
 
 
+
+// roundRect function to use with canvas2d objects
+CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
+    if (w < 2 * r) r = w / 2;
+    if (h < 2 * r) r = h / 2;
+    this.beginPath();
+    this.moveTo(x+r, y);
+    this.arcTo(x+w, y,   x+w, y+h, r);
+    this.arcTo(x+w, y+h, x,   y+h, r);
+    this.arcTo(x,   y+h, x,   y,   r);
+    this.arcTo(x,   y,   x+w, y,   r);
+    this.closePath();
+    return this;
+}
