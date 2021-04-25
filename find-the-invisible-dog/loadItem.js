@@ -32,7 +32,8 @@ function getItem() {
                 "trapImg": "Assets/img-06.png",
                 "basketDog": "Assets/img-09.png",
                 "infoAds": "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_160x56dp.png",
-                "hintAds": "img/tmlogo.png"
+                "hintAds": "img/tmlogo.png",
+                "gameOverUI": "Assets/bg-07.jpg"
             };
         }
     });

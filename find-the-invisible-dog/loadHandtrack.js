@@ -54,6 +54,20 @@ var hintAvailableSec = totalSec - ((totalSec * 0.1) + (totalSec - (totalSec * 0.
 for (var i =1; i <= numOfTarget; i++)
 {
     spawn.push(new spawnableItem('dog', cwidth, cheight, objRadius));
+
+    let emptyDogContainer = document.querySelector("#emptydogcontainer");
+    let img = document.createElement("img");
+    let dogSize;
+
+    if (numOfTarget <= 6) dogSize = 0.5
+    else if (numOfTarget <= 8) dogSize = 0.4;
+    else dogSize = 0.3;
+
+    img.className = "basketdoggy";
+    img.src = "Assets/white-dog.png";
+    img.style.height = emptyDogContainer.clientHeight * dogSize + "px";
+    img.style.width = emptyDogContainer.clientHeight * dogSize + "px";
+    emptyDogContainer.appendChild(img);
 }
 
 // trap creation

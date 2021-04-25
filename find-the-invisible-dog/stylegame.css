@@ -184,9 +184,16 @@ p {
 
 /* Container 2 */
 
+#emptydogcontainer {
+    z-index: 3;
+    position: absolute;
+    width: 70%;
+    height: 85%;
+    margin: auto;
+}
 
 #basketdoggycontainer {
-    z-index: 3;
+    z-index: 4;
     position: absolute;
     width: 70%;
     height: 85%;
@@ -322,8 +329,8 @@ p {
     display: none;
     position: absolute;
     object-fit: contain;
-    width: 50%;
-    height: 50%;
+    width: 40%;
+    height: 40%;
 }
 
 #freezemessage {
@@ -334,11 +341,16 @@ p {
     margin: auto;
     position: absolute;
 }
+
+#freezemessage > span {
+    font-size: 7vw;
+}
+
 #hintmessage {
     z-index: 11;
     font-size: calc(2em + 1vw);
     display: none;
-    margin-top: 40%;
+    margin-top: 30%;
     position: absolute;
     /*
     box-shadow: 10px 10px 5px grey;
