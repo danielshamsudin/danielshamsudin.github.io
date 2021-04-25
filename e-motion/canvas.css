@@ -1,5 +1,8 @@
-*{ height: auto;
-    margin: auto;}
+*{ 
+    height: auto;
+    margin: auto;
+    object-fit: scale-down;
+}
 body {
   margin: 0;
   padding: 0;

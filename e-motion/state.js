@@ -32,14 +32,16 @@ function state() {
       isPlay = true;
       state();
     }, 2000);
-  } else if (isPlay) {
+  }
+  else if (isPlay) {
     document.getElementById("timer-con").style.display = "block";
     document.getElementById("timer").innerHTML = mm + " : " + ss;
     document.getElementById("points").style.display = "block";
     document.getElementById("speed").style.display = "block";
     document.getElementById("status").style.display = "block";
     play();
-  } else if (isEnd) {
+  }
+  else if (isEnd) {
     setTimeout(() => {
       var playername = null;
       /*   
@@ -109,7 +111,8 @@ function play() {
     if (mm != 0 && ss < 0) {
       mm--;
       ss = 59;
-    } else if (mm == 00 && ss == -1) {
+    }
+    else if (mm == 00 && ss == -1) {
       isDrop = false;
       document.getElementById("timer").innerHTML = "Time's Up!";
       c.fillStyle = "white";
