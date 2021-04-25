@@ -21,6 +21,7 @@
     "targetImg": "Assets/img-05.png",
     "trapImg": "Assets/img-06.png",
     "basketDog": "Assets/img-09.png",
-    "infoAds": "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_160x56dp.png",
-    "hintAds": "img/tmlogo.png"
+    "infoAds": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/McDonald%27s_Golden_Arches.svg/1200px-McDonald%27s_Golden_Arches.svg.png",
+    "hintAds": "img/tmlogo.png",
+    "gameOverUI":  "Assets/bg-07.jpg"
 }

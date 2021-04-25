@@ -1,4 +1,4 @@
-var isLoaded = false, check = setInterval(() => {
+var check = setInterval(() => {
   if (isStart) {
     isSplash = true;
     state();

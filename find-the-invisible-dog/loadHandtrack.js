@@ -71,14 +71,6 @@ for (var i = 1; i <= numOfGift; i++) {
 var stDate = new Date(Date.now());
 var total = 0;
 draw();
-// const modal = document.querySelector(".modal");
-// modal.style.height = window.innerHeight;
-// modal.style.width = window.innerWidth;
-// var number1 = 0, number2 = 0, number3 = 0, total = 0;
-// var x, y, x2, y2, x3, y3, trapx, trapy;
-// var disx, disy, disx2, disy2, disx3, disy3, distx, disty;
-// var statustrap = 0;
-
 var perfTime = [];
 var handLocations = [];
 
@@ -94,15 +86,15 @@ var handLocations = [];
         spawn[j].regenerateXY();
       }
 
-      // if (calcEuclDistance(spawn[i],{'x':video.width, 'y':video.height}) <= (video.width / 2))
-      // {
-      //   spawn[i].regenerateXY();
-      // }
-
-      // if (calcEuclDistance(spawn[j],{'x':video.width, 'y':video.height}) <= (video.height / 2))
-      // {
-      //   spawn[j].regenerateXY();
-      // }
+      if (calcEuclDistance(spawn[i],{'x':video.width, 'y':video.height}) <= (video.width / 2))
+      {
+        spawn[i].regenerateXY();
+      }
+      
+      if (calcEuclDistance(spawn[j],{'x':video.width, 'y':video.height}) <= (video.height / 2))
+      {
+        spawn[j].regenerateXY();
+      }
     }
   }
 })();
@@ -324,14 +316,13 @@ var countDiv = document.getElementById("timer"), secpass = (function () {
     }
     countDiv.innerHTML = min + ":" + remSec;
 
-    if (sec > 0) {
+    if (sec > 0 && isGift == false) {
         sec = sec - 1;
-        //checkWL();
+        checkWL();
     } else {
         if (sec == 0) {
             isLoaded = false; //ensures the game(hand) wont continue to move
             clearInterval(countDown);
-            total = number1 + number2 + number3;
             display_lose();
         }
     }
@@ -348,27 +339,24 @@ countDown = setInterval(function () {
 function checkWL() {
 
   if (total == numOfTarget) {
-    isLoaded = false;
-      document.querySelector("#info").innerHTML = "YOU WIN !!";
+      isLoaded = false;
     //ensures the game(hand) wont continue to move
-    // clearInterval(countDown);
-    // display_win();
+      clearInterval(countDown);
+      display_win();
   }
 }
 
 var name;
 
 function display_win() {
+  score = total * 100 + sec;
+  document.querySelector("#score").innerHTML = score + "<br />";
 
   dlData();
-  // score change to json
   BGM.pause();
   winAudio.play();
-  statustrap = 1;
-  document.querySelector(".container-item2 span").innerHTML = "<i class='fas fa-dog'></i><i class='fas fa-dog'></i><i class='fas fa-dog'></i>";
-  document.getElementById("display").style.display = "block";
-  document.getElementById("score").innerHTML = "Congrats! You Win! Your score is " + score;
-
+  cancelAnimationFrame(draw);
+  document.querySelector("#gameover").style.display = "flex";
   window.parent.wsCreateScore(score);
 
   document.getElementById("button_h").onclick = function () {
@@ -459,10 +447,14 @@ function dlData() {
 }
 
 function display_lose() {
+  score = total * 100 + sec;
+  document.querySelector("#score span").innerHTML = score + "<br />";
+
+  dlData();
   BGM.pause();
   loseAudio.play();
-  document.getElementById("display").style.display = "block";
-  document.getElementById("score").innerHTML = "You only catch " + total + ". Score is " + score;
+  cancelAnimationFrame(draw);
+  document.querySelector("#gameover").style.display = "flex";
   window.parent.wsCreateScore(score);
 
   document.getElementById("button_h").onclick = function () {
@@ -603,17 +595,25 @@ function updateGUI(type, i) {
         setTimeout(function () {
             gctx.drawImage(trapImg, locX, locY, ccontainer.clientHeight * 0.2, ccontainer.clientHeight * 0.2);
             isLoaded = false;
-            document.querySelector("#gui-container").style.filter = "grayscale(100%)";
-            document.querySelector("#gui-container").style.filter = "brightness(20%)";
+            document.querySelector(".container-item4").style.filter = "grayscale(100%)";
+            document.querySelector(".container-item4").style.filter = "brightness(20%)";
             //document.querySelector("#blackscreen").style.display = "block";
-            document.querySelector("#freezemessage").style.display = "flex";
+            document.querySelector("#freezemessage").style.display = "block";
+
+            let freezeCounter = 5;
+            document.querySelector("#freezemessage > span").innerHTML = "<br />" + freezeCounter + " seconds";
+            let freezeTimer = setInterval(() => {
+                freezeCounter--;
+                document.querySelector("#freezemessage > span").innerHTML = "<br />" + freezeCounter + " seconds";
+            }, 1000);
 
             setTimeout(function () {
                 gctx.clearRect(0, 0, ccontainer.clientWidth, ccontainer.clientHeight);
-                document.querySelector("#gui-container").style.filter = "grayscale(0)";
-                document.querySelector("#gui-container").style.filter = "brightness(100%)";
+                document.querySelector(".container-item4").style.filter = "grayscale(0)";
+                document.querySelector(".container-item4").style.filter = "brightness(100%)";
                 //document.querySelector("#blackscreen").style.display = "none";
                 document.querySelector("#freezemessage").style.display = "none";
+                clearInterval(freezeTimer);
 
                 if (total != numOfTarget && sec != 0) isLoaded = true;
 
@@ -622,13 +622,14 @@ function updateGUI(type, i) {
                         index.isTouch = false;
                     }
                 });
-            }, 3000);
+            }, 5000);
         }, 100);
     }
 
     else {
         hintImg.style.display = "none";
         openingHint.style.display = "flex";
+        isGift = true;
 
         setTimeout(function () {
             openingHint.style.display = "none";
@@ -642,6 +643,7 @@ function updateGUI(type, i) {
                 document.querySelector("#hintmessage").style.display = "none";
                 openedHint.style.display = "none";
                 isLoaded = true;
+                isGift = false;
             }, 3000);
         }, 1000);
     }

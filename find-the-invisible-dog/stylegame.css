@@ -16,13 +16,12 @@ body {
 main {
     height: 100vmin; /* minimum viewport 100%, can be adjusted */
     width: 100vmin;
-    position: relative;
 }
 
 p {
     font-family: 'Machine Gunk';
     color: #56362C;
-    font-size: calc(2em + 1vw);
+    font-size: 3vw;
     text-align: center;
 }
 
@@ -37,6 +36,93 @@ p {
     object-fit: fill;
     width: 100%;
     height: 100%;
+}
+
+#gameover {
+    z-index: 20;
+    display: none;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    -webkit-animation-name: gameoveranimate;
+    -webkit-animation-duration: 0.6s;
+    animation-name: gameoveranimate;
+    animation-duration: 0.6s
+}
+
+#gameover > img {
+    position: absolute;
+    object-fit: fill;
+    width: 100%;
+    height: 100%;
+}
+
+@-webkit-keyframes gameoveranimate {
+    from {
+        top: -300px;
+        opacity: 0
+    }
+
+    to {
+        top: 0;
+        opacity: 1
+    }
+}
+
+@keyframes gameoveranimate {
+    from {
+        top: -300px;
+        opacity: 0
+    }
+
+    to {
+        top: 0;
+        opacity: 1
+    }
+}
+
+#gameovercontent {
+    position: absolute;
+    width: 40%;
+    height: 40%;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 70% 30%;
+}
+    #gameovercontent p {
+        grid-column: span 2;
+        margin: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    #score {
+        font-size: 6vw;
+    }
+
+    #highscore {
+        font-size: 2vw;
+    }
+
+    #gameovercontent button {
+        margin: auto;
+        border-radius: 15px;
+        width: 80%;
+        height: 60%;
+    }
+
+    #gameovercontent button p {
+        color: white;
+    }
+
+#gameovercontent #share {
+    background-image: linear-gradient(to bottom right, black, saddlebrown);
+}
+
+#gameovercontent #continue {
+    background-image: linear-gradient(to bottom right, saddlebrown, orange);
 }
 
 /* Containers */
@@ -90,12 +176,11 @@ p {
 
 /* Container 1 */
 
-
 #timer {
     z-index: 3;
     position: absolute;
+    margin-top: 35%;
 }
-
 
 /* Container 2 */
 
@@ -146,6 +231,7 @@ p {
     -moz-transform: scaleX(-1);
     -o-transform: scaleX(-1);
 }
+
 /* Container 4 > Info/Ads board*/
 
 #infocontainer {
@@ -170,7 +256,6 @@ p {
     width: 70%;
     height: 70%;
     object-fit: contain;
-    box-shadow: 0px 10px 5px grey;
 }
 
 
@@ -244,7 +329,7 @@ p {
 #freezemessage {
     z-index: 9;
     color: magenta;
-    font-size: calc(10em + 1vw);
+    font-size: 10vw;
     display: none;
     margin: auto;
     position: absolute;
@@ -370,6 +455,7 @@ p {
     background-color: black;
     opacity: 0.8;
 }
+/*
 @media screen and (min-width: 2500px) {
     p {
         font-size: calc(5em + 1vw);
@@ -422,3 +508,4 @@ p {
         font-size: calc(3em + 1vw);
     }
 }
+    */

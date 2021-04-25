@@ -13,10 +13,21 @@
     <div id="blackscreen"></div>
 
     <div id="splashscreen">
-        <video autoplay muted loop poster="Assets/SplashScreen/FindTheInvisibleDog.png">
+        <video autoplay muted loop poster="Assets/bg-06.jpg">
             <source src="Assets/SplashScreen/FindTheInvisibleDog.mp4" type="video/mp4" />
             Your browser does not support the video tag
         </video>
+    </div>
+    <div id="gameover">
+        <img id="gameoverui" />
+        <div id="gameovercontent">
+            <p>
+                score<br />
+                <span id="score">0</span>
+                <span id="highscore">highscore: 0</span>
+            </p>
+            <button id="share"><p>share</p></button><button id="continue"><p>continue</p></button>
+        </div>
     </div>
 
     <audio autoplay id="BGM">
@@ -66,8 +77,8 @@
         <div id="messagecontainer">
             <img id="openedhint" />
             <img id="hintad" />
-            <p id="hintmessage">fvk</p>
-            <p id="freezemessage">freeze!!</p>
+            <p id="hintmessage"></p>
+            <p id="freezemessage">freeze!!<span></span></p>
         </div>
         <!--
         <div id="splash" class="splashT">
@@ -75,16 +86,14 @@
             <img src="3.gif" id="loading" class="cat-loading">
             <img src="img/loading2.gif" id="loading">
         </div>
-            -->
         <div id="display" class="modal">
             <div class="modal-content animate">
-                <!-- <img src="<?php echo " images /".$row['image']; ?>" class="tmLogo"></img> -->
                 <img src="img/tmlogo.png" class="tmlogo">
                 <p id="score"></p>
-                <!-- <button id="button_tg" class="button">Try Again</button> -->
                 <button id="button_h" class="button">Scoreboard</button>
             </div>
         </div>
+        -->
     </main>
     <script src="loadItem.js"></script>
     <script src="loadCanvas.js"></script>

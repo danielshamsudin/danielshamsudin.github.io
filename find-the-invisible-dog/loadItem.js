@@ -87,3 +87,5 @@ var infoAds                      = document.querySelector("#infoads");
 if (infoAds) infoAds.src         = itemObj.infoAds;
 var hintAds                      = document.querySelector("#hintad");
 if (hintAds) hintAds.src         = itemObj.hintAds;
+var gameOverUI                   = document.querySelector("#gameoverui");
+if (gameOverUI) gameOverUI.src   = itemObj.gameOverUI;

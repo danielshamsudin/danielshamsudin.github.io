@@ -57,8 +57,8 @@ if (difficulty == "easy") {
     dogReset = true;
 } else if (difficulty == "custom") {
 
-    numOfTarget = 1;
-    numOfTrap = 2;
+    numOfTarget = 2;
+    numOfTrap = 4;
     objRadius = ccontainer.scrollHeight * 0.04;
     handRadius = ccontainer.scrollHeight * 0.2;
     catReset = true;
@@ -74,29 +74,25 @@ handimgcontainer.style.width = handRadius * 2 + "px";
 handimgcontainer.style.height = handRadius * 2 + "px";
 
 var targetimgcontainer = document.getElementById("targetimgcontainer");
-var trapimgcontainer = document.getElementById("trapimgcontainer");
 targetimgcontainer.style.width = (ccontainer.clientHeight * 0.2) + "px";
 targetimgcontainer.style.height = (ccontainer.clientHeight * 0.2) + "px";
+
+var trapimgcontainer = document.getElementById("trapimgcontainer");
 trapimgcontainer.style.width = (ccontainer.clientHeight * 0.2) + "px";
 trapimgcontainer.style.height = (ccontainer.clientHeight * 0.2) + "px";
-
-//window.scrollY + document.querySelector('#elementId'). // Y
-//window.scrollX + document.querySelector('#elementId'). // X
 
 let model;
 let handX, handY;
 
-//var w = window.innerWidth;
-//var h = window.innerHeight;
 var w = canvas.width;
 var h = canvas.height;
 
-var isStart = false;
-var isSplash = false;
-var isPlay = false;
-
-//document.getElementById("splash-text").innerHTML = "Dogs Come... <br> ..READYYYYYYYY";
-
+var isStart = false;  //load handtrack
+var isSplash = false; //load splash screen
+var isPlay = false;   //load idk
+var isGift = false;   //used forstop time when showing hint
+var isLoaded = false; //used to disable handtracking
+var isEnd = false;
 var splashScreen = document.querySelector("#splashscreen");
 
 //var bgcolor = localStorage.getItem("pass");
