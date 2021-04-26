@@ -14,6 +14,7 @@ body {
 }
 
 main {
+    position: relative;
     height: 100vmin; /* minimum viewport 100%, can be adjusted */
     width: 100vmin;
 }
@@ -179,7 +180,7 @@ p {
 #timer {
     z-index: 3;
     position: absolute;
-    margin-top: 35%;
+    margin-top: 30%;
 }
 
 /* Container 2 */
@@ -190,6 +191,10 @@ p {
     width: 70%;
     height: 85%;
     margin: auto;
+}
+
+#emptydogcontainer > img {
+    filter: opacity(50%);
 }
 
 #basketdoggycontainer {
@@ -343,14 +348,14 @@ p {
 }
 
 #freezemessage > span {
-    font-size: 7vw;
+    font-size: 5vw;
 }
 
 #hintmessage {
     z-index: 11;
     font-size: calc(2em + 1vw);
     display: none;
-    margin-top: 30%;
+    margin-top: 45%;
     position: absolute;
     /*
     box-shadow: 10px 10px 5px grey;

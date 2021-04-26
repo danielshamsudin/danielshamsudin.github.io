@@ -462,7 +462,7 @@ function dlData() {
 
 function display_lose() {
   score = total * 100 + sec;
-  document.querySelector("#score span").innerHTML = score + "<br />";
+  document.querySelector("#score").innerHTML = score + "<br />";
 
   dlData();
   BGM.pause();
