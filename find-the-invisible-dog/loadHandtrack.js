@@ -473,10 +473,10 @@ function dlData() {
   data.starttime = stDate.toFormattedString();
 
   data.performance = {
-    avgFPS: avgfps,
-    medianFPS: median,
-    stddevFPS: stddev,
-    loadingTime: loadingTimeTaken,
+    avgFPS: data.avgfps,
+    medianFPS: data.median,
+    stddevFPS: data.stddev,
+    loadingTime: data.loadingTimeTaken
   };
 
   data.handDetection = {
@@ -490,8 +490,8 @@ function dlData() {
   };
   data.gameObj = { spawn };
   data.GUIs = {
-    canvasSize: playcanvassize,
-    windowSize: windowsize,
+      canvasSize: data.playcanvassize,
+      windowSize: data.windowsize,
   };
   data.score = score;
 
