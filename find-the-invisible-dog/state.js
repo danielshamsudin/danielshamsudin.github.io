@@ -24,7 +24,7 @@ function state() {
       getLoadingTimeEllapse(); //record time taken to load the game
 
         setTimeout(() => {
-            splashScreen.style.display = "none";
+          splashScreen.style.display = "none";
           //splash.style.display = "none";
           isLoaded = true; //ensures game starts after loading page ends
       }, 500);

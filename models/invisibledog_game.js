@@ -5,10 +5,14 @@ module.exports = (sequelize, DataTypes) => {
     var invisibleDog = sequelize.define('invisibleDog', {
         gameID: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
         user: DataTypes.STRING,
-        GUIs: DataTypes.STRING,
-        performance: DataTypes.STRING,
-        gameObj: DataTypes.STRING,
-        handDetection: DataTypes.STRING,
+        startTime: DataTypes.STRING,
+        handSize: DataTypes.JSON,
+        score: DataTypes.STRING,
+        GUIs: DataTypes.JSON,
+        performance: DataTypes.JSON,
+        gameObj: DataTypes.JSON,
+        handDetection: DataTypes.JSON,
+
 
     }, {
         // freezeTableName: true,

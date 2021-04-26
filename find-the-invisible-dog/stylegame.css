@@ -157,14 +157,17 @@ p {
     background-repeat: no-repeat;
 }
 
-/* GUIs */
-
 #timergui, #basketgui, #vcanvasgui {
     z-index: 2;
     position: absolute;
     object-fit: scale-down;
     width: 100%;
     height: 100%;
+}
+
+#doganimate{
+    z-index: 10;
+    position: absolute;
 }
 
 #fencegui {
@@ -210,7 +213,6 @@ p {
 }
 
 /* Container 3  & Container 4 */
-
 
 #vcanvascontainer {
     z-index: 4;
@@ -269,7 +271,6 @@ p {
     height: 70%;
     object-fit: contain;
 }
-
 
 /* Container 4 > Play canvas*/
 
@@ -409,16 +410,16 @@ p {
     height: 20%;
 }
 
-    .button:hover {
-        background: linear-gradient(to bottom, #fffde3 5%, #fffde3 100%);
-        background-color: #fffde3;
-        color: black;
-    }
+.button:hover {
+    background: linear-gradient(to bottom, #fffde3 5%, #fffde3 100%);
+    background-color: #fffde3;
+    color: black;
+}
 
-    .button:active {
-        position: relative;
-        top: 1px;
-    }
+.button:active {
+    position: relative;
+    top: 1px;
+}
 
 .modal { /* summary interface */
     z-index: 6;

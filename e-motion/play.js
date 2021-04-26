@@ -343,9 +343,9 @@ function gen() { //Generating spawns
 //make the paddle move smoothly
 function padAcce() {
   if (handX > paddleX) {
-    paddleX += 10;
-  } else if (handX + 10 < paddleX) {
-    paddleX -= 10;
+    paddleX += 20;
+  } else if (handX + 20 < paddleX) {
+    paddleX -= 20;
   }
 }
 

@@ -5,7 +5,7 @@ module.exports = app => {
     //const custom_price = require("../controller/custom_price.controller.js");
     var router = require("express").Router();
 
-    router.post("/find-the-invisible-dog", controller.invisibledog_game);
+    router.get("/find-the-invisible-dog", controller.invisibledog_game);
     router.post("/insert_invisibledog", invisibledog_insert.create);
     /*
     // map
