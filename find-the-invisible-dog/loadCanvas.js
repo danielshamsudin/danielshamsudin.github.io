@@ -11,19 +11,25 @@ var fullSize = document.querySelector("#messagecontainer");
 var canvas = document.querySelector("#canvas");
 canvas.setAttribute('width', ccontainer.clientWidth);
 canvas.setAttribute('height', ccontainer.clientHeight);
-var c = canvas.getContext("2d");
+var c = canvas.getContext("2d", {
+    desynchronized: true
+});
 
 // GUI Canvas for dogs and gifts
 var gcanvas = document.querySelector("#guicanvas");
 gcanvas.setAttribute('width', ccontainer.clientWidth);
 gcanvas.setAttribute('height', ccontainer.clientHeight);
-var gctx = gcanvas.getContext("2d");
+var gctx = gcanvas.getContext("2d", {
+    desynchronized: true
+});
 
 // Dog Animation Canvas (move from field to basket)
 var dogcanvas = document.querySelector("#doganimate");
 dogcanvas.setAttribute('width', fullSize.clientWidth);
 dogcanvas.setAttribute('height', fullSize.clientHeight);
-var dctx = dogcanvas.getContext("2d");
+var dctx = dogcanvas.getContext("2d", {
+    desynchronized: true
+});
 
 // Video live feed canvas
 var vcanvas = document.querySelector("#vcanvas");

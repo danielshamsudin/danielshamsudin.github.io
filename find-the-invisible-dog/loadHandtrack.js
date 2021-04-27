@@ -176,20 +176,11 @@ function runDetection() {
 
       hintStart = true;
 
-      midX = predictions[0].bbox[0] + predictions[0].bbox[2] / 2;
-      midY = predictions[0].bbox[1] + predictions[0].bbox[3] / 2;
-      handX =
-        cwidth * (midX / video.width) +
-        (midX >= video.width / 2
-          ? canvas.width * 0.01
-          : -(canvas.width * 0.01));
-      handY =
-        cheight * (midY / video.height) +
-        (midY >= video.height / 2
-          ? canvas.height * 0.01
-          : -(canvas.height * 0.01));
-      // handX = cwidth *  (midX / video.width);
-      // handY = cheight * (midY / video.height);
+      midX = predictions[0].bbox[0] + (predictions[0].bbox[2] / 2);
+      midY = predictions[0].bbox[1] + (predictions[0].bbox[3] / 2);
+
+      handX = cwidth *  (midX / video.width);
+      handY = cheight * (midY / video.height);
 
       begin = 1;
 
@@ -540,6 +531,8 @@ function display_lose() {
 
 var controlX = cwidth / 2;
 var controlY = cheight / 2;
+
+// 
 function handAnimation() {
   let offset = 5;
   if (handX > controlX) {
