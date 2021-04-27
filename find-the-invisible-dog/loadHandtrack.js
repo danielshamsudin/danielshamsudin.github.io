@@ -1,3 +1,11 @@
+window.onresize = () => {
+    if (confirm("Reminder:\nYou resized your screen\nThe page will be reloaded to ensure your best user experience")) {
+        location.reload(true);
+    } else {
+        location.reload(true);
+    }
+}
+
 // TODO: fade out for dogs
 
 // String utility function to use with toFormattedString()
@@ -674,24 +682,24 @@ function updateGUI(type, i) {
         setTimeout(function () {
             gctx.drawImage(trapImg, locX, locY, ccontainer.clientHeight * 0.2, ccontainer.clientHeight * 0.2);
             isLoaded = false;
-            document.querySelector(".container-item4").style.filter = "grayscale(100%)";
-            document.querySelector(".container-item4").style.filter = "brightness(20%)";
+            document.querySelector("#canvascontainer").style.filter = "grayscale(100%)";
+            document.querySelector("#canvascontainer").style.filter = "brightness(30%)";
             //document.querySelector("#blackscreen").style.display = "block";
-            document.querySelector("#freezemessage").style.display = "block";
+            document.querySelector("#freezemessagecontainer").style.display = "flex";
 
             let freezeCounter = 5;
-            document.querySelector("#freezemessage > span").innerHTML = "<br />" + freezeCounter + " seconds";
+            document.querySelector("#freezetimer").innerHTML = freezeCounter + " seconds";
             let freezeTimer = setInterval(() => {
                 freezeCounter--;
-                document.querySelector("#freezemessage > span").innerHTML = "<br />" + freezeCounter + " seconds";
+                document.querySelector("#freezetimer").innerHTML = freezeCounter + " seconds";
             }, 1000);
 
             setTimeout(function () {
                 gctx.clearRect(0, 0, ccontainer.clientWidth, ccontainer.clientHeight);
-                document.querySelector(".container-item4").style.filter = "grayscale(0)";
-                document.querySelector(".container-item4").style.filter = "brightness(100%)";
+                document.querySelector("#canvascontainer").style.filter = "grayscale(0)";
+                document.querySelector("#canvascontainer").style.filter = "brightness(100%)";
                 //document.querySelector("#blackscreen").style.display = "none";
-                document.querySelector("#freezemessage").style.display = "none";
+                document.querySelector("#freezemessagecontainer").style.display = "none";
                 clearInterval(freezeTimer);
 
         if (total != numOfTarget && sec != 0) isLoaded = true;

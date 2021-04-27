@@ -83,9 +83,29 @@ var targetImg                    = document.querySelector("#targetimg");
 if(targetImg) targetImg.src      = itemObj.targetImg;
 var trapImg                      = document.querySelector("#trapimg");
 if (trapImg) trapImg.src         = itemObj.trapImg;
-var infoAds                      = document.querySelector("#infoads");
-if (infoAds) infoAds.src         = itemObj.infoAds;
-var hintAds                      = document.querySelector("#hintad");
-if (hintAds) hintAds.src         = itemObj.hintAds;
 var gameOverUI                   = document.querySelector("#gameoverui");
-if (gameOverUI) gameOverUI.src   = itemObj.gameOverUI;
+if (gameOverUI) gameOverUI.src = itemObj.gameOverUI;
+var brocolli = document.querySelector(".brocolli");
+var brocolli1 = document.querySelector(".brocolli-1");
+if (brocolli && brocolli1) {
+    for (let i = 0; i < 4; i++) {
+        document.getElementsByClassName("brocolli")[i].src = itemObj.brocolli2;
+    }
+    for (let j = 0; j < 3; j++) {
+        document.getElementsByClassName("brocolli-1")[j].src = itemObj.brocolli1;
+    }
+}
+var freezeUI = document.querySelector("#freezemessage");
+if (freezeUI) freezeUI.src = itemObj.freezeUI;
+
+//================================//
+//Ads
+//================================//
+var infoAds1 = document.querySelector("#infoads1");
+if (infoAds1) infoAds1.src = itemObj.infoAds;
+var infoAds2 = document.querySelector("#infoads2");
+if (infoAds2) infoAds2.src = "https://cdn.wccftech.com/wp-content/uploads/2017/08/iPhone-8-concept-1.png";
+var infoAds3 = document.querySelector("#infoads3");
+if (infoAds3) infoAds3.src = "https://th.bing.com/th/id/Rb528b6bae86389e84ea29e7147bcf15f?rik=5m50UnO8ZSBrxQ&riu=http%3a%2f%2fwww.douglasphan.com%2fwp-content%2fuploads%2f2015%2f10%2f1280px-Adidas_Logo.svg_.png&ehk=V6rLACztsXZNPgSvgWcUB8omeqxr8yUVAW8vATIua2I%3d&risl=&pid=ImgRaw";
+var hintAds = document.querySelector("#hintad");
+if (hintAds) hintAds.src = itemObj.hintAds;

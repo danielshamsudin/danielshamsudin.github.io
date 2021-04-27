@@ -26,18 +26,23 @@ p {
     text-align: center;
 }
 
+/* ///////////// Splash Screen //////////////// */
+
 #splashscreen {
-    height: 100vmin;
-    width: 100vw;
+    height: 100%;
+    width: 100%;
     z-index: 20;
     position: absolute;
+    background-color: black
 }
 
 #splashscreen > video {
-    object-fit: fill;
+    object-fit: contain;
     width: 100%;
     height: 100%;
 }
+
+/* ///////////////// Game over //////////////// */
 
 #gameover {
     z-index: 20;
@@ -126,7 +131,63 @@ p {
     background-image: linear-gradient(to bottom right, saddlebrown, orange);
 }
 
-/* Containers */
+/* //////////////////////////////////////////// */
+
+/* ///////////////// Brocolli ///////////////// */
+
+#brocollicontainer{
+    z-index: 0;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+
+.brocolli, .brocolli-1{
+    position: absolute;
+    height: auto;
+    width: 15%;
+}
+
+#brocolli1{
+    top: 10%;
+    left: 0;
+}
+
+#brocolli2 {
+    right: 5%;
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+}
+
+#brocolli3{
+    display: none;
+    top: 35%;
+    left: 10%
+}
+
+#brocolli4{
+    display: none;
+    top: 1%;
+    left: 25%;
+}
+
+#brocolli5{
+    bottom: 1%;
+    right: 1%;
+}
+
+#brocolli6{
+    bottom: 5%;
+    left: 1%;
+}
+
+#brocolli7 {
+    display: none;
+    top: 30%;
+    right: 10%;
+}
+
+/* //////////////// Containers //////////////// */
 
 #gui-container { /* a 3x2 grid container */
     z-index: 0;
@@ -157,6 +218,8 @@ p {
     background-repeat: no-repeat;
 }
 
+/* //////////////////////////////////////////// */
+
 #timergui, #basketgui, #vcanvasgui {
     z-index: 2;
     position: absolute;
@@ -178,7 +241,7 @@ p {
     height: auto;
 }
 
-/* Container 1 */
+/* /////////////// Container 1 //////////////// */
 
 #timer {
     z-index: 3;
@@ -186,7 +249,7 @@ p {
     margin-top: 30%;
 }
 
-/* Container 2 */
+/* /////////////// Container 2 //////////////// */
 
 #emptydogcontainer {
     z-index: 3;
@@ -197,7 +260,7 @@ p {
 }
 
 #emptydogcontainer > img {
-    filter: opacity(50%);
+    filter: opacity(30%);
 }
 
 #basketdoggycontainer {
@@ -212,7 +275,7 @@ p {
     z-index: 4;
 }
 
-/* Container 3  & Container 4 */
+/* //////// Container 3  & Container 4 //////// */
 
 #vcanvascontainer {
     z-index: 4;
@@ -246,10 +309,11 @@ p {
     -o-transform: scaleX(-1);
 }
 
-/* Container 4 > Info/Ads board*/
+/* /////// Container 4 > Info/Ads board //////// */
 
 #infocontainer {
     z-index: 3;
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -265,14 +329,36 @@ p {
     height: auto;
 }
 
-#infoads {
+#adscontainer {
     z-index: 5;
-    width: 70%;
+    position: absolute;
+    width: 50%;
     height: 70%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#infoads1{
+    margin-left: 10%;
+}
+
+#infoads2{
+    margin: auto;
+}
+
+#infoads3{
+    margin-right: 10%;
+}
+
+.infoads {
+    width: auto;
+    height: 90%;
     object-fit: contain;
 }
 
-/* Container 4 > Play canvas*/
+/* //////// Container 4 > Play canvas ///////// */
 
 #targetimgcontainer, #trapimgcontainer, #hintimgcontainer{
     z-index: 6;
@@ -307,6 +393,8 @@ p {
     height: 100%;
 }
 
+/* //////////////////////////////////////////// */
+
 #messagecontainer {
     z-index: 9;
     margin: auto;
@@ -339,17 +427,29 @@ p {
     height: 40%;
 }
 
-#freezemessage {
+#freezemessagecontainer {
     z-index: 9;
-    color: magenta;
-    font-size: 10vw;
     display: none;
-    margin: auto;
+    flex-direction: column;
+    bottom: 0;
     position: absolute;
+    width: 100%;
+    height: 80%;
 }
 
-#freezemessage > span {
+#freezemessage {
+    width: 80%;
+    height: auto;
+    margin: auto;
+    margin-bottom: 0;
+}
+
+#freezetimer {
+    margin: auto;
+    margin-top: 0;
     font-size: 5vw;
+    color: lightsteelblue;
+    -webkit-text-stroke: 0.5rem steelblue;
 }
 
 #hintmessage {
@@ -364,6 +464,8 @@ p {
     background-color: transparent;
     */
 }
+
+/* //////////////////////////////////////////// */
 
 .splashT { /* loading interface, div that stores loading symbols img */
     z-index: 6;

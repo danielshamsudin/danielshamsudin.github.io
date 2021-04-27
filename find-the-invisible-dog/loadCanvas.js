@@ -77,7 +77,7 @@ if (difficulty == "easy") {
     numOfTarget = 4;
     numOfTrap = 2;
     objRadius = ccontainer.scrollHeight * 0.04;
-    handRadius = ccontainer.scrollHeight * 0.2;
+    handRadius = ccontainer.scrollHeight * 0.1;
     catReset = true;
     dogReset = false;
 }
