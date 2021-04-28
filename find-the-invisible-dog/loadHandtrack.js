@@ -6,8 +6,6 @@ window.onresize = () => {
     }
 }
 
-// TODO: fade out for dogs
-
 // String utility function to use with toFormattedString()
 String.prototype.padLeft = function (length, character) {
   return new Array(length - this.length + 1).join(character || " ") + this;

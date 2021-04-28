@@ -80,8 +80,8 @@ if (difficulty == "easy") {
     dogReset = true;
 } else if (difficulty == "custom") {
 
-    numOfTarget = 4;
-    numOfTrap = 2;
+    numOfTarget = 3;
+    numOfTrap = 1;
     objRadius = ccontainer.scrollHeight * 0.04;
     handRadius = ccontainer.scrollHeight * 0.1;
     catReset = true;
