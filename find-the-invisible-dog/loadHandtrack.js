@@ -114,7 +114,7 @@ const modelParams = {
   imageScaleFactor: 0.5, //changed here
   maxNumBoxes: 1, // maximum number of boxes to detect
   iouThreshold: 0.5, // ioU threshold for non-max suppression
-  scoreThreshold: 0.8, // confidence threshold for predictions.
+  scoreThreshold: 0.65, // confidence threshold for predictions.
 };
 
 handTrack.load(modelParams).then((lmodel) => {
@@ -258,11 +258,10 @@ function runDetection() {
           spawn[i].isDespawn == false
         ) {
           if (
-            // spawn[i].distanceX >= 0 &&
-            // spawn[i].distanceX <= spawn[i].radius + handRadius &&
-            // spawn[i].distanceY >= 0 &&
-            // spawn[i].distanceY <= spawn[i].radius + handRadius
-            true
+            spawn[i].distanceX >= 0 &&
+            spawn[i].distanceX <= spawn[i].radius + handRadius &&
+            spawn[i].distanceY >= 0 &&
+            spawn[i].distanceY <= spawn[i].radius + handRadius
           ) {
             recordTimeTouch.push(calcTouchTime("hint")); //calc touch time
             spawn[i].isTouch = true;
@@ -272,9 +271,8 @@ function runDetection() {
             hintSpawn = false;
             hintEnd = false;
             //TODO: gift perks
-            // var hint = Math.round(Math.random() * 2);
+            var hint = Math.round(Math.random() * 2);
             updateGUI(spawn[i].type, i);
-            var hint = 2;
             switch (hint) {
               case 0: //region of dogs
                 hintMessage = "SHOW DOGS!";
