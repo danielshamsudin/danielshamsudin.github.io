@@ -142,7 +142,7 @@ handTrack.startVideo(video).then((status) => {
         video.srcObject = stream;
         console.log("status " + status);
         clearInterval(countdownToLobby);
-        renderVideo();
+        // renderVideo();
         setInterval(runDetection, 100);
       },
       (err) => {
@@ -705,6 +705,7 @@ function updateGUI(type, i) {
   }
 }
 
+// increase speed
 function animateDog() {
   var imgX = ccontainer.clientHeight * 0.2;
   var imgY = ccontainer.clientHeight * 0.2;
