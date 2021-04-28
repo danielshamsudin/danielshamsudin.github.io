@@ -94,34 +94,36 @@ function state() {
 }
 
 function play() {
-  isDrop = true;
-  _bgm.volume = 0.3;
-  _bgm.loop = true;
-  _bgm.play();
+    isDrop = true;
+    _bgm.volume = 0.3;
+    _bgm.loop = true;
+    _bgm.play();
 
-  var x = setInterval(() => {
-    //console.log(mm, ss);
-    mm = parseInt(mm);
-    ss = parseInt(ss);
-    mm = mm < 10 ? "0" + mm : mm;
-    ss = ss < 10 ? "0" + ss : ss;
+    var x = setInterval(() => {
+        //console.log(mm, ss);
+        mm = parseInt(mm);
+        ss = parseInt(ss);
+        mm = mm < 10 ? "0" + mm : mm;
+        ss = ss < 10 ? "0" + ss : ss;
 
-    document.getElementById("timer").innerHTML = mm + " : " + ss;
-    ss--;
-    if (mm != 0 && ss < 0) {
-      mm--;
-      ss = 59;
-    }
-    else if (mm == 00 && ss == -1) {
-      isDrop = false;
-      document.getElementById("timer").innerHTML = "Time's Up!";
-      c.fillStyle = "white";
-      c.fillRect(0, 0, canvas.width, canvas.height);
-      clearInterval(x);
-      isPlay = false;
-      isEnd = true;
-      state();
-    }
-  }, 1000);
+        if (isLoaded) {
+            document.getElementById("timer").innerHTML = mm + " : " + ss;
+            ss--;
+            if (mm != 0 && ss < 0) {
+                mm--;
+                ss = 59;
+            }
+            else if (mm == 00 && ss == -1) {
+                isDrop = false;
+                document.getElementById("timer").innerHTML = "Time's Up!";
+                c.fillStyle = "white";
+                c.fillRect(0, 0, canvas.width, canvas.height);
+                clearInterval(x);
+                isPlay = false;
+                isEnd = true;
+                state();
+            }
+        }
+    }, 1000);
   update();
 }

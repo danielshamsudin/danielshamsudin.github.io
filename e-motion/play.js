@@ -270,7 +270,7 @@ class _Object {
 
 //state detection
 var startGen = setInterval(() => {
-  if (isDrop) {
+  if (isDrop && isLoaded) {
     gen();
     clearInterval(startGen);
   }

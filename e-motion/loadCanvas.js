@@ -61,6 +61,7 @@ var _bgm = new Audio("./sound/bgm.wav");
 var _hurry = new Audio("./sound/hurry.wav");
 
 //states====================
+var isLoaded = false;
 var isStart = false;
 var isSplash = false;
 var isPlay = false;
@@ -68,7 +69,7 @@ var isEnd = false;
 //==========================
 var isDrop = false;
 var mm = 01;
-var ss = 30;
+var ss = 00;
 mm = parseInt(mm);
 ss = parseInt(ss);
 mm = mm < 10 ? "0" + mm : mm;
