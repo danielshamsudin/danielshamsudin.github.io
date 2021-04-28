@@ -13,10 +13,12 @@ header("Pragma: no-cache");
     <title>Catching Game V1.0.0</title>
     <link rel="stylesheet" href="./canvas.css" />
     <link rel="shortcut icon" href="./icon.ico" type="image/x-icon" />
+    <script src="https://cdn.jsdelivr.net/npm/handtrackjs@0.0.13/dist/handtrack.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
       ::-webkit-scrollbar {
-        width: 0px; 
-      background: transparent; 
+        display: none;
       }
     </style>
   </head>
@@ -32,7 +34,7 @@ header("Pragma: no-cache");
         <img src="./img/loading.gif" id="loading" />
       </div>
       <h3 id="points">Scores : 0</h3>
-      <h3 id="speed">Speed : 1</h3><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+      <h3 id="speed">Speed : 1</h3>
       <h3 id="status"></h3>
     </div>
     <div id="timer-con">
@@ -42,19 +44,12 @@ header("Pragma: no-cache");
   </body>
 </html>
 
-<script src="./jquery-3.5.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/handtrackjs/dist/handtrack.min.js"></script>
-
 <script type="text/javascript">
   var img1php = "./img/tm1.jpg";
   var img2php = "./img/tm2.jpg";
   var img3php = "./img/tm3.png";
   var img4php = "./img/tm4.png";
   var img5php = "./img/tm5.png";
-
-
-
-
 </script>
 
 <script src="./loadCanvas.js"></script>

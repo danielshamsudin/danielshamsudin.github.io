@@ -1,3 +1,11 @@
+window.onresize = () => {
+    if (confirm("Reminder:\nYou resized your screen\nThe page will be reloaded to ensure your best user experience")) {
+        location.reload(true);
+    } else {
+        location.reload(true);
+    }
+}
+
 // TODO: fade out for dogs
 
 // String utility function to use with toFormattedString()
@@ -62,8 +70,23 @@ var hintAvailableSec =
 
 //create function to receive game data; ajax function
 // target creation
-for (var i = 1; i <= numOfTarget; i++) {
-  spawn.push(new spawnableItem("dog", cwidth, cheight, objRadius));
+for (var i =1; i <= numOfTarget; i++)
+{
+    spawn.push(new spawnableItem('dog', cwidth, cheight, objRadius));
+
+    let emptyDogContainer = document.querySelector("#emptydogcontainer");
+    let img = document.createElement("img");
+    let dogSize;
+
+    if (numOfTarget <= 6) dogSize = 0.5
+    else if (numOfTarget <= 8) dogSize = 0.4;
+    else dogSize = 0.3;
+
+    img.className = "basketdoggy";
+    img.src = "Assets/white-dog.png";
+    img.style.height = emptyDogContainer.clientHeight * dogSize + "px";
+    img.style.width = emptyDogContainer.clientHeight * dogSize + "px";
+    emptyDogContainer.appendChild(img);
 }
 
 // trap creation
@@ -92,7 +115,6 @@ else
 var stDate = new Date(Date.now());
 var total = 0;
 draw();
-
 var perfTime = [];
 var handLocations = [];
 // TODO: mode for admin to select, easy medium hard, change objnum, objradius, handradius
@@ -347,16 +369,15 @@ var countDiv = document.getElementById("timer"),
     }
     countDiv.innerHTML = min + ":" + remSec;
 
-    if (sec > 0) {
-      sec = sec - 1;
-      //checkWL();
+    if (sec > 0 && isGift == false) {
+        sec = sec - 1;
+        checkWL();
     } else {
-      if (sec == 0) {
-        isLoaded = false; //ensures the game(hand) wont continue to move
-        clearInterval(countDown);
-        total = number1 + number2 + number3;
-        display_lose();
-      }
+        if (sec == 0) {
+            isLoaded = false; //ensures the game(hand) wont continue to move
+            clearInterval(countDown);
+            display_lose();
+        }
     }
   },
   countDown = setInterval(function () {
@@ -370,28 +391,24 @@ var countDiv = document.getElementById("timer"),
 
 function checkWL() {
   if (total == numOfTarget) {
-    isLoaded = false;
-    document.querySelector("#info").innerHTML = "YOU WIN !!";
+      isLoaded = false;
     //ensures the game(hand) wont continue to move
-    // clearInterval(countDown);
-    // display_win();
+      clearInterval(countDown);
+      display_win();
   }
 }
 
 var name;
 
 function display_win() {
+  score = total * 100 + sec;
+  document.querySelector("#score").innerHTML = score + "<br />";
+
   dlData();
-  // score change to json
   BGM.pause();
   winAudio.play();
-  statustrap = 1;
-  document.querySelector(".container-item2 span").innerHTML =
-    "<i class='fas fa-dog'></i><i class='fas fa-dog'></i><i class='fas fa-dog'></i>";
-  document.getElementById("display").style.display = "block";
-  document.getElementById("score").innerHTML =
-    "Congrats! You Win! Your score is " + score;
-
+  cancelAnimationFrame(draw);
+  document.querySelector("#gameover").style.display = "flex";
   window.parent.wsCreateScore(score);
 
   document.getElementById("button_h").onclick = function () {
@@ -453,10 +470,10 @@ function dlData() {
   data.starttime = stDate.toFormattedString();
 
   data.performance = {
-    avgFPS: avgfps,
-    medianFPS: median,
-    stddevFPS: stddev,
-    loadingTime: loadingTimeTaken,
+    avgFPS: data.avgfps,
+    medianFPS: data.median,
+    stddevFPS: data.stddev,
+    loadingTime: data.loadingTimeTaken
   };
 
   data.handDetection = {
@@ -470,8 +487,8 @@ function dlData() {
   };
   data.gameObj = { spawn };
   data.GUIs = {
-    canvasSize: playcanvassize,
-    windowSize: windowsize,
+      canvasSize: data.playcanvassize,
+      windowSize: data.windowsize,
   };
   data.score = score;
 
@@ -502,12 +519,14 @@ function dlData() {
 }
 
 function display_lose() {
-  end = true;
+  score = total * 100 + sec;
+  document.querySelector("#score").innerHTML = score + "<br />";
+
+  dlData();
   BGM.pause();
   loseAudio.play();
-  document.getElementById("display").style.display = "block";
-  document.getElementById("score").innerHTML =
-    "You only catch " + total + ". Score is " + score;
+  cancelAnimationFrame(draw);
+  document.querySelector("#gameover").style.display = "flex";
   window.parent.wsCreateScore(score);
 
   document.getElementById("button_h").onclick = function () {
@@ -651,53 +670,56 @@ function updateGUI(type, i) {
     let locX = spawn[i].x - (ccontainer.clientHeight * 0.2) / 2;
     let locY = spawn[i].y - (ccontainer.clientHeight * 0.2) / 2;
 
-    setTimeout(function () {
-      gctx.drawImage(
-        trapImg,
-        locX,
-        locY,
-        ccontainer.clientHeight * 0.2,
-        ccontainer.clientHeight * 0.2
-      );
-      isLoaded = false;
-      document.querySelector("#gui-container").style.filter = "grayscale(100%)";
-      document.querySelector("#gui-container").style.filter = "brightness(20%)";
-      //document.querySelector("#blackscreen").style.display = "block";
-      document.querySelector("#freezemessage").style.display = "flex";
+        setTimeout(function () {
+            gctx.drawImage(trapImg, locX, locY, ccontainer.clientHeight * 0.2, ccontainer.clientHeight * 0.2);
+            isLoaded = false;
+            document.querySelector("#canvascontainer").style.filter = "grayscale(100%)";
+            document.querySelector("#canvascontainer").style.filter = "brightness(30%)";
+            //document.querySelector("#blackscreen").style.display = "block";
+            document.querySelector("#freezemessagecontainer").style.display = "flex";
 
-      setTimeout(function () {
-        gctx.clearRect(0, 0, ccontainer.clientWidth, ccontainer.clientHeight);
-        document.querySelector("#gui-container").style.filter = "grayscale(0)";
-        document.querySelector("#gui-container").style.filter =
-          "brightness(100%)";
-        //document.querySelector("#blackscreen").style.display = "none";
-        document.querySelector("#freezemessage").style.display = "none";
+            let freezeCounter = 5;
+            document.querySelector("#freezetimer").innerHTML = freezeCounter + " seconds";
+            let freezeTimer = setInterval(() => {
+                freezeCounter--;
+                document.querySelector("#freezetimer").innerHTML = freezeCounter + " seconds";
+            }, 1000);
+
+            setTimeout(function () {
+                gctx.clearRect(0, 0, ccontainer.clientWidth, ccontainer.clientHeight);
+                document.querySelector("#canvascontainer").style.filter = "grayscale(0)";
+                document.querySelector("#canvascontainer").style.filter = "brightness(100%)";
+                //document.querySelector("#blackscreen").style.display = "none";
+                document.querySelector("#freezemessagecontainer").style.display = "none";
+                clearInterval(freezeTimer);
 
         if (total != numOfTarget && sec != 0) isLoaded = true;
 
-        spawn.forEach((index) => {
-          if (index.type == "trap") {
-            index.isTouch = false;
-          }
-        });
-      }, 3000);
-    }, 100);
-  } else {
-    hintImg.style.display = "none";
-    openingHint.style.display = "flex";
+                spawn.forEach(index => {
+                    if (index.type == 'trap') {
+                        index.isTouch = false;
+                    }
+                });
+            }, 5000);
+        }, 100);
+    } else {
+        hintImg.style.display = "none";
+        openingHint.style.display = "flex";
+        isGift = true;
 
     setTimeout(function () {
       openingHint.style.display = "none";
       openedHint.style.display = "flex";
       document.querySelector("#hintmessage").innerHTML = hintMessage;
       document.querySelector("#hintmessage").style.display = "block";
-      document.querySelector("#hintad").style.display = "flex";
+      document.querySelector("#hintad").style.display = "block";
 
       setTimeout(function () {
         document.querySelector("#hintad").style.display = "none";
         document.querySelector("#hintmessage").style.display = "none";
         openedHint.style.display = "none";
         isLoaded = true;
+        isGift = false;
       }, 3000);
     }, 1000);
   }

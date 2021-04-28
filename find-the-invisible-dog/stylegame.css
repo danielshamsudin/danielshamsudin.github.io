@@ -14,32 +14,180 @@ body {
 }
 
 main {
+    position: relative;
     height: 100vmin; /* minimum viewport 100%, can be adjusted */
     width: 100vmin;
-    position: relative;
 }
 
 p {
     font-family: 'Machine Gunk';
     color: #56362C;
-    font-size: calc(2em + 1vw);
+    font-size: 3vw;
     text-align: center;
 }
 
+/* ///////////// Splash Screen //////////////// */
+
 #splashscreen {
-    height: 100vmin;
-    width: 100vw;
+    height: 100%;
+    width: 100%;
     z-index: 20;
     position: absolute;
+    background-color: black
 }
 
 #splashscreen > video {
+    object-fit: contain;
+    width: 100%;
+    height: 100%;
+}
+
+/* ///////////////// Game over //////////////// */
+
+#gameover {
+    z-index: 20;
+    display: none;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    -webkit-animation-name: gameoveranimate;
+    -webkit-animation-duration: 0.6s;
+    animation-name: gameoveranimate;
+    animation-duration: 0.6s
+}
+
+#gameover > img {
+    position: absolute;
     object-fit: fill;
     width: 100%;
     height: 100%;
 }
 
-/* Containers */
+@-webkit-keyframes gameoveranimate {
+    from {
+        top: -300px;
+        opacity: 0
+    }
+
+    to {
+        top: 0;
+        opacity: 1
+    }
+}
+
+@keyframes gameoveranimate {
+    from {
+        top: -300px;
+        opacity: 0
+    }
+
+    to {
+        top: 0;
+        opacity: 1
+    }
+}
+
+#gameovercontent {
+    position: absolute;
+    width: 40%;
+    height: 40%;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 70% 30%;
+}
+    #gameovercontent p {
+        grid-column: span 2;
+        margin: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    #score {
+        font-size: 6vw;
+    }
+
+    #highscore {
+        font-size: 2vw;
+    }
+
+    #gameovercontent button {
+        margin: auto;
+        border-radius: 15px;
+        width: 80%;
+        height: 60%;
+    }
+
+    #gameovercontent button p {
+        color: white;
+    }
+
+#gameovercontent #share {
+    background-image: linear-gradient(to bottom right, black, saddlebrown);
+}
+
+#gameovercontent #continue {
+    background-image: linear-gradient(to bottom right, saddlebrown, orange);
+}
+
+/* //////////////////////////////////////////// */
+
+/* ///////////////// Brocolli ///////////////// */
+
+#brocollicontainer{
+    z-index: 0;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+
+.brocolli, .brocolli-1{
+    position: absolute;
+    height: auto;
+    width: 15%;
+}
+
+#brocolli1{
+    top: 10%;
+    left: 0;
+}
+
+#brocolli2 {
+    right: 5%;
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+}
+
+#brocolli3{
+    display: none;
+    top: 35%;
+    left: 10%
+}
+
+#brocolli4{
+    display: none;
+    top: 1%;
+    left: 25%;
+}
+
+#brocolli5{
+    bottom: 1%;
+    right: 1%;
+}
+
+#brocolli6{
+    bottom: 5%;
+    left: 1%;
+}
+
+#brocolli7 {
+    display: none;
+    top: 30%;
+    right: 10%;
+}
+
+/* //////////////// Containers //////////////// */
 
 #gui-container { /* a 3x2 grid container */
     z-index: 0;
@@ -70,6 +218,8 @@ p {
     background-repeat: no-repeat;
 }
 
+/* //////////////////////////////////////////// */
+
 #timergui, #basketgui, #vcanvasgui {
     z-index: 2;
     position: absolute;
@@ -91,13 +241,30 @@ p {
     height: auto;
 }
 
+/* /////////////// Container 1 //////////////// */
+
 #timer {
     z-index: 3;
     position: absolute;
+    margin-top: 30%;
+}
+
+/* /////////////// Container 2 //////////////// */
+
+#emptydogcontainer {
+    z-index: 3;
+    position: absolute;
+    width: 70%;
+    height: 85%;
+    margin: auto;
+}
+
+#emptydogcontainer > img {
+    filter: opacity(30%);
 }
 
 #basketdoggycontainer {
-    z-index: 3;
+    z-index: 4;
     position: absolute;
     width: 70%;
     height: 85%;
@@ -108,8 +275,7 @@ p {
     z-index: 4;
 }
 
-/* Container 3  & Container 4 */
-
+/* //////// Container 3  & Container 4 //////// */
 
 #vcanvascontainer {
     z-index: 4;
@@ -142,10 +308,12 @@ p {
     -moz-transform: scaleX(-1);
     -o-transform: scaleX(-1);
 }
-/* Container 4 > Info/Ads board*/
+
+/* /////// Container 4 > Info/Ads board //////// */
 
 #infocontainer {
     z-index: 3;
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -161,16 +329,36 @@ p {
     height: auto;
 }
 
-#infoads {
+#adscontainer {
     z-index: 5;
-    width: 70%;
+    position: absolute;
+    width: 50%;
     height: 70%;
-    object-fit: contain;
-    box-shadow: 0px 10px 5px grey;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
+#infoads1{
+    margin-left: 10%;
+}
 
-/* Container 4 > Play canvas*/
+#infoads2{
+    margin: auto;
+}
+
+#infoads3{
+    margin-right: 10%;
+}
+
+.infoads {
+    width: auto;
+    height: 90%;
+    object-fit: contain;
+}
+
+/* //////// Container 4 > Play canvas ///////// */
 
 #targetimgcontainer, #trapimgcontainer, #hintimgcontainer{
     z-index: 6;
@@ -205,6 +393,8 @@ p {
     height: 100%;
 }
 
+/* //////////////////////////////////////////// */
+
 #messagecontainer {
     z-index: 9;
     margin: auto;
@@ -233,23 +423,40 @@ p {
     display: none;
     position: absolute;
     object-fit: contain;
-    width: 50%;
-    height: 50%;
+    width: 40%;
+    height: 40%;
+}
+
+#freezemessagecontainer {
+    z-index: 9;
+    display: none;
+    flex-direction: column;
+    bottom: 0;
+    position: absolute;
+    width: 100%;
+    height: 80%;
 }
 
 #freezemessage {
-    z-index: 9;
-    color: magenta;
-    font-size: calc(10em + 1vw);
-    display: none;
+    width: 80%;
+    height: auto;
     margin: auto;
-    position: absolute;
+    margin-bottom: 0;
 }
+
+#freezetimer {
+    margin: auto;
+    margin-top: 0;
+    font-size: 5vw;
+    color: lightsteelblue;
+    -webkit-text-stroke: 0.5rem steelblue;
+}
+
 #hintmessage {
     z-index: 11;
     font-size: calc(2em + 1vw);
     display: none;
-    margin-top: 40%;
+    margin-top: 45%;
     position: absolute;
     /*
     box-shadow: 10px 10px 5px grey;
@@ -257,6 +464,8 @@ p {
     background-color: transparent;
     */
 }
+
+/* //////////////////////////////////////////// */
 
 .splashT { /* loading interface, div that stores loading symbols img */
     z-index: 6;
@@ -366,6 +575,7 @@ p {
     background-color: black;
     opacity: 0.8;
 }
+/*
 @media screen and (min-width: 2500px) {
     p {
         font-size: calc(5em + 1vw);
@@ -418,3 +628,4 @@ p {
         font-size: calc(3em + 1vw);
     }
 }
+    */

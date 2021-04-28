@@ -73,16 +73,16 @@ class _Object {
 
   //Draw image at set parameters
   draw() {
-    c.drawImage(this.img, this.x, this.y, 75, 75);
+      c.drawImage(this.img, this.x, this.y, spawnSize, spawnSize);
 
-    this.detect();
+      this.detect();
   }
 
   //Set the detection range of the paddle
   detect() {
     if (this.y > canvas.height + 500) return;
     if (
-      (this.id == 1 ||
+      (this.id == 1 || //Add point
         this.id == 2 ||
         this.id == 3 ||
         this.id == 4 ||
@@ -126,7 +126,8 @@ class _Object {
       }, 1000);
       this.y = canvas.height + 300;
       _catch.play();
-    } else if (
+    }
+    else if ( //Become longer
       this.id == 6 &&
       this.x + 75 > handX &&
       this.x < handX + padLength &&
@@ -173,7 +174,8 @@ class _Object {
       this.y = canvas.height + 300;
       _catch.play();
       //==========================================================================
-    } else if (
+    }
+    else if ( //Become short
       this.id == 7 &&
       this.x + 75 > handX &&
       this.x < handX + padLength &&
@@ -220,7 +222,8 @@ class _Object {
       this.y = canvas.height + 300;
       _catch.play();
       //==========================================================================
-    } else if (
+    }
+    else if ( //Trap
       this.id == 8 &&
       this.x + 75 > handX &&
       this.x < handX + padLength &&
@@ -267,7 +270,7 @@ class _Object {
 
 //state detection
 var startGen = setInterval(() => {
-  if (isDrop) {
+  if (isDrop && isLoaded) {
     gen();
     clearInterval(startGen);
   }
@@ -287,7 +290,8 @@ var hurry = setInterval(() => {
   }
 }, 100);
 
-function gen() {
+function gen() { //Generating spawns
+
   //control the spawn rate of object with 2000ms
   setInterval(() => {
     //Using Math.random to generate object randomly

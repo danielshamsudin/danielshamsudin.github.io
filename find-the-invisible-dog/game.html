@@ -12,11 +12,33 @@
 <body>
     <div id="blackscreen"></div>
 
+    <div id="brocollicontainer">
+        <img id="brocolli1" class="brocolli"/>
+        <img id="brocolli2" class="brocolli"/>
+        <img id="brocolli3" class="brocolli-1"/>
+        <img id="brocolli4" class="brocolli"/>
+        <img id="brocolli5" class="brocolli"/>
+        <img id="brocolli6" class="brocolli-1" />
+        <img id="brocolli7" class="brocolli-1" />
+    </div>
+
     <div id="splashscreen">
-        <video autoplay muted loop poster="Assets/SplashScreen/FindTheInvisibleDog.png">
+        <video autoplay muted loop poster="Assets/bg-06.jpg">
             <source src="Assets/SplashScreen/FindTheInvisibleDog.mp4" type="video/mp4" />
             Your browser does not support the video tag
         </video>
+    </div>
+
+    <div id="gameover">
+        <img id="gameoverui" />
+        <div id="gameovercontent">
+            <p>
+                score<br />
+                <span id="score">0</span>
+                <span id="highscore">highscore: 0</span>
+            </p>
+            <button id="share"><p>share</p></button><button id="continue"><p>continue</p></button>
+        </div>
     </div>
 
     <audio autoplay id="BGM">
@@ -33,6 +55,7 @@
 
             <div class="container-item2">
                 <div id="basketdoggycontainer"></div>
+                <div id="emptydogcontainer"></div>
                 <img id="basketgui" />
             </div>
 
@@ -49,7 +72,11 @@
                 <div id="fence"><img id="fencegui" /></div>
                 <div id="infocontainer">
                     <img id="infoboard" />
-                    <img id="infoads" />
+                    <div id="adscontainer">
+                        <img id="infoads1" class="infoads" />
+                        <img id="infoads2" class="infoads" />
+                        <img id="infoads3" class="infoads" />
+                    </div>
                 </div>
                 <div id="canvascontainer">
                     <canvas id="guicanvas"></canvas>
@@ -67,8 +94,11 @@
         <div id="messagecontainer">
             <img id="openedhint" />
             <img id="hintad" />
-            <p id="hintmessage">fvk</p>
-            <p id="freezemessage">freeze!!</p>
+            <p id="hintmessage"></p>
+            <div id="freezemessagecontainer">
+                <img id="freezemessage">
+                <p id="freezetimer"></p>
+            </div>
         </div>
         <!--
         <div id="splash" class="splashT">
@@ -76,20 +106,18 @@
             <img src="3.gif" id="loading" class="cat-loading">
             <img src="img/loading2.gif" id="loading">
         </div>
-            -->
         <div id="display" class="modal">
             <div class="modal-content animate">
-                <!-- <img src="<?php echo " images /".$row['image']; ?>" class="tmLogo"></img> -->
                 <img src="img/tmlogo.png" class="tmlogo">
                 <p id="score"></p>
-                <!-- <button id="button_tg" class="button">Try Again</button> -->
                 <button id="button_h" class="button">Scoreboard</button>
             </div>
         </div>
+        -->
     </main>
-    <script src="state.js"></script>
     <script src="loadItem.js"></script>
     <script src="loadCanvas.js"></script>
+    <script src="state.js"></script>
     <script src="spawnableItem.js"></script>
     <script src="choose.js"></script>
     <script src="loadHandtrack.js"></script>

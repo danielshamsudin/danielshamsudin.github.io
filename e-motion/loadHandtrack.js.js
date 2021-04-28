@@ -47,7 +47,7 @@ function runDetection() {
       handX = predictions[0].bbox[0] + predictions[0].bbox[2] / 2;
       handY = predictions[0].bbox[1] + predictions[0].bbox[3] / 2;
       //console.log(handX, handY);
-      isStart = true;
+      isLoaded = true;
     }
     if (predictions == 0) {
       isStart = true;

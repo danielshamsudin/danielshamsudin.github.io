@@ -1,29 +1,37 @@
-html {
+body {
 	height: 100vh; /* viewport height = 100%, adjustment not recommended */
 	width: 100vw; /* viewport width = 100%, adjustment not recommended */
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	margin: 0;
-	background-color: black;
 }
 
-body {
+main {
 	background-color: #FCE5B0;
-	/*
-	background-image: url(<?php echo "images/".$row['image'];
-	?>);
-	background-size: 100px 90px;
-	background-repeat: repeat-y;
-	background-position: left;
-	*/
 	box-sizing: border-box; /* border does not adds extra width or height */
 	border: 20px solid transparent;
-	/* border-image: url(111.png) 90 round; */
 	height: 100vh;
 	width: 100vmin; /* minimum viewport 100%, can be adjusted */
 	position: relative;
 }
+
+
+#splashscreen {
+	height: 100%;
+	width: 100%;
+	z-index: 20;
+	position: absolute;
+	background-color: black
+}
+
+	#splashscreen > video {
+		position: absolute;
+		object-fit: contain;
+		width: 100%;
+		height: 100%;
+	}
+
 
 ::-webkit-scrollbar {
 	width: 0px;

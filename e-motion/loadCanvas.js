@@ -14,15 +14,17 @@ var ctx1 = canvas1.getContext("2d");
 var splash = document.getElementById("splash");
 
 var speed;
-var responsiveAddHeight = 25;
+var responsiveAddHeight = canvas.height > canvas.width ? canvas.height * 0.03 : canvas.height * 0.02;
 var responsiveInterval = 250;
+var padLength = canvas.height > canvas.width ? canvas.width * 0.3 : canvas.height * 0.3;
+var spawnSize = canvas.height > canvas.width ? canvas.width * 0.1 : canvas.height * 0.1;
 
 if (canvas.height > canvas.width) {
   speed = 8;
 
   if (isMobile() !== null) {
-    responsiveAddHeight = 75;
-    responsiveInterval = 100;
+    //responsiveAddHeight = 75;
+    //responsiveInterval = 100;
   }
 } else speed = 5;
 
@@ -40,7 +42,6 @@ var handX, handY;
 var paddleX;
 var point = 0;
 
-var padLength = 200;
 var timeOutLong;
 var timeOutShort;
 var timeOutStatus;
@@ -60,6 +61,7 @@ var _bgm = new Audio("./sound/bgm.wav");
 var _hurry = new Audio("./sound/hurry.wav");
 
 //states====================
+var isLoaded = false;
 var isStart = false;
 var isSplash = false;
 var isPlay = false;
@@ -67,7 +69,7 @@ var isEnd = false;
 //==========================
 var isDrop = false;
 var mm = 01;
-var ss = 30;
+var ss = 00;
 mm = parseInt(mm);
 ss = parseInt(ss);
 mm = mm < 10 ? "0" + mm : mm;
