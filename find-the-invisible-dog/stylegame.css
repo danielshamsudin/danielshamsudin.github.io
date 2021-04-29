@@ -449,7 +449,7 @@ p {
     margin-top: 0;
     font-size: 5vw;
     color: lightsteelblue;
-    -webkit-text-stroke: 0.5rem steelblue;
+    -webkit-text-stroke: 0.5vw steelblue;
 }
 
 #hintmessage {
