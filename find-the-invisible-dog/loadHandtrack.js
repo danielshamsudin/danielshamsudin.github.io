@@ -743,7 +743,8 @@ function updateGUI(type, i) {
   }
 }
 
-// increase speed
+// TODO: increase speed
+// TODO: change before commit 
 function animateDog() {
   var imgX = ccontainer.clientHeight * 0.2;
   var imgY = ccontainer.clientHeight * 0.2;
@@ -752,12 +753,12 @@ function animateDog() {
   dctx.drawImage(targetImg, tX, tY, imgX, imgY);
 
   if (tX > ccontainer.clientWidth / 2) {
-    tX -= 5;
+    tX -= 7;
     if (tX < ccontainer.clientWidth / 2) {
       tX = ccontainer.clientWidth / 2;
     }
   } else {
-    tX += 5;
+    tX += 7;
     if (tX > ccontainer.clientWidth / 2) {
       tX = ccontainer.clientWidth / 2;
     }
@@ -768,10 +769,9 @@ function animateDog() {
   imgX--;
   imgY--;
 
-  if (tX != ccontainer.clientWidth / 2 || !(tY >= -4 && tY <= 0)) {
+  if (tX != ccontainer.clientWidth / 2 || !(tY >= -6 && tY <= 0)) {
     animateID = requestAnimationFrame(animateDog);
   } else {
     dctx.clearRect(0, 0, fullSize.clientWidth, fullSize.clientHeight);
   }
-  // TODO: dog animation fadeout when y -= 1 && y == 0
 }
