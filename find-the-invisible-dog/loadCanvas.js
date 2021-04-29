@@ -52,32 +52,24 @@ var objRadius;
 var handRadius;
 var catReset;
 var dogReset;
-var difficulty = "custom"; // get from JSON
+var difficulty = "easy"; // get from JSON
 
 if (difficulty == "easy") {
 
-    numOfTarget = 2;
+    numOfTarget = 6;
     numOfTrap = 1;
     objRadius = ccontainer.scrollHeight * 0.04;
-    handRadius = ccontainer.scrollHeight * 0.2;
+    handRadius = ccontainer.scrollHeight * 0.1;
     catReset = false;
     dogReset = false;
 } else if (difficulty == "normal") {
 
-    numOfTarget = 5;
-    numOfTrap = 1;
+    numOfTarget = 6;
+    numOfTrap = 2;
     objRadius = ccontainer.scrollHeight * 0.03;
     handRadius = ccontainer.scrollHeight * 0.1;
     catReset = true;
     dogReset = false;
-} else if (difficulty == "hard") {
-
-    numOfTarget = 8;
-    numOfTrap = 2;
-    objRadius = ccontainer.scrollHeight * 0.01;
-    handRadius = ccontainer.scrollHeight * 0.08;
-    catReset = true;
-    dogReset = true;
 } else if (difficulty == "custom") {
 
     numOfTarget = 3;

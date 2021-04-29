@@ -1,10 +1,10 @@
 window.onresize = () => {
-    if (confirm("Reminder:\nYou resized your screen\nThe page will be reloaded to ensure your best user experience")) {
-        location.reload(true);
-    } else {
-        location.reload(true);
-    }
-}
+  if (confirm("Reminder:\nYou resized your screen\nThe page will be reloaded to ensure your best user experience")) {
+    window.history.forward(true);
+  } else {
+    location.reload(true);
+  }
+};
 
 // String utility function to use with toFormattedString()
 String.prototype.padLeft = function (length, character) {
@@ -68,23 +68,22 @@ var hintAvailableSec =
 
 //create function to receive game data; ajax function
 // target creation
-for (var i =1; i <= numOfTarget; i++)
-{
-    spawn.push(new spawnableItem('dog', cwidth, cheight, objRadius));
+for (var i = 1; i <= numOfTarget; i++) {
+  spawn.push(new spawnableItem("dog", cwidth, cheight, objRadius));
 
-    let emptyDogContainer = document.querySelector("#emptydogcontainer");
-    let img = document.createElement("img");
-    let dogSize;
+  let emptyDogContainer = document.querySelector("#emptydogcontainer");
+  let img = document.createElement("img");
+  let dogSize;
 
-    if (numOfTarget <= 6) dogSize = 0.5
-    else if (numOfTarget <= 8) dogSize = 0.4;
-    else dogSize = 0.3;
+  if (numOfTarget <= 6) dogSize = 0.5;
+  else if (numOfTarget <= 8) dogSize = 0.4;
+  else dogSize = 0.3;
 
-    img.className = "basketdoggy";
-    img.src = "Assets/white-dog.png";
-    img.style.height = emptyDogContainer.clientHeight * dogSize + "px";
-    img.style.width = emptyDogContainer.clientHeight * dogSize + "px";
-    emptyDogContainer.appendChild(img);
+  img.className = "basketdoggy";
+  img.src = "Assets/white-dog.png";
+  img.style.height = emptyDogContainer.clientHeight * dogSize + "px";
+  img.style.width = emptyDogContainer.clientHeight * dogSize + "px";
+  emptyDogContainer.appendChild(img);
 }
 
 // trap creation
@@ -104,10 +103,8 @@ const randomIndex = Math.floor(Math.random() * numOfTarget);
 var trapIndex;
 if (numOfTrap == 1) {
   trapIndex = numOfTarget;
-}
-else
-{
-  trapIndex = (Math.floor(Math.random() * numOfTrap)) + numOfTarget;
+} else {
+  trapIndex = Math.floor(Math.random() * numOfTrap) + numOfTarget;
 }
 
 var stDate = new Date(Date.now());
@@ -130,7 +127,7 @@ var handLocations = [];
 
 // put in json file from server
 const modelParams = {
-  //flipHorizontal: true,
+  // flipHorizontal: true,
   imageScaleFactor: 0.5, //changed here
   maxNumBoxes: 1, // maximum number of boxes to detect
   iouThreshold: 0.5, // ioU threshold for non-max suppression
@@ -162,7 +159,7 @@ handTrack.startVideo(video).then((status) => {
         video.srcObject = stream;
         console.log("status " + status);
         clearInterval(countdownToLobby);
-        // renderVideo();
+        renderVideo();
         setInterval(runDetection, 100);
       },
       (err) => {
@@ -196,10 +193,10 @@ function runDetection() {
 
       hintStart = true;
 
-      midX = predictions[0].bbox[0] + (predictions[0].bbox[2] / 2);
-      midY = predictions[0].bbox[1] + (predictions[0].bbox[3] / 2);
+      midX = predictions[0].bbox[0] + predictions[0].bbox[2] / 2;
+      midY = predictions[0].bbox[1] + predictions[0].bbox[3] / 2;
 
-      handX = cwidth *  (midX / video.width);
+      handX = cwidth * (midX / video.width);
       handY = cheight * (midY / video.height);
 
       begin = 1;
@@ -300,13 +297,23 @@ function runDetection() {
                 let randomY = spawn[randomIndex].y;
                 gctx.strokeStyle = "red";
                 gctx.lineWidth = 5;
-                gctx.roundRect(randomX - 50, randomY - 50, 200, 200, 20).stroke();
+                gctx
+                  .roundRect(randomX - 50, randomY - 50, 200, 200, 20)
+                  .stroke();
                 break;
               case 1: //region of cats
                 hintMessage = "SHOW CATS!";
                 gctx.strokeStyle = "red";
                 gctx.lineWidth = 5;
-                gctx.roundRect(spawn[trapIndex].x - 50, spawn[trapIndex].y - 50, 200, 200, 20).stroke();
+                gctx
+                  .roundRect(
+                    spawn[trapIndex].x - 50,
+                    spawn[trapIndex].y - 50,
+                    200,
+                    200,
+                    20
+                  )
+                  .stroke();
                 break;
               case 2: //extra time
                 hintMessage = "ADDED 20SEC!";
@@ -368,14 +375,14 @@ var countDiv = document.getElementById("timer"),
     countDiv.innerHTML = min + ":" + remSec;
 
     if (sec > 0 && isGift == false) {
-        sec = sec - 1;
-        checkWL();
+      sec = sec - 1;
+      checkWL();
     } else {
-        if (sec == 0) {
-            isLoaded = false; //ensures the game(hand) wont continue to move
-            clearInterval(countDown);
-            display_lose();
-        }
+      if (sec == 0) {
+        isLoaded = false; //ensures the game(hand) wont continue to move
+        clearInterval(countDown);
+        display_lose();
+      }
     }
   },
   countDown = setInterval(function () {
@@ -389,10 +396,10 @@ var countDiv = document.getElementById("timer"),
 
 function checkWL() {
   if (total == numOfTarget) {
-      isLoaded = false;
+    isLoaded = false;
     //ensures the game(hand) wont continue to move
-      clearInterval(countDown);
-      display_win();
+    clearInterval(countDown);
+    display_win();
   }
 }
 
@@ -402,7 +409,7 @@ function display_win() {
   score = total * 100 + sec;
   document.querySelector("#score").innerHTML = score + "<br />";
 
-  dlData();
+  // dlData();
   BGM.pause();
   winAudio.play();
   cancelAnimationFrame(draw);
@@ -471,7 +478,7 @@ function dlData() {
     avgFPS: data.avgfps,
     medianFPS: data.median,
     stddevFPS: data.stddev,
-    loadingTime: data.loadingTimeTaken
+    loadingTime: data.loadingTimeTaken,
   };
 
   data.handDetection = {
@@ -485,8 +492,8 @@ function dlData() {
   };
   data.gameObj = { spawn };
   data.GUIs = {
-      canvasSize: data.playcanvassize,
-      windowSize: data.windowsize,
+    canvasSize: data.playcanvassize,
+    windowSize: data.windowsize,
   };
   data.score = score;
 
@@ -520,7 +527,7 @@ function display_lose() {
   score = total * 100 + sec;
   document.querySelector("#score").innerHTML = score + "<br />";
 
-  dlData();
+  // dlData();
   BGM.pause();
   loseAudio.play();
   cancelAnimationFrame(draw);
@@ -533,11 +540,11 @@ function display_lose() {
      name="Player";
     }
 
-	  $.ajax({
-  	type:"POST",
-			url:"pass.php",
-			data:{name:name, score:score},
-			success:(window.location.href="scoreboard.php"),
+    $.ajax({
+    type:"POST",
+      url:"pass.php",
+      data:{name:name, score:score},
+      success:(window.location.href="scoreboard.php"),
     });*/
 
     window.location.href = "scoreboard.php";
@@ -547,7 +554,7 @@ function display_lose() {
 var controlX = cwidth / 2;
 var controlY = cheight / 2;
 
-// 
+//
 function handAnimation() {
   let offset = 5;
   if (handX > controlX) {
@@ -668,42 +675,55 @@ function updateGUI(type, i) {
     let locX = spawn[i].x - (ccontainer.clientHeight * 0.2) / 2;
     let locY = spawn[i].y - (ccontainer.clientHeight * 0.2) / 2;
 
-        setTimeout(function () {
-            gctx.drawImage(trapImg, locX, locY, ccontainer.clientHeight * 0.2, ccontainer.clientHeight * 0.2);
-            isLoaded = false;
-            document.querySelector("#canvascontainer").style.filter = "grayscale(100%)";
-            document.querySelector("#canvascontainer").style.filter = "brightness(30%)";
-            //document.querySelector("#blackscreen").style.display = "block";
-            document.querySelector("#freezemessagecontainer").style.display = "flex";
+    setTimeout(function () {
+      gctx.drawImage(
+        trapImg,
+        locX,
+        locY,
+        ccontainer.clientHeight * 0.2,
+        ccontainer.clientHeight * 0.2
+      );
+      isLoaded = false;
+      document.querySelector("#canvascontainer").style.filter =
+        "grayscale(100%)";
+      document.querySelector("#canvascontainer").style.filter =
+        "brightness(30%)";
+      //document.querySelector("#blackscreen").style.display = "block";
+      document.querySelector("#freezemessagecontainer").style.display = "flex";
 
-            let freezeCounter = 5;
-            document.querySelector("#freezetimer").innerHTML = freezeCounter + " seconds";
-            let freezeTimer = setInterval(() => {
-                freezeCounter--;
-                document.querySelector("#freezetimer").innerHTML = freezeCounter + " seconds";
-            }, 1000);
+      let freezeCounter = 5;
+      document.querySelector("#freezetimer").innerHTML =
+        freezeCounter + " seconds";
+      let freezeTimer = setInterval(() => {
+        freezeCounter--;
+        document.querySelector("#freezetimer").innerHTML =
+          freezeCounter + " seconds";
+      }, 1000);
 
-            setTimeout(function () {
-                gctx.clearRect(0, 0, ccontainer.clientWidth, ccontainer.clientHeight);
-                document.querySelector("#canvascontainer").style.filter = "grayscale(0)";
-                document.querySelector("#canvascontainer").style.filter = "brightness(100%)";
-                //document.querySelector("#blackscreen").style.display = "none";
-                document.querySelector("#freezemessagecontainer").style.display = "none";
-                clearInterval(freezeTimer);
+      setTimeout(function () {
+        gctx.clearRect(0, 0, ccontainer.clientWidth, ccontainer.clientHeight);
+        document.querySelector("#canvascontainer").style.filter =
+          "grayscale(0)";
+        document.querySelector("#canvascontainer").style.filter =
+          "brightness(100%)";
+        //document.querySelector("#blackscreen").style.display = "none";
+        document.querySelector("#freezemessagecontainer").style.display =
+          "none";
+        clearInterval(freezeTimer);
 
         if (total != numOfTarget && sec != 0) isLoaded = true;
 
-                spawn.forEach(index => {
-                    if (index.type == 'trap') {
-                        index.isTouch = false;
-                    }
-                });
-            }, 5000);
-        }, 100);
-    } else {
-        hintImg.style.display = "none";
-        openingHint.style.display = "flex";
-        isGift = true;
+        spawn.forEach((index) => {
+          if (index.type == "trap") {
+            index.isTouch = false;
+          }
+        });
+      }, 5000);
+    }, 100);
+  } else {
+    hintImg.style.display = "none";
+    openingHint.style.display = "flex";
+    isGift = true;
 
     setTimeout(function () {
       openingHint.style.display = "none";
