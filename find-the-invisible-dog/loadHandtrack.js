@@ -1,3 +1,12 @@
+// FIXME:
+//  
+//
+//
+// TODO: 
+// 1. show dog before fly to top 
+// 2. add loading circle ontop of 2nd loading screen
+// 3. enable hand renderPrediction in final prod.
+
 window.onresize = () => {
   if (confirm("Reminder:\nYou resized your screen\nThe page will be reloaded to ensure your best user experience")) {
     window.history.forward(true);
@@ -66,7 +75,6 @@ var hintAvailableSec =
 //   });
 // }
 
-//create function to receive game data; ajax function
 // target creation
 for (var i = 1; i <= numOfTarget; i++) {
   spawn.push(new spawnableItem("dog", cwidth, cheight, objRadius));
@@ -112,9 +120,7 @@ var total = 0;
 draw();
 var perfTime = [];
 var handLocations = [];
-// TODO: mode for admin to select, easy medium hard, change objnum, objradius, handradius
 // distance checking for each objects so that they are not close to each other
-// enable this in final version of the game
 (function () {
   for (var i = 0; i < spawn.length; i++) {
     for (var j = i + 1; j < spawn.length; j++) {
@@ -127,7 +133,7 @@ var handLocations = [];
 
 // put in json file from server
 const modelParams = {
-  // flipHorizontal: true,
+  flipHorizontal: true,
   imageScaleFactor: 0.5, //changed here
   maxNumBoxes: 1, // maximum number of boxes to detect
   iouThreshold: 0.5, // ioU threshold for non-max suppression
@@ -159,7 +165,7 @@ handTrack.startVideo(video).then((status) => {
         video.srcObject = stream;
         console.log("status " + status);
         clearInterval(countdownToLobby);
-        renderVideo();
+        // renderVideo();
         setInterval(runDetection, 100);
       },
       (err) => {
@@ -647,29 +653,30 @@ function updateGUI(type, i) {
     //dog appear
     let locX = spawn[i].x - (ccontainer.clientHeight * 0.2) / 2;
     let locY = spawn[i].y - (ccontainer.clientHeight * 0.2) / 2;
-    // tX = (fullSize.clientHeight / ccontainer.clientHeight*0.2) + locX;
-    // tY = (fullSize.clientHeight / ccontainer.clientHeight*0.2) + locY;
 
     tX = locX;
     tY = locY + (fullSize.clientHeight - ccontainer.clientHeight);
 
     var animateID;
-    setTimeout(function () {
-      animateDog();
-      setTimeout(function () {
-        dctx.clearRect(0, 0, fullSize.clientWidth, fullSize.clientHeight);
-        cancelAnimationFrame(animateID);
-        animateID = undefined;
+
+    setTimeout(()=>{
+      console.log("start show dog");
+      gctx.drawImage(targetImg, locX, locY, ccontainer.clientHeight * 0.2, ccontainer.clientHeight * 0.2);
+      setTimeout(()=>{
+        gctx.clearRect(0,0,ccontainer.clientWidth, ccontainer.clientHeight);
         setTimeout(function () {
-          img.className = "basketdoggy";
-          img.src = "Assets/img-09.png";
-          img.style.height = basketDoggyContainer.clientHeight * dogSize + "px";
-          img.style.width = basketDoggyContainer.clientHeight * dogSize + "px";
-          basketDoggyContainer.appendChild(img);
-          // TODO: apply opacity more over time
-        }, 1500);
-      }, 1500);
-    }, 100);
+          animateDog();
+          dctx.clearRect(0,0, fullSize.clientWidth, fullSize.clientHeight);
+            setTimeout(function () {
+              img.className = "basketdoggy";
+              img.src = "Assets/img-09.png";
+              img.style.height = basketDoggyContainer.clientHeight * dogSize + "px";
+              img.style.width = basketDoggyContainer.clientHeight * dogSize + "px";
+              basketDoggyContainer.appendChild(img);
+            }, 1000);
+        }, 700);
+      }, 300);
+    },500);
   } else if (type === "trap") {
     //cat appear
     let locX = spawn[i].x - (ccontainer.clientHeight * 0.2) / 2;
@@ -748,30 +755,36 @@ function updateGUI(type, i) {
 function animateDog() {
   var imgX = ccontainer.clientHeight * 0.2;
   var imgY = ccontainer.clientHeight * 0.2;
+  console.log("stop show dog");
 
   dctx.clearRect(0, 0, fullSize.clientHeight, fullSize.clientWidth);
   dctx.drawImage(targetImg, tX, tY, imgX, imgY);
-
-  if (tX > ccontainer.clientWidth / 2) {
-    tX -= 7;
-    if (tX < ccontainer.clientWidth / 2) {
-      tX = ccontainer.clientWidth / 2;
-    }
-  } else {
-    tX += 7;
+  
+  if (tY > 0)
+  {
+    tY -= 10;
     if (tX > ccontainer.clientWidth / 2) {
-      tX = ccontainer.clientWidth / 2;
+      tX -= 7;
+      if (tX < ccontainer.clientWidth / 2) {
+        tX = ccontainer.clientWidth / 2;
+      }
+    } else {
+      tX += 7;
+      if (tX > ccontainer.clientWidth / 2) {
+        tX = ccontainer.clientWidth / 2;
+      }
     }
   }
-
-  if (tY > 0) tY -= 5;
+  // if (tY > 0) tY -= 10;
 
   imgX--;
   imgY--;
 
-  if (tX != ccontainer.clientWidth / 2 || !(tY >= -6 && tY <= 0)) {
+  if (tX != ccontainer.clientWidth / 2 || !(tY >= -9 && tY <= 0)) {
+    console.log("stuck in animation");
     animateID = requestAnimationFrame(animateDog);
   } else {
+    console.log("exit animation");
     dctx.clearRect(0, 0, fullSize.clientWidth, fullSize.clientHeight);
   }
 }

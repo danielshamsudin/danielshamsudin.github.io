@@ -302,12 +302,12 @@ p {
     position: absolute;
 }
 
-#vcanvas {
+/* #vcanvas {
     transform: scaleX(-1);
     -webkit-transform: scaleX(-1);
     -moz-transform: scaleX(-1);
     -o-transform: scaleX(-1);
-}
+} */
 
 /* /////// Container 4 > Info/Ads board //////// */
 

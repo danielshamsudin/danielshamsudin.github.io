@@ -110,11 +110,6 @@ var isLoaded = false; //used to disable handtracking
 var isEnd = false;
 var splashScreen = document.querySelector("#splashscreen");
 
-//var bgcolor = localStorage.getItem("pass");
-//document.getElementsByTagName('html')[0].style.background = bgcolor;
-
-
-
 // roundRect function to use with canvas2d objects
 CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
     if (w < 2 * r) r = w / 2;
