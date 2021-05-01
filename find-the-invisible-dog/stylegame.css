@@ -42,6 +42,15 @@ p {
     height: 100%;
 }
 
+#loading {
+    z-index: 21;
+    height: auto;
+    width: 30%;
+    object-fit: contain;
+    position: absolute;
+    filter: sepia(100%) contrast(200%);
+}
+
 /* ///////////////// Game over //////////////// */
 
 #gameover {
@@ -124,11 +133,15 @@ p {
     }
 
 #gameovercontent #share {
-    background-image: linear-gradient(to bottom right, black, saddlebrown);
+    background-image: linear-gradient(to bottom, #7E5B4A, #4F382E);
+    /*
+    shadow: #000000 0.1vw;
+    border: #FFFFFF 0.1vw, #000000 0.1vw;
+    */
 }
 
 #gameovercontent #continue {
-    background-image: linear-gradient(to bottom right, saddlebrown, orange);
+    background-image: linear-gradient(to bottom, #FEC22E, #FE7235);
 }
 
 /* //////////////////////////////////////////// */
@@ -488,11 +501,6 @@ p {
     transform: translate(-50%, -50%);
     display: flex;
     */
-}
-
-#loading { /* loading symbols */
-    width: 30%;
-    height: 30%;
 }
 
 .button {
