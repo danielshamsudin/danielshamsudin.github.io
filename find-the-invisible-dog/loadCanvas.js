@@ -52,7 +52,7 @@ var objRadius;
 var handRadius;
 var catReset;
 var dogReset;
-var difficulty = "custom"; // get from JSON
+var difficulty = "easy"; // get from JSON
 
 if (difficulty == "easy") {
 
