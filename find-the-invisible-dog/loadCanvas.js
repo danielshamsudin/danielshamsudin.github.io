@@ -52,7 +52,7 @@ var objRadius;
 var handRadius;
 var catReset;
 var dogReset;
-var difficulty = "normal"; // get from JSON
+var difficulty = "custom"; // get from JSON
 
 if (difficulty == "easy") {
 
@@ -108,6 +108,7 @@ var isPlay = false;   //load idk
 var isGift = false;   //used forstop time when showing hint
 var isLoaded = false; //used to disable handtracking
 var isEnd = false;
+var isNearTarget = false; // check for near target
 var splashScreen = document.querySelector("#splashscreen");
 
 // roundRect function to use with canvas2d objects

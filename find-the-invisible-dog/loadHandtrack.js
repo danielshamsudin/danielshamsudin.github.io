@@ -224,20 +224,22 @@ function runDetection() {
             recordTimeTouch.push(calcTouchTime("target")); //calc touch time
             spawn[i].isTouch = true;
             console.log("touched dog");
-            targetAudio.play();
-            targetAudio.volume = 1.0;
             updateGUI(spawn[i].type, i);
-            // stopDetect();
+            targetNearby.play();
+            targetNearby.volume = 1.0;
             checkWL();
             console.log("returned from checkWL");
           } else if (
-            spawn[i].distanceX > spawn[i].radius + handRadius &&
-            spawn[i].distanceX <= 1.1 * (spawn[i].radius + handRadius) &&
+            (spawn[i].distanceX > spawn[i].radius + handRadius &&
+            spawn[i].distanceX <= 3.1 * (spawn[i].radius + handRadius) &&
             spawn[i].distanceY > spawn[i].radius + handRadius &&
-            spawn[i].distanceY <= 1.1 * (spawn[i].radius + handRadius)
+            spawn[i].distanceY <= 3.1 * (spawn[i].radius + handRadius)) &&
+            !isNearTarget
           ) {
+            console.log("near target");
             targetNearby.play();
-            targetNearby.volume = 0.8;
+            targetNearby.volume = 1.0;
+            isNearTarget = true;
           }
         } else if (spawn[i].type == "trap" && spawn[i].isTouch == false) {
           if (
@@ -247,8 +249,6 @@ function runDetection() {
             spawn[i].distanceY <= spawn[i].radius + handRadius
           ) {
             recordTimeTouch.push(calcTouchTime("trap")); //calc touch time
-            trapAudio.play();
-            trapAudio.volume = 1.0;
             updateGUI(spawn[i].type, i);
             stopDetect();
 
@@ -654,9 +654,10 @@ function updateGUI(type, i) {
     let locX = spawn[i].x - (ccontainer.clientHeight * 0.2) / 2;
     let locY = spawn[i].y - (ccontainer.clientHeight * 0.2) / 2;
 
+    // tX = locX;
+    // tY = locY + (fullSize.clientHeight - ccontainer.clientHeight);
     tX = locX;
     tY = locY + (fullSize.clientHeight - ccontainer.clientHeight);
-
     var animateID;
 
     setTimeout(()=>{
@@ -675,8 +676,8 @@ function updateGUI(type, i) {
               basketDoggyContainer.appendChild(img);
             }, 1000);
         }, 700);
-      }, 300);
-    },500);
+      }, 1000);
+    },1000);
   } else if (type === "trap") {
     //cat appear
     let locX = spawn[i].x - (ccontainer.clientHeight * 0.2) / 2;
@@ -754,37 +755,29 @@ function updateGUI(type, i) {
 // TODO: change before commit 
 function animateDog() {
   var imgX = ccontainer.clientHeight * 0.2;
-  var imgY = ccontainer.clientHeight * 0.2;
-  console.log("stop show dog");
-
   dctx.clearRect(0, 0, fullSize.clientHeight, fullSize.clientWidth);
-  dctx.drawImage(targetImg, tX, tY, imgX, imgY);
+  dctx.drawImage(targetImg, tX, tY, imgX, imgX);
   
+  if (tX > ccontainer.clientWidth / 2) {
+    tX -= 7;
+    if (tX < ccontainer.clientWidth / 2) {
+      tX = ccontainer.clientWidth / 2;
+    }
+  } else {
+    tX += 7;
+    if (tX > ccontainer.clientWidth / 2) {
+      tX = ccontainer.clientWidth / 2;
+    }
+  }
+
   if (tY > 0)
   {
     tY -= 10;
-    if (tX > ccontainer.clientWidth / 2) {
-      tX -= 7;
-      if (tX < ccontainer.clientWidth / 2) {
-        tX = ccontainer.clientWidth / 2;
-      }
-    } else {
-      tX += 7;
-      if (tX > ccontainer.clientWidth / 2) {
-        tX = ccontainer.clientWidth / 2;
-      }
-    }
   }
   // if (tY > 0) tY -= 10;
-
-  imgX--;
-  imgY--;
-
   if (tX != ccontainer.clientWidth / 2 || !(tY >= -9 && tY <= 0)) {
-    console.log("stuck in animation");
     animateID = requestAnimationFrame(animateDog);
   } else {
-    console.log("exit animation");
     dctx.clearRect(0, 0, fullSize.clientWidth, fullSize.clientHeight);
   }
 }
