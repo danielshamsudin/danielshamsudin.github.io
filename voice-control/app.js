@@ -4,12 +4,30 @@ var SpeechRecognitionEvent =
   SpeechRecognitionEvent || webkitSpeechRecognitionEvent;
 
 // var commands = ['right', 'left', 'up', 'down', 'restart','new game'];
-var commands = ["right", "left", "up", "down"];
+// var commands = ["right", "left", "up", "down"];
+var commands = getCommands();
+function getCommands() {
+    let result = [];
+    $.ajax({
+        url: "commands.json",
+        async: false,
+        success: function (data) {
+            result = data.commands;
+        },
+        error: function (xhr, textStatus, errorMessage) { //If error, everything is default
+            console.log("Error: " + xhr.status + " " + errorMessage);
+        }
+    });
+    return result;
+}
+console.log(commands);
+
 // var grammar =
 //   "#JSGF V1.0; grammar commands; public <command> = " +
 //   commands.join(" | ") +
 //   " ;";
-  var grammar = '#JSGF V1.0; grammar colors; public  = aqua | azure | beige | bisque | black | [LOTS MORE COLOURS] ;'
+
+var grammar = '#JSGF V1.0; grammar colors; public  = aqua | azure | beige | bisque | black | [LOTS MORE COLOURS] ;'
 
 
 var recognition = new SpeechRecognition();
@@ -46,27 +64,25 @@ var countdownToLobby;
 //     console.log(e.name +": "+ e.message)
 //   });
 
+navigator.getUserMedia(
+  { audio: true },
+  (stream) => {
+    console.log("at here");
+    console.log(stream);
+    //run
+    console.log(status);
 
-  navigator.getUserMedia(
-    { audio: true },
-    (stream) => {
-      console.log("at jere");
-      console.log(stream);
-      //run
-      console.log(status);
- 
-      //runDetection();
-    },
-    (err) => {
-      console.log(err)
+    //runDetection();
+  },
+  (err) => {
+    console.log(err)
 
-      window.parent.wsRequireHardwareMessage("microphone");
+    window.parent.wsRequireHardwareMessage("microphone");
 
-      // console.log("start count down to lobby")
-      // countdownToLobby= setInterval(runRedirectToLobby, 100000);
-    }
-  );
-
+    // console.log("start count down to lobby")
+    // countdownToLobby= setInterval(runRedirectToLobby, 100000);
+  }
+);
 
 
 function runRedirectToLobby() {
@@ -83,6 +99,8 @@ var stopGameBtn = document.querySelector(".stop-game-btn");
 var mic = document.querySelector(".mic");
 
 var commandsHTML = "";
+
+
 commands.forEach(function (v, i, a) {
   // console.log(v, i);
   // commandsHTML += '<span> ' + v + ' </span>';
@@ -212,61 +230,62 @@ recognition.onresult = function (event) {
   // bg.style.backgroundColor = command;
   console.log("command: " + command + " ,confidence: " + confidence);
 
-  if (confidence > 0.4) {
-    // first we check if the user asked to restart or play a new game
-
-    if (command.indexOf("restart") >= 0) {
+  // first we check if the user asked to restart or play a new game
+  if (command.indexOf("restart") >= 0) {
       swal.close();
       maze.restart();
-    }
-    if (command.indexOf("new game") >= 0) {
+  }
+  if (command.indexOf("new game") >= 0) {
       swal.close();
       maze.newGame();
-    }
-    // TODO: need to color the commands
+  }
+  // TODO: need to color the commands
 
-    // because a command can contain multiple words
-    // we need to split it.
-    let words = command.split(" ");
-    const commandsFromWords = [];
+  // because a command can contain multiple words
+  // we need to split it.
+  let words = command.split(" ");
+  const commandsFromWords = [];
 
-    for (let i = 0; i < words.length; i++) {
+  for (let i = 0; i < words.length; i++) {
       const word = words[i];
       if (commands.indexOf(word) >= 0) {
-        // add word to valid commands
-        commandsFromWords.push(word);
+          // add word to valid commands
+          commandsFromWords.push(word);
 
-        // wrap the command for highlighting
-        words[i] =
-          '<span class="command" id="com-' +
-          (commandsFromWords.length - 1) +
-          '">' +
-          word +
-          "</span>";
-        // return;
+          // wrap the command for highlighting
+          words[i] =
+              '<span class="command" id="com-' +
+              (commandsFromWords.length - 1) +
+              '">' +
+              word +
+              "</span>";
+          // return;
       }
-    }
+  }
 
-    // convert back to string
-    command = words.join(" ");
+  // convert back to string
+  command = words.join(" ");
 
-    diagnostic.innerHTML = "Result received: " + command + ".";
+  diagnostic.innerHTML = "Result received: " + command + ".";
 
-    executeVoiceCommands(commandsFromWords);
+  if (confidence > 0.4) {
+      executeVoiceCommands(commandsFromWords, confidence);
+
   } else {
-    diagnostic.textContent = "Not sure that I understand your command.";
+      diagnostic.textContent = "Not sure that I understand your command.";
+      executeVoiceCommands(commandsFromWords, confidence);
   }
 };
 
-function executeVoiceCommands(commands) {
+function executeVoiceCommands(commands, confidence) {
   var delay = 300;
 
   var i = 0;
   var id = window.setInterval(function () {
-    if (i >= commands.length) {
+    if (i >= commands.length || confidence < 0.4) {
       clearInterval(id);
       // restart recognition again
-      startRecognition();
+      // startRecognition();
       return;
     }
 
@@ -295,24 +314,29 @@ function doCommand(command, index) {
   let executed = false;
   // this might not be the correct place to call maze
   switch (command) {
-    case "up":
+    case commands[0]:
+      diagnostic.innerHTML = "Say <b>'command'</b> to show this list<br>" +
+              "<b>'up', 'down', 'right', 'left' </b>to move your character<br>" +
+              "<b>'restart'</b> or <b>'new game'</b> to reset maze";
+      break;
+    case commands[1]:
       executed = maze.moveUp();
       break;
-    case "down":
+    case commands[2]:
       executed = maze.moveDown();
       break;
-    case "right":
+    case commands[3]:
       executed = maze.moveRight();
       break;
-    case "left":
+    case commands[4]:
       executed = maze.moveLeft();
       break;
-    // case 'new':
-    //   maze.newGame();
-    //   break;
-    // case 'restart':
-    //   maze.restart();
-    //   break;
+    case commands[5]:
+      maze.newGame();
+      break;
+    case commands[6]:
+      maze.restart();
+      break;
   }
 
   // Color the commands in user input
@@ -324,7 +348,8 @@ function doCommand(command, index) {
 }
 
 recognition.onspeechend = function () {
-  recognition.stop();
+  console.log("on speech end");
+  stopRecognition();
 };
 
 recognition.onnomatch = function (event) {
@@ -334,12 +359,12 @@ recognition.onnomatch = function (event) {
 
 recognition.onerror = function (event) {
   diagnostic.textContent = "Error occurred in recognition: " + event.error;
-
-  mic.classList.remove("listening");
-  startRecognition();
+  stopRecognition();
 };
 
-// recognition.onend = function(){
-//   console.info("voice recognition ended, restarting...");
-//     recognition.start();
-// }
+recognition.onend = function () {
+    if (isEnd === false) {
+        console.info("voice recognition ended, restarting...");
+        startRecognition();
+    }
+}

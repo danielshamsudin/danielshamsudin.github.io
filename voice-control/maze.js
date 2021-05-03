@@ -2,11 +2,12 @@
 var startTime, endTime;
 
 function start() {
-  startTimer();
   startTime = performance.now();
 }
 
 function end() {
+  isEnd = true;
+  isStart = false;
   endTime = performance.now();
   var timeDiff = endTime - startTime; //in ms
   // strip the ms
@@ -112,7 +113,7 @@ class Maze {
         .getElementById(newPosition.y + "-" + newPosition.x)
         .classList.add("me");
       if (maze.isFinished()) {
-        clearTimeout(myVar);
+        //clearTimeout(myVar);
         var totalSeconds = end();
         window.localStorage.setItem("totalSeconds", totalSeconds);
 

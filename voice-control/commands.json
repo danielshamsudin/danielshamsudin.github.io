@@ -1,0 +1,11 @@
+{
+    "commands": [
+        "command",
+        "up",
+        "down",
+        "right",
+        "left",
+        "restart",
+        "new game"
+    ]
+}
