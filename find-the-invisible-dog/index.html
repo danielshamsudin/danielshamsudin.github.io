@@ -23,7 +23,15 @@
 		</video>
 	</div>
 
+	<video id="tutorial" controls>
+		<source src="Assets/tutorial.mp4" type="video/mp4">
+		Your browser does not support the video tag.
+	</video>
+
+	<p>Click anywhere to continue</p>
+
 	<main>
+		<!--
 		<div class="wrapper">
 
 			<div class="title">
@@ -32,7 +40,6 @@
 			<br><br>
 
 			<div class="rules">
-				<!-- <form name="rules" method="post"> -->
 				<p>
 					&#10049; First, choose ur preference background color!<br>
 					<img src="img/color.gif" id="new"><br><br>
@@ -64,14 +71,33 @@
 				<img src="img/scroll-down.png">
 			</div>
 		</div>
+		-->
 	</main>
+
 	<script src="loadItem.js"></script>
 	<script>
+
 		window.onload = () => {
 			setTimeout(function () {
-                document.querySelector("#splashscreen").style.backgroundColor = "transparent";
+				document.querySelector("#splashscreen").style.backgroundColor = "transparent";
 				document.querySelector("#splashscreen").style.display = "none";
 			}, 3000);
+		}
+
+		var tutorial = document.querySelector("#tutorial");
+
+		tutorial.onended = () => {
+
+			document.querySelector("p").style.display = "block";
+
+            tutorial.onclick = () => {
+                window.location.href = "game.html";
+            }
+			//if (confirm("Press OK to continue\nPress Cancel to watch again")) {
+			//	window.location.href = "game.html";
+			//} else {
+			//	return;
+			//}
 		}
 	</script>
 </body>

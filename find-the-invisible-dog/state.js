@@ -10,22 +10,18 @@ var loadingStartTime = performance.now(), loadingEndTime, loadingTimeEllapse, lo
 
 function state() {
     if (isSplash) {
-    //document.getElementById("loading").style.display = "none";
 	console.log("none");
-    //document.getElementById("splash-text").innerHTML = "Ready?";
 	console.log("white");
 
     setTimeout(() => {
-      //document.getElementById("splash-text").style.color = "black";
 	  console.log("lightgreen");
-      //document.getElementById("splash-text").innerHTML = "Go!!!";
 	  console.log("gogo");
 
       getLoadingTimeEllapse(); //record time taken to load the game
 
         setTimeout(() => {
           splashScreen.style.display = "none";
-          //splash.style.display = "none";
+          document.querySelector("#loading").style.display = "none";
           isLoaded = true; //ensures game starts after loading page ends
       }, 500);
        isSplash = false;
