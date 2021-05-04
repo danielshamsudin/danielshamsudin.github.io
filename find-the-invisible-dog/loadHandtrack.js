@@ -759,12 +759,12 @@ function animateDog() {
   dctx.drawImage(targetImg, tX, tY, imgX, imgX);
   
   if (tX > ccontainer.clientWidth / 2) {
-    tX -= 7;
+    tX -= 0.3 * ccontainer.clientHeight;
     if (tX < ccontainer.clientWidth / 2) {
       tX = ccontainer.clientWidth / 2;
     }
   } else {
-    tX += 7;
+    tX += 0.3 * ccontainer.clientHeight;
     if (tX > ccontainer.clientWidth / 2) {
       tX = ccontainer.clientWidth / 2;
     }
@@ -775,7 +775,7 @@ function animateDog() {
     tY -= 10;
   }
   // if (tY > 0) tY -= 10;
-  if (tX != ccontainer.clientWidth / 2 || !(tY >= -9 && tY <= 0)) {
+  if (tX != ccontainer.clientWidth / 2 || !(tY >= -(ccontainer.clientHeight + 2) && tY <= 0)) {
     animateID = requestAnimationFrame(animateDog);
   } else {
     dctx.clearRect(0, 0, fullSize.clientWidth, fullSize.clientHeight);
