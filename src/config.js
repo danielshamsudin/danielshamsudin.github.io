@@ -1,54 +1,55 @@
 // config.js
 module.exports = {
     github: {
-        username: 'anandadwipra', // Your GitHub org/user name. (Required)
-        sortBy: 'stars', // stars | updated
-        limit: 8, // How many projects to display.
+        username: 'danielshamsudin', // Your GitHub org/user name. (Required)
+        sortBy: 'updated', // stars | updated
+        limit: 10, // How many projects to display.
         exclude: {
             forks: false, // Forked projects will not be displayed if set to true.
             projects: [] // These projects will not be displayed. example: ['my-project1', 'my-project2']
         }
     },
     social: {
-        linkedin: 'ananda-dwi-prayoga-0b909719b',
-        twitter: '',
+        linkedin: 'daniel-shamsudin-127175199',
+        twitter: '@d4ls7n',
         facebook: 'ananda.dwi.75641297',
         dribbble: '',
         behance: '',
         medium: '',
         devto: '',
-        website: 'https://www.sumberku.tech',
+        website: '',
         phone: '',
-        email: 'anandabiru04@gmail.com'
+        email: '1181102032@student.mmu.edu.my'
     },
     skills: [
-        'AWS',
+        'C++',
         'C',
         'Python',
         'PHP',
-        'Laravel',
+        'JavaScript',
         'Postgresql',
         'MySQL',
         'Gitlab',
-        'Docker',
+        'HTML',
         'Bootstrap',
+		'',
     ],
     experiences: [
         { 
-            company: 'PT DOT',
-            position: 'DevOps  Engineer Intern',
-            from: 'July 2021',
-            to: 'Present'
+            company: 'IS Lab @ MMU',
+            position: 'Software Developer Intern',
+            from: 'March 2021',
+            to: 'July 2021'
         },
         
     ],
     education: [
-    //    { 
-    //        institution: 'American International University-Bangladesh',
-    //        degree: 'Bachelor of Science',
-    //        from: '2015',
-    //        to: '2019'
-    //    },
+       { 
+           institution: 'Multimedia University Melaka',
+           degree: 'Bachelor of Information Technology (Hons. AI)',
+           from: '2018',
+           to: '2022'
+       },
         
     ],
     blog: {
