@@ -12,7 +12,7 @@ module.exports = {
     social: {
         linkedin: 'daniel-shamsudin-127175199',
         twitter: '@d4ls7n',
-        facebook: 'ananda.dwi.75641297',
+        facebook: '',
         dribbble: '',
         behance: '',
         medium: '',
@@ -31,8 +31,7 @@ module.exports = {
         'MySQL',
         'Gitlab',
         'HTML',
-        'Bootstrap',
-		'',
+        'Bootstrap'
     ],
     experiences: [
         { 
